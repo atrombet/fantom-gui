@@ -39,3 +39,6 @@ $fantom-gui-theme: mat-dark-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// Project imports
+@import './styles/utilities';

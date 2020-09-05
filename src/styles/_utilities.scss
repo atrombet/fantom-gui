@@ -1,0 +1,252 @@
+$small: 4px;
+$medium: 8px;
+$large: 16px;
+$xlarge: 32px;
+
+// Padding Utilities
+.pas {
+  padding: $small;
+}
+
+.pam {
+  padding: $medium;
+}
+
+.pal {
+  padding: $large;
+}
+
+.paxl {
+  padding: $xlarge;
+}
+
+.pvs {
+  padding-top: $small;
+  padding-bottom: $small;
+}
+
+.pvm {
+  padding-top: $medium;
+  padding-bottom: $medium;
+}
+
+.pvl {
+  padding-top: $large;
+  padding-bottom: $large;
+}
+
+.pvxl {
+  padding-top: $xlarge;
+  padding-bottom: $xlarge;
+}
+
+.phs {
+  padding-left: $small;
+  padding-right: $small;
+}
+
+.phm {
+  padding-left: $medium;
+  padding-right: $medium;
+}
+
+.phl {
+  padding-left: $large;
+  padding-right: $large;
+}
+
+.phxl {
+  padding-left: $xlarge;
+  padding-right: $xlarge;
+}
+
+.pts {
+  padding-top: $small;
+}
+
+.ptm {
+  padding-top: $medium;
+}
+
+.ptl {
+  padding-top: $large;
+}
+
+.ptxl {
+  padding-top: $xlarge;
+}
+
+.pbs {
+  padding-bottom: $small;
+}
+
+.pbm {
+  padding-bottom: $medium;
+}
+
+.pbl {
+  padding-bottom: $large;
+}
+
+.pbxl {
+  padding-bottom: $xlarge;
+}
+
+.pls {
+  padding-left: $small;
+}
+
+.plm {
+  padding-left: $medium;
+}
+
+.pll {
+  padding-left: $large;
+}
+
+.plxl {
+  padding-left: $xlarge;
+}
+
+.prs {
+  padding-right: $small;
+}
+
+.prm {
+  padding-right: $medium;
+}
+
+.prl {
+  padding-right: $large;
+}
+
+.prxl {
+  padding-right: $xlarge;
+}
+
+// Margin Utilities
+.mas {
+  margin: $small;
+}
+
+.mam {
+  margin: $medium;
+}
+
+.mal {
+  margin: $large;
+}
+
+.maxl {
+  margin: $xlarge;
+}
+
+.mvs {
+  margin-top: $small;
+  margin-bottom: $small;
+}
+
+.mvm {
+  margin-top: $medium;
+  margin-bottom: $medium;
+}
+
+.mvl {
+  margin-top: $large;
+  margin-bottom: $large;
+}
+
+.mvxl {
+  margin-top: $xlarge;
+  margin-bottom: $xlarge;
+}
+
+.mhs {
+  margin-left: $small;
+  margin-right: $small;
+}
+
+.mhm {
+  margin-left: $medium;
+  margin-right: $medium;
+}
+
+.mhl {
+  margin-left: $large;
+  margin-right: $large;
+}
+
+.mhxl {
+  margin-left: $xlarge;
+  margin-right: $xlarge;
+}
+
+.mts {
+  margin-top: $small;
+}
+
+.mtm {
+  margin-top: $medium;
+}
+
+.mtl {
+  margin-top: $large;
+}
+
+.mtxl {
+  margin-top: $xlarge;
+}
+
+.mbs {
+  margin-bottom: $small;
+}
+
+.mbm {
+  margin-bottom: $medium;
+}
+
+.mbl {
+  margin-bottom: $large;
+}
+
+.mbxl {
+  margin-bottom: $xlarge;
+}
+
+.mls {
+  margin-left: $small;
+}
+
+.mlm {
+  margin-left: $medium;
+}
+
+.mll {
+  margin-left: $large;
+}
+
+.mlxl {
+  margin-left: $xlarge;
+}
+
+.mrs {
+  margin-right: $small;
+}
+
+.mrm {
+  margin-right: $medium;
+}
+
+.mrl {
+  margin-right: $large;
+}
+
+.mrxl {
+  margin-right: $xlarge;
+}
+
+// Width utilities
+
+.width-100 {
+  width: 100%;
+}
