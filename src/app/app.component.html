@@ -1,6 +1,6 @@
 <mat-sidenav-container class="container">
   <mat-sidenav mode="side" opened>
-    <mat-tab-group>
+    <mat-tab-group (selectedTabChange)="navigateToTabPage($event)">
       <mat-tab label="Simulation">
         <simulation-tab></simulation-tab>
       </mat-tab>
@@ -13,6 +13,6 @@
     </mat-tab-group>
   </mat-sidenav>
   <mat-sidenav-content class="paxl">
-    <!-- Main content here. -->
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
