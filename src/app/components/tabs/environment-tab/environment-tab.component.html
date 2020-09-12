@@ -1,0 +1,14 @@
+<div class="paxl">
+  <h2>Environments</h2>
+  <mat-grid-list cols="1" gutterSize="16" rowHeight="56">
+    <mat-grid-tile *ngFor="let env of environments$ | async" class="env__tile">
+      <div class="env__tile--content" routerLink="/environment/{{env.id}}">
+        <span>{{env.name}}</span>
+        <button mat-icon-button><mat-icon>more_vert</mat-icon></button>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile class="env__tile--add" (click)="addEnvironment()">
+      <mat-icon>add</mat-icon>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

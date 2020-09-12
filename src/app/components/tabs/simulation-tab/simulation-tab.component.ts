@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { SimulationFormService } from '../../services';
+import { SimulationFormService } from '../../../services';
 import { FormGroup } from '@angular/forms';
-import { SimFields } from '../../enums';
+import { SimFields } from '../../../enums';
 
 @Component({
   selector: 'simulation-tab',

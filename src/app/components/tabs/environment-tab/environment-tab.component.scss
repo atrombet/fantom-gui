@@ -1,0 +1,44 @@
+@import '~@angular/material/theming';
+
+.env__tile {
+  @include mat-elevation-transition;
+  background-color: #646464;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    @include mat-elevation(8);
+  }
+}
+
+.env__tile--content {
+  width: 100%;
+  padding-left: 24px;
+  padding-right: 8px;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.env__tile--add {
+  @extend .env__tile;
+  background-color: transparent;
+  border: 2px dotted white;
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & mat-icon {
+    font-size: 36px;
+    height: 36px;
+    width: 36px;
+  }
+}
