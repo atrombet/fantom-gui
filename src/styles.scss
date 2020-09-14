@@ -42,3 +42,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 // Project imports
 @import './styles/utilities';
+
+// App styles
+
+// These rules are needed to properly display the environment tile components.
+.env .mat-grid-tile .mat-figure {
+  display: block !important;
+}
+
+.env .mat-grid-tile.env__add .mat-figure {
+  display: flex !important;
+}

@@ -36,4 +36,15 @@ export class EnvironmentService {
     // Push the new envs to the behavior subject.
     this.environments$.next(newEnvs);
   }
+
+  /**
+   * Updates the name of an environement
+   * @param envId - The id of the environment to update.
+   * @param name - The new name of the environment.
+   */
+  public updateEnvName(envId: number, name: string): void {
+    const updatedEnvs: Environment[] = [ ...this.environments$.getValue() ];
+    updatedEnvs.find(env => env.id === envId).name = name;
+    this.environments$.next(updatedEnvs);
+  }
 }

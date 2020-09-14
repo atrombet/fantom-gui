@@ -13,6 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 // Component Imports
 import { AppComponent } from './app.component';
@@ -22,6 +24,7 @@ import { EntitiesTabComponent } from './components/tabs/entities-tab/entities-ta
 import { SimulationComponent } from './components/simulation/simulation.component';
 import { EnvironmentComponent } from './components/environment/environment.component';
 import { EnvironmentDetailComponent } from './components/environment-detail/environment-detail.component';
+import { EnvironmentTileComponent } from './components/tabs/environment-tile/environment-tile.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { EnvironmentDetailComponent } from './components/environment-detail/envi
     EntitiesTabComponent,
     SimulationComponent,
     EnvironmentComponent,
-    EnvironmentDetailComponent
+    EnvironmentDetailComponent,
+    EnvironmentTileComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,8 @@ import { EnvironmentDetailComponent } from './components/environment-detail/envi
     MatFormFieldModule,
     MatInputModule,
     MatGridListModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

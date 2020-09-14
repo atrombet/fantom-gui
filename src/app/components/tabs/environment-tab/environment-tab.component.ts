@@ -26,4 +26,13 @@ export class EnvironmentTabComponent implements OnInit {
   public addEnvironment(): void {
     this.envService.addEnvironment();
   }
+
+  /**
+   * Calls the environment service to update the name of the environment.
+   * @param envId - The ID of the environment to update.
+   * @param name - The new name of the environment.
+   */
+  public updateName(envId: number, name: string): void {
+    this.envService.updateEnvName(envId, name);
+  }
 }

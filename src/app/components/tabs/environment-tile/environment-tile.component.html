@@ -1,0 +1,30 @@
+<div class="envTile__content" routerLink="/environment/{{env.id}}">
+  <ng-container *ngIf="!nameEditMode; else editMode">
+    <span>{{env.name}}</span>
+    <button mat-icon-button [matMenuTriggerFor]="envContextMenu" (click)="$event.stopPropagation()"><mat-icon>more_vert</mat-icon></button>
+  </ng-container>
+</div>
+
+<mat-menu #envContextMenu="matMenu">
+  <button mat-menu-item [disabled]="nameEditMode" (click)="onRenameClick()">Rename</button>
+</mat-menu>
+
+<ng-template #editMode>
+  <div>
+    <input 
+      #name
+      class="envTile__nameControl" 
+      [formControl]="nameControl"
+      (click)="$event.stopPropagation()"
+      (keydown.enter)="updateName()"
+      type="text"
+      autofocus
+      onfocus="this.select()"
+      (blur)="editNameCancel()"
+    />
+  </div>
+  <div>
+    <button mat-icon-button color="accent" (click)="updateName(); $event.stopPropagation()"><mat-icon>check</mat-icon></button>
+    <button mat-icon-button color="warn" (click)="editNameCancel(); $event.stopPropagation()"><mat-icon>close</mat-icon></button>
+  </div>
+</ng-template>
