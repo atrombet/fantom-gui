@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Environment } from '../../../interfaces';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmModalComponent } from '../../confirm-modal/confirm-modal.component';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'environment-tile',
@@ -10,12 +13,14 @@ import { Environment } from '../../../interfaces';
 export class EnvironmentTileComponent implements OnInit, AfterViewInit {
   @Input() public env: Environment;
   @Output() public nameChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public duplicate: EventEmitter<Environment> = new EventEmitter<Environment>();
+  @Output() public delete: EventEmitter<number> = new EventEmitter<number>();
 
   @ViewChild('name', { static: false }) public nameElement: ElementRef;
   public nameControl: FormControl;
   public nameEditMode: boolean;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   /**
    * Angular On Init Lifecycle state
@@ -40,6 +45,26 @@ export class EnvironmentTileComponent implements OnInit, AfterViewInit {
   public onRenameClick(): void {
     this.nameEditMode = true;
     setTimeout(() => this.nameElement.nativeElement.focus());
+  }
+
+  /**
+   * Emits an event to trigger duplicating this environment.
+   */
+  public onDuplicateClick(): void {
+    this.duplicate.emit(this.env);
+  }
+
+  /**
+   * Emits an event to trigger deleting this environment.
+   */
+  public onDeleteClick(): void {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, { disableClose: true });
+
+    dialogRef.afterClosed().pipe(first()).subscribe(confirmed => {
+      if (confirmed) {
+        this.delete.emit(this.env.id);
+      }
+    });
   }
 
   /**

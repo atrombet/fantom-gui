@@ -14,6 +14,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 // Component Imports
@@ -25,6 +27,7 @@ import { SimulationComponent } from './components/simulation/simulation.componen
 import { EnvironmentComponent } from './components/environment/environment.component';
 import { EnvironmentDetailComponent } from './components/environment-detail/environment-detail.component';
 import { EnvironmentTileComponent } from './components/tabs/environment-tile/environment-tile.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { EnvironmentTileComponent } from './components/tabs/environment-tile/env
     SimulationComponent,
     EnvironmentComponent,
     EnvironmentDetailComponent,
-    EnvironmentTileComponent
+    EnvironmentTileComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
@@ -49,9 +53,13 @@ import { EnvironmentTileComponent } from './components/tabs/environment-tile/env
     MatInputModule,
     MatGridListModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ConfirmModalComponent
+  ]
 })
 export class AppModule { }
