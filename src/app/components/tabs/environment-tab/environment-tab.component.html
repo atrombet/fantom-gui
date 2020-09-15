@@ -2,7 +2,12 @@
   <h2>Environments</h2>
   <mat-grid-list cols="1" gutterSize="16" rowHeight="56" class="env">
       <mat-grid-tile *ngFor="let env of environments$ | async" class="env__tile">
-        <environment-tile [env]="env" (nameChange)="updateName(env.id, $event)"></environment-tile>
+        <environment-tile 
+          [env]="env" 
+          (nameChange)="updateName(env.id, $event)"
+          (duplicate)="duplicateEnv($event)"
+          (delete)="deleteEnv($event)"
+        ></environment-tile>
       </mat-grid-tile>
 
     <mat-grid-tile class="env__add" (click)="addEnvironment()">

@@ -6,7 +6,9 @@
 </div>
 
 <mat-menu #envContextMenu="matMenu">
-  <button mat-menu-item [disabled]="nameEditMode" (click)="onRenameClick()">Rename</button>
+  <button mat-menu-item (click)="onRenameClick()">Rename</button>
+  <button mat-menu-item (click)="onDuplicateClick()">Duplicate</button>
+  <button mat-menu-item color="warn" (click)="onDeleteClick()">Delete</button>
 </mat-menu>
 
 <ng-template #editMode>

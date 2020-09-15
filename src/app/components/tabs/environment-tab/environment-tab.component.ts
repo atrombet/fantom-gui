@@ -35,4 +35,20 @@ export class EnvironmentTabComponent implements OnInit {
   public updateName(envId: number, name: string): void {
     this.envService.updateEnvName(envId, name);
   }
+
+  /**
+   * Calls the env service to trigger a duplication of the given environment
+   * @param env - The environment to duplicate.
+   */
+  public duplicateEnv(env: Environment): void {
+    this.envService.duplicateEnv(env);
+  }
+
+  /**
+   * Calls the env service to trigger deletion of the given environment.
+   * @param envId - The id of the environment to delete.
+   */
+  public deleteEnv(envId: number): void {
+    this.envService.deleteEnv(envId);
+  }
 }
