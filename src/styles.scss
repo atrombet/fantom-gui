@@ -53,3 +53,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .env .mat-grid-tile.env__add .mat-figure {
   display: flex !important;
 }
+
+.selected .section-button {
+  color: #b2ff59 !important;
+  transition: color 0.2s linear;
+}

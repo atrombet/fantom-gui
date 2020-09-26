@@ -12,7 +12,10 @@
       </mat-tab>
     </mat-tab-group>
   </mat-sidenav>
-  <mat-sidenav-content class="paxl">
+  <mat-sidenav-content>
     <router-outlet></router-outlet>
+    <div class="pal">
+      <router-outlet name="page"></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
