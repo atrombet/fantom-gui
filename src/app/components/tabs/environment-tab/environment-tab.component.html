@@ -1,12 +1,14 @@
 <div class="paxl">
   <h2>Environments</h2>
   <mat-grid-list cols="1" gutterSize="16" rowHeight="56" class="env">
-      <mat-grid-tile *ngFor="let env of environments$ | async" class="env__tile">
-        <environment-tile 
-          [env]="env" 
+      <mat-grid-tile *ngFor="let env of environments$ | async" class="env__tile" [ngClass]="{'selected': selectedEnvId === env.id}">
+        <environment-tile
+          matRipple
+          [env]="env"
           (nameChange)="updateName(env.id, $event)"
           (duplicate)="duplicateEnv($event)"
           (delete)="deleteEnv($event)"
+          (envSelected)="goToEnv($event)"
         ></environment-tile>
       </mat-grid-tile>
 

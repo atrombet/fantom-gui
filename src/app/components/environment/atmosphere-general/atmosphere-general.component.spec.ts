@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EnvironmentDetailComponent } from './environment-detail.component';
+import { AtmosphereGeneralComponent } from './atmosphere-general.component';
 
-describe('EnvironmentDetailComponent', () => {
-  let component: EnvironmentDetailComponent;
-  let fixture: ComponentFixture<EnvironmentDetailComponent>;
+describe('AtmosphereGeneralComponent', () => {
+  let component: AtmosphereGeneralComponent;
+  let fixture: ComponentFixture<AtmosphereGeneralComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EnvironmentDetailComponent ]
+      declarations: [ AtmosphereGeneralComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EnvironmentDetailComponent);
+    fixture = TestBed.createComponent(AtmosphereGeneralComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

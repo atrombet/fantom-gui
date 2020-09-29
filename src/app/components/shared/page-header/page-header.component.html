@@ -1,0 +1,18 @@
+<div class="section-container">
+  <div class="section">
+    <section-button 
+      *ngFor="let section of sections"
+      [section]="section"
+      (click)="selectSection(section)"
+      [ngClass]="{'selected': selectedSection.name === section.name}"
+    ></section-button>
+  </div>
+  <div *ngIf="!!selectedSection?.subsections?.length" class="subsection">
+    <section-button
+      *ngFor="let subsection of selectedSection.subsections"
+      [section]="subsection"
+      [routerLink]="[ '', { outlets: { page: [subsection.route] } } ]"
+      [ngClass]="{'selected': selectedSubsection.name === subsection.name}"
+    ></section-button>
+  </div>
+</div>

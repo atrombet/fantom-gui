@@ -1,0 +1,22 @@
+.section-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: color 0.2s linear;
+
+  & mat-icon {
+    font-size: 32px;
+    height: 32px;
+    width: 32px;
+    line-height: 32px !important;
+  }
+
+  & div {
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 16px !important;
+    margin-bottom: 4px;
+  }
+}

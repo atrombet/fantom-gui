@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Environment } from '../../../interfaces';
+import { Environment } from '@interfaces';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmModalComponent } from '../../confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent } from '@components/shared/confirm-modal/confirm-modal.component';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -15,6 +15,7 @@ export class EnvironmentTileComponent implements OnInit, AfterViewInit {
   @Output() public nameChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() public duplicate: EventEmitter<Environment> = new EventEmitter<Environment>();
   @Output() public delete: EventEmitter<number> = new EventEmitter<number>();
+  @Output() public envSelected: EventEmitter<number> = new EventEmitter<number>();
 
   @ViewChild('name', { static: false }) public nameElement: ElementRef;
   public nameControl: FormControl;
@@ -37,6 +38,14 @@ export class EnvironmentTileComponent implements OnInit, AfterViewInit {
     if (this.nameEditMode) {
       this.nameElement.nativeElement.focus();
     }
+  }
+
+  /**
+   * Handles a click on the environment tile.
+   * @param envId - The id of the selected environment.
+   */
+  public onEnvSelected(envId: number): void {
+    this.envSelected.emit(envId);
   }
 
   /**

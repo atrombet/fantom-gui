@@ -3,6 +3,13 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "@components/*": [ "src/app/components/*" ],
+      "@interfaces": [ "src/app/interfaces/index.ts" ],
+      "@constants": [ "src/app/constants/index.ts" ],
+      "@enums": [ "src/app/enums/index.ts" ],
+      "@services": [ "src/app/services/index.ts" ],
+    },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,

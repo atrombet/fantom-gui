@@ -1,0 +1,11 @@
+.section-container {
+  width: 100%;
+}
+
+.section, .subsection {
+  display: flex;
+  height: 64px;
+  background-color: #424242;
+  margin: 16px;
+  border-radius: 4px;
+}

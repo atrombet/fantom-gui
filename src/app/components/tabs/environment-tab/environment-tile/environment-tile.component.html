@@ -1,4 +1,4 @@
-<div class="envTile__content" routerLink="/environment/{{env.id}}">
+<div class="envTile__content" (click)="onEnvSelected(env.id)">
   <ng-container *ngIf="!nameEditMode; else editMode">
     <span>{{env.name}}</span>
     <button mat-icon-button [matMenuTriggerFor]="envContextMenu" (click)="$event.stopPropagation()"><mat-icon>more_vert</mat-icon></button>
