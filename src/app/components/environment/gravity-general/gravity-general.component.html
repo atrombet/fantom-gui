@@ -1,1 +1,6 @@
-<p>gravity-general works!</p>
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <h1>Gravity Settings</h1>
+    <mat-slide-toggle formControlName="gravity_on">Enable Gravity</mat-slide-toggle>
+  </div>
+</ng-container>

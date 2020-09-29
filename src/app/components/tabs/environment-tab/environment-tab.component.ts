@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { EnvironmentService } from '@services';
 import { Environment } from '@interfaces';
 import { Observable, Subscription } from 'rxjs';
@@ -12,21 +11,17 @@ import { Observable, Subscription } from 'rxjs';
 export class EnvironmentTabComponent implements OnInit, OnDestroy {
   public environments$: Observable<Environment[]>;
   public selectedEnvId: number;
+
+  @Output() public envSelected: EventEmitter<Environment> = new EventEmitter<Environment>();
+
   private subs: Subscription = new Subscription();
 
-  constructor(private route: ActivatedRoute, private router: Router, private envService: EnvironmentService) { }
+  constructor(private envService: EnvironmentService) { }
 
   /**
    * Angular On Init Lifecycle hook
    */
   public ngOnInit(): void {
-    // this.subs.add(
-    //   this.route.params.subscribe(({id}) => {
-    //     if (id) {
-    //       this.selectedEnvId = parseInt(id, 10);
-    //     }
-    //   })
-    // );
     this.environments$ = this.envService.environments$;
   }
 
@@ -69,10 +64,15 @@ export class EnvironmentTabComponent implements OnInit, OnDestroy {
     this.envService.deleteEnv(envId);
   }
 
+  /**
+   * Go to the selected environment.
+   * @param envId - Id of the environment
+   */
   public goToEnv(envId: number): void {
     if (envId !== this.selectedEnvId) {
+      const env = this.envService.getEnvById(envId);
+      this.envSelected.emit(env);
       this.selectedEnvId = envId;
-      this.router.navigate([`environment/${envId}`]);
     }
   }
 }

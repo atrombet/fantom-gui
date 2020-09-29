@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ENVIRONMENT_SECTIONS } from '../constants';
-import { Environment, Section } from '../interfaces';
+import { Environment } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class EnvironmentService {
     newEnvMap.set(newId, {
       id: newId,
       name: `environment_${('000' + newId).slice(-3)}`,
-      sections: this.envSectionFactory()
+      sections: ENVIRONMENT_SECTIONS()
     });
     this.envMap$.next(newEnvMap);
     this.lastId = newId;
@@ -102,9 +102,5 @@ export class EnvironmentService {
    */
   private cloneEnvMap(): Map<number, Environment> {
     return new Map(this.envMap$.getValue());
-  }
-
-  private envSectionFactory(): Section[] {
-    return ENVIRONMENT_SECTIONS;
   }
 }
