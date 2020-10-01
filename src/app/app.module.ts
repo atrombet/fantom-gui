@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 
 // Component Imports
 import { AppComponent } from './app.component';
@@ -34,6 +35,8 @@ import { AtmosphereGeneralComponent } from '@components/environment/atmosphere-g
 import { BodyGeneralComponent } from '@components/environment/body-general/body-general.component';
 import { WindGeneralComponent } from '@components/environment/wind-general/wind-general.component';
 import { EpochGeneralComponent } from '@components/environment/epoch-general/epoch-general.component';
+
+import { formFieldAppearance } from './constants';
 
 @NgModule({
   declarations: [
@@ -68,9 +71,12 @@ import { EpochGeneralComponent } from '@components/environment/epoch-general/epo
     MatMenuModule,
     MatDialogModule,
     MatRippleModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSelectModule
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldAppearance }
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     ConfirmModalComponent

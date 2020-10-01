@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Environment } from '../../../interfaces';
+import { Environment, SelectOption } from '../../../interfaces';
 import { EnvironmentService } from '../../../services';
 
 @Component({
@@ -16,6 +16,14 @@ export class GravityGeneralComponent implements OnInit, OnDestroy {
   public env: Environment;
   public form: FormGroup;
 
+  // The options for Gravity Model
+  public gravityModelOptions: SelectOption[] = [
+    { value: 0, viewValue: 'Custom' },
+    { value: 1, viewValue: 'Spherical' },
+    { value: 2, viewValue: 'WGS-84 J2' },
+    { value: 3, viewValue: 'WGS-84 EGM96' }
+  ];
+
   constructor(private route: ActivatedRoute, private envService: EnvironmentService) {}
 
   /**
@@ -27,10 +35,10 @@ export class GravityGeneralComponent implements OnInit, OnDestroy {
         this.env = this.envService.getEnvById(parseInt(id, 10));
         if (this.env) {
           this.form = this.env.sections
-          .find(section => section.name === 'gravity')
-          .subsections
-          .find(subsection => subsection.name === 'general')
-          .form;
+            .find(section => section.name === 'gravity')
+            .subsections
+            .find(subsection => subsection.name === 'general')
+            .form;
         }
       })
     );
