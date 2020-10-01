@@ -1,1 +1,8 @@
-<p>epoch-general works!</p>
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <h1>Epoch Settings</h1>
+    <div class="mbxl">
+      <mat-slide-toggle formControlName="epoch_on">Enable Epoch</mat-slide-toggle>
+    </div>
+  </div>
+</ng-container>
