@@ -30,11 +30,6 @@
     opacity: 1;
     transition: opacity 0.2s linear;
   }
-
-  &.selected { 
-    color: #b2ff59 !important;
-    transition: color 0.2s linear;
-  }
 }
 
 .env__add {

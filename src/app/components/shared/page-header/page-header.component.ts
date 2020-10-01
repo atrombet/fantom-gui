@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Section, Subsection } from '@interfaces';
 
 @Component({
@@ -7,36 +6,49 @@ import { Section, Subsection } from '@interfaces';
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss']
 })
-export class PageHeaderComponent implements OnInit {
-  @Input() public sections: Section[];
+export class PageHeaderComponent {
+  // tslint:disable-next-line: variable-name
+  private _sections: Section[];
+
+  @Input() public set sections(value: Section[]) {
+    if (value) {
+      this._sections = value;
+      this.selectedSection = value[0];
+      this.selectedSubsection = this.selectedSection.subsections[0];
+    }
+  }
+
+  public get sections(): Section[] {
+    return this._sections;
+  }
 
   public selectedSection: Section;
   public selectedSubsection: Subsection;
 
-  constructor(private router: Router) { }
+  @Output() public sectionSelected: EventEmitter<string> = new EventEmitter<string>();
 
-  public ngOnInit(): void {
-    // Selects the first header & subheader by default.
-    this.selectedSection = this.sections[0];
-    this.routeToFirstSubsection();
+  constructor() { }
+
+  /**
+   * Sets the header options back to first section, first subsection.
+   */
+  public resetHeader(): void {
+    if (this._sections) {
+      this.selectedSection = this._sections[0];
+      this.selectedSubsection = this.selectedSection.subsections[0];
+    }
   }
 
   /**
    * Handles the selection of a header by the user.
    * @param header - The header to select.
    */
-  public selectSection(section: Section): void {
+  public selectSection(section: Section, subsectionIndex: number = 0): void {
+    // Set the new section.
     this.selectedSection = section;
-    this.routeToFirstSubsection();
-  }
-
-  /**
-   * Selects the first subsection of the selected section and routes there.
-   */
-  private routeToFirstSubsection(): void {
-    // Select the first subsection.
-    this.selectedSubsection = this.selectedSection.subsections[0];
-    // Route to selected subsection component.
-    this.router.navigate([ '', { outlets: { page: [this.selectedSubsection.route] } } ]);
+    // Set the new subsection.
+    this.selectedSubsection = this.selectedSection.subsections[subsectionIndex];
+    // Pass the subsection's route to the app component for routing.
+    this.sectionSelected.emit(this.selectedSubsection.route);
   }
 }

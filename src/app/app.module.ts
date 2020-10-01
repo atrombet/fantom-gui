@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRippleModule } from '@angular/material/core';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 // Component Imports
 import { AppComponent } from './app.component';
@@ -67,7 +67,8 @@ import { EpochGeneralComponent } from '@components/environment/epoch-general/epo
     MatIconModule,
     MatMenuModule,
     MatDialogModule,
-    MatRippleModule
+    MatRippleModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent],

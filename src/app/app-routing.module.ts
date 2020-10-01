@@ -13,14 +13,15 @@ const routes: Routes = [
   { path: 'simulation', component: SimulationComponent },
   { path: 'environment', children: [
     { path: '', component: EnvironmentComponent },
-    { path: ':id', component: EnvironmentComponent }
-  ]},
-  { path: 'gravity_general', component: GravityGeneralComponent, outlet: 'page' },
-  { path: 'atmosphere_general', component: AtmosphereGeneralComponent, outlet: 'page' },
-  { path: 'body_general', component: BodyGeneralComponent, outlet: 'page' },
-  { path: 'wind_general', component: WindGeneralComponent, outlet: 'page' },
-  { path: 'epoch_general', component: EpochGeneralComponent, outlet: 'page' },
-  { path: '**', redirectTo: '' }
+    { path: ':id', children: [
+      { path: '', component: EnvironmentComponent },
+      { path: 'gravity_general', component: GravityGeneralComponent },
+      { path: 'atmosphere_general', component: AtmosphereGeneralComponent },
+      { path: 'body_general', component: BodyGeneralComponent },
+      { path: 'wind_general', component: WindGeneralComponent },
+      { path: 'epoch_general', component: EpochGeneralComponent },
+    ]},
+  ]}
 ];
 
 @NgModule({

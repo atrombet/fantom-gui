@@ -5,7 +5,7 @@
         <simulation-tab></simulation-tab>
       </mat-tab>
       <mat-tab label="Environment">
-        <environment-tab></environment-tab>
+        <environment-tab (envSelected)="setItem($event)"></environment-tab>
       </mat-tab>
       <mat-tab label="Entities">
         <entities-tab></entities-tab>
@@ -13,9 +13,9 @@
     </mat-tab-group>
   </mat-sidenav>
   <mat-sidenav-content>
-    <router-outlet></router-outlet>
+    <page-header [sections]="sections" (sectionSelected)="navigateToSection($event)"></page-header>
     <div class="pal">
-      <router-outlet name="page"></router-outlet>
+      <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
