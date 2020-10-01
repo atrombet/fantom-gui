@@ -1,6 +1,23 @@
 <ng-container *ngIf="form">
   <div class="phl" [formGroup]="form">
     <h1>Gravity Settings</h1>
-    <mat-slide-toggle formControlName="gravity_on">Enable Gravity</mat-slide-toggle>
+    <div class="mbxl">
+      <mat-slide-toggle formControlName="gravity_on">Enable Gravity</mat-slide-toggle>
+    </div>
+    <div>
+      <mat-form-field color="accent">
+        <mat-label>Gravity Model</mat-label>
+        <mat-select 
+          formControlName="gravity_model"
+          name="gravityModel"
+          placeholder="Gravity Model"
+          [disabled]="!form.get('gravity_on').value"
+        >
+          <mat-option *ngFor="let option of gravityModelOptions" [value]="option.value">
+            {{option.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
 </ng-container>
