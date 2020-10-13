@@ -29,9 +29,12 @@ import { EntitiesTabComponent } from '@components/tabs/entities-tab/entities-tab
 import { SimulationComponent } from '@components/simulation/simulation.component';
 import { EnvironmentComponent } from '@components/environment/environment.component';
 import { EnvironmentTileComponent } from '@components/tabs/environment-tab/environment-tile/environment-tile.component';
-import { ConfirmModalComponent } from '@components/shared/confirm-modal/confirm-modal.component';
-import { PageHeaderComponent } from '@components/shared/page-header/page-header.component';
-import { SectionButtonComponent } from '@components/shared/section-button/section-button.component';
+import {
+  ConfirmModalComponent,
+  PageHeaderComponent,
+  SectionButtonComponent,
+  SubsectionBaseComponent
+} from '@components/shared';
 import { GravityGeneralComponent } from '@components/environment/gravity-general/gravity-general.component';
 import { AtmosphereGeneralComponent } from '@components/environment/atmosphere-general/atmosphere-general.component';
 import { BodyGeneralComponent } from '@components/environment/body-general/body-general.component';
@@ -61,7 +64,8 @@ import { DisableControlDirective } from '@directives';
     BodyGeneralComponent,
     WindGeneralComponent,
     EpochGeneralComponent,
-    DisableControlDirective
+    DisableControlDirective,
+    SubsectionBaseComponent
   ],
   imports: [
     BrowserModule,

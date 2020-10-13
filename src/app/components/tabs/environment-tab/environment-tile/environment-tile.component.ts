@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, 
 import { FormControl, Validators } from '@angular/forms';
 import { Environment } from '@interfaces';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmModalComponent } from '@components/shared/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent } from '@components/shared';
 import { first } from 'rxjs/operators';
 
 @Component({

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TAB_ROUTES } from './constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Environment, Section } from './interfaces';
-import { PageHeaderComponent } from './components/shared/page-header/page-header.component';
+import { PageHeaderComponent } from '@components/shared';
 
 @Component({
   selector: 'app-root',
