@@ -20,7 +20,10 @@ export const bodyGeneralFormGroupFactory: () => FormGroup = () => {
 };
 
 export const windGeneralFormGroupFactory: () => FormGroup = () => {
-  return new FormGroup({});
+  return new FormGroup({
+    wind_on: new FormControl(false),
+    wind_profile: new FormControl(null)
+  });
 };
 
 export const epochGeneralFormGroupFactory: () => FormGroup = () => {
