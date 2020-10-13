@@ -10,6 +10,8 @@
       "@constants": [ "src/app/constants/index.ts" ],
       "@enums": [ "src/app/enums/index.ts" ],
       "@services": [ "src/app/services/index.ts" ],
+      "@resolvers": [ "src/app/resolvers/index.ts" ],
+      "@directives": [ "src/app/directives/index.ts" ],
     },
   },
   "files": [

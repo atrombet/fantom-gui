@@ -22,6 +22,8 @@ export const windGeneralFormGroupFactory: () => FormGroup = () => {
 
 export const epochGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
-    epoch_on: new FormControl(false)
+    epoch_on: new FormControl(false),
+    epoch_date: new FormControl(null),
+    epoch_time: new FormControl(null)
   });
 };

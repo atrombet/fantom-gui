@@ -18,6 +18,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 // Component Imports
 import { AppComponent } from './app.component';
@@ -36,7 +38,11 @@ import { BodyGeneralComponent } from '@components/environment/body-general/body-
 import { WindGeneralComponent } from '@components/environment/wind-general/wind-general.component';
 import { EpochGeneralComponent } from '@components/environment/epoch-general/epoch-general.component';
 
+// Constants
 import { formFieldAppearance } from './constants';
+
+// Directives
+import { DisableControlDirective } from '@directives';
 
 @NgModule({
   declarations: [
@@ -54,7 +60,8 @@ import { formFieldAppearance } from './constants';
     AtmosphereGeneralComponent,
     BodyGeneralComponent,
     WindGeneralComponent,
-    EpochGeneralComponent
+    EpochGeneralComponent,
+    DisableControlDirective
   ],
   imports: [
     BrowserModule,
@@ -72,7 +79,9 @@ import { formFieldAppearance } from './constants';
     MatDialogModule,
     MatRippleModule,
     MatSlideToggleModule,
-    MatSelectModule
+    MatSelectModule,
+    MatNativeDateModule,
+    MatDatepickerModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldAppearance }

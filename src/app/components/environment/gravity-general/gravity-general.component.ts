@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Environment, SelectOption } from '../../../interfaces';
-import { EnvironmentService } from '../../../services';
+import { Environment, SelectOption } from '@interfaces';
 
 @Component({
   selector: 'gravity-general',
@@ -16,6 +15,12 @@ export class GravityGeneralComponent implements OnInit, OnDestroy {
   public env: Environment;
   public form: FormGroup;
 
+  public get gravityOn(): boolean {
+    if (this.form) {
+      return this.form.get('gravity_on').value;
+    }
+  }
+
   // The options for Gravity Model
   public gravityModelOptions: SelectOption[] = [
     { value: 0, viewValue: 'Custom' },
@@ -24,22 +29,15 @@ export class GravityGeneralComponent implements OnInit, OnDestroy {
     { value: 3, viewValue: 'WGS-84 EGM96' }
   ];
 
-  constructor(private route: ActivatedRoute, private envService: EnvironmentService) {}
+  constructor(private route: ActivatedRoute) {}
 
   /**
    * Angular life cycle hook On Init
    */
   public ngOnInit(): void {
     this.subs.add(
-      this.route.params.subscribe(({ id }) => {
-        this.env = this.envService.getEnvById(parseInt(id, 10));
-        if (this.env) {
-          this.form = this.env.sections
-            .find(section => section.name === 'gravity')
-            .subsections
-            .find(subsection => subsection.name === 'general')
-            .form;
-        }
+      this.route.data.subscribe(({ form }) => {
+        this.form = form;
       })
     );
   }

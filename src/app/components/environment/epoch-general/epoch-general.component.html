@@ -4,5 +4,32 @@
     <div class="mbxl">
       <mat-slide-toggle formControlName="epoch_on">Enable Epoch</mat-slide-toggle>
     </div>
+    <div class="mbxl">
+      <mat-form-field color="accent" class="epoch__input">
+        <mat-label>Epoch Date</mat-label>
+        <input 
+          matInput
+          [disableControl]="!epochOn"
+          formControlName="epoch_date"
+          placeholder="Epoch Date"
+          [matDatepicker]="epochDatepicker"
+        />
+        <mat-datepicker-toggle matSuffix [for]="epochDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #epochDatepicker></mat-datepicker>
+        <mat-hint>Enter Gregorian Date (MM/DD/YYYY) or select from the picker.</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="mbxl">
+      <mat-form-field color="accent" class="epoch__input">
+        <mat-label>Epoch Time</mat-label>
+        <input 
+          matInput
+          [disableControl]="!epochOn"
+          formControlName="epoch_time"
+          placeholder="Epoch Time"
+        />
+        <mat-hint>Enter UTC time (HH:MM:SS).</mat-hint>
+      </mat-form-field>
+    </div>
   </div>
 </ng-container>
