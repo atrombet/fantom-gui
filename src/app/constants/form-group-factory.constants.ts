@@ -9,7 +9,9 @@ export const gravityGeneralFormGroupFactory: () => FormGroup = () => {
 };
 
 export const atmosphereGeneralFormGroupFactory: () => FormGroup = () => {
-  return new FormGroup({});
+  return new FormGroup({
+    atmosphere_on: new FormControl(false)
+  });
 };
 
 export const bodyGeneralFormGroupFactory: () => FormGroup = () => {

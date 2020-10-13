@@ -1,1 +1,9 @@
-<p>atmosphere-general works!</p>
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <h1>Atmosphere Settings</h1>
+    <div class="mbxl">
+      <mat-slide-toggle formControlName="atmosphere_on">Enable Atmosphere</mat-slide-toggle>
+    </div>
+  </div>
+</ng-container>
+
