@@ -12,6 +12,7 @@
       "@services": [ "src/app/services/index.ts" ],
       "@resolvers": [ "src/app/resolvers/index.ts" ],
       "@directives": [ "src/app/directives/index.ts" ],
+      "@validators": [ "src/app/validators/index.ts" ],
     },
   },
   "files": [

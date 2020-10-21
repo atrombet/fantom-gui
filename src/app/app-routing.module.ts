@@ -18,7 +18,7 @@ const routes: Routes = [
       { path: '', component: EnvironmentComponent },
       { path: 'gravity_general', component: GravityGeneralComponent, resolve: { form: EnvironmentFormResolver } },
       { path: 'atmosphere_general', component: AtmosphereGeneralComponent, resolve: { form: EnvironmentFormResolver } },
-      { path: 'body_general', component: BodyGeneralComponent, resolve: { env: EnvironmentFormResolver } },
+      { path: 'body_general', component: BodyGeneralComponent, resolve: { form: EnvironmentFormResolver } },
       { path: 'wind_general', component: WindGeneralComponent, resolve: { form: EnvironmentFormResolver } },
       { path: 'epoch_general', component: EpochGeneralComponent, resolve: { form: EnvironmentFormResolver } },
     ]},

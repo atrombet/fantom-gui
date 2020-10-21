@@ -1,4 +1,5 @@
 import { FormGroup, FormControl } from '@angular/forms';
+import { bodyShapeValidator } from '@validators';
 
 export const gravityGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
@@ -16,7 +17,14 @@ export const atmosphereGeneralFormGroupFactory: () => FormGroup = () => {
 };
 
 export const bodyGeneralFormGroupFactory: () => FormGroup = () => {
-  return new FormGroup({});
+  return new FormGroup({
+    body_rotation_on: new FormControl(false),
+    body_model: new FormControl(null),
+    rotation_rate: new FormControl(null),
+    equatorial_radius: new FormControl(null),
+    polar_radius: new FormControl(null),
+    eccentricity: new FormControl(null)
+  }, [ bodyShapeValidator ]);
 };
 
 export const windGeneralFormGroupFactory: () => FormGroup = () => {

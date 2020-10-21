@@ -11,7 +11,8 @@ import { SelectOption } from '@interfaces';
 export class WindGeneralComponent extends SubsectionBaseComponent {
   // The options for Wind Profile
   public windProfileOptions: SelectOption[] = [
-    { value: 0, viewValue: 'GRAM-99' }
+    { value: 0, viewValue: 'Custom' },
+    { value: 1, viewValue: 'GRAM-99' }
   ];
 
   public get windOn(): boolean {
