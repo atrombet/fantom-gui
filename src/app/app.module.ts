@@ -33,7 +33,8 @@ import {
   ConfirmModalComponent,
   PageHeaderComponent,
   SectionButtonComponent,
-  SubsectionBaseComponent
+  SubsectionBaseComponent,
+  FilePathComponent
 } from '@components/shared';
 import { GravityGeneralComponent } from '@components/environment/gravity-general/gravity-general.component';
 import { AtmosphereGeneralComponent } from '@components/environment/atmosphere-general/atmosphere-general.component';
@@ -65,7 +66,8 @@ import { DisableControlDirective } from '@directives';
     WindGeneralComponent,
     EpochGeneralComponent,
     DisableControlDirective,
-    SubsectionBaseComponent
+    SubsectionBaseComponent,
+    FilePathComponent
   ],
   imports: [
     BrowserModule,

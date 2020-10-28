@@ -5,8 +5,7 @@ import { SelectOption } from '@interfaces';
 
 @Component({
   selector: 'body-general',
-  templateUrl: './body-general.component.html',
-  styleUrls: ['./body-general.component.scss']
+  templateUrl: './body-general.component.html'
 })
 export class BodyGeneralComponent extends SubsectionBaseComponent {
   public get bodyRotationOn(): boolean {

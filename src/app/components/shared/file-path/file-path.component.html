@@ -1,0 +1,18 @@
+<input 
+  #filepath
+  name="filepath"
+  type="file"
+  accept=".xml"
+  formControlName="{{controlName}}"
+  [disableControl]="disabled"
+  class="filePath__input"
+  (change)="onChangeFileInput()"
+/>
+<label for="filepath">
+  <div class="mbl">{{label}}</div>
+  <button mat-raised-button color="primary" (click)="fileButtonClick()">Browse</button>
+  <span *ngIf="!file; else fileName" class="mll">Select a filepath</span>
+  <ng-template #fileName>
+    <span class="mll">{{ file?.name }}</span>
+  </ng-template>
+</label>

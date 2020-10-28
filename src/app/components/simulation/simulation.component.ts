@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'simulation',
-  templateUrl: './simulation.component.html',
-  styleUrls: ['./simulation.component.scss']
+  templateUrl: './simulation.component.html'
 })
 export class SimulationComponent implements OnInit {
 

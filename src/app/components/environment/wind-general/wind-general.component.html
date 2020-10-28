@@ -19,5 +19,8 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <div [ngClass]="{'fan--hidden': !windOn || !customWind}">
+      <file-path label="Custom Wind Filepath" [disabled]="!windOn || !customWind" controlName="custom_wind_file_path"></file-path>
+    </div>
   </div>
 </ng-container>

@@ -5,14 +5,15 @@ export const gravityGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     gravity_on: new FormControl(false),
     gravity_model: new FormControl(null),
-    custom_gravity: new FormControl(null)
+    custom_gravity_file_path: new FormControl(null)
   });
 };
 
 export const atmosphereGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     atmosphere_on: new FormControl(false),
-    atmospheric_model: new FormControl(null)
+    atmospheric_model: new FormControl(null),
+    custom_atmosphere_file_path: new FormControl(null)
   });
 };
 
@@ -30,7 +31,8 @@ export const bodyGeneralFormGroupFactory: () => FormGroup = () => {
 export const windGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     wind_on: new FormControl(false),
-    wind_profile: new FormControl(null)
+    wind_profile: new FormControl(null),
+    custom_wind_file_path: new FormControl(null)
   });
 };
 

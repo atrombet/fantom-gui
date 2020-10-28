@@ -5,8 +5,7 @@ import { SelectOption } from '@interfaces';
 
 @Component({
   selector: 'wind-general',
-  templateUrl: './wind-general.component.html',
-  styleUrls: ['./wind-general.component.scss']
+  templateUrl: './wind-general.component.html'
 })
 export class WindGeneralComponent extends SubsectionBaseComponent {
   // The options for Wind Profile
@@ -15,9 +14,21 @@ export class WindGeneralComponent extends SubsectionBaseComponent {
     { value: 1, viewValue: 'GRAM-99' }
   ];
 
+  /**
+   * Returns TRUE if the wind is enabled.
+   */
   public get windOn(): boolean {
     if (this.form) {
       return this.form.get('wind_on').value;
+    }
+  }
+
+  /**
+   * Returns TRUE if the wind profile is set to CUSTOM.
+   */
+  public get customWind(): boolean {
+    if (this.form) {
+      return this.form.get('wind_profile').value === 0;
     }
   }
 

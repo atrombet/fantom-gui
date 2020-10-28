@@ -4,7 +4,7 @@
     <div class="mbxl">
       <mat-slide-toggle formControlName="gravity_on">Enable Gravity</mat-slide-toggle>
     </div>
-    <div>
+    <div class="mbxl">
       <mat-form-field color="accent">
         <mat-label>Gravity Model</mat-label>
         <mat-select
@@ -18,6 +18,9 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+    </div>
+    <div [ngClass]="{'fan--hidden': !gravityOn || !customGravity}">
+      <file-path label="Custom Gravity Filepath" [disabled]="!gravityOn || !customGravity" controlName="custom_gravity_file_path"></file-path>
     </div>
   </div>
 </ng-container>
