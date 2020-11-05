@@ -1,11 +1,14 @@
-<div class="envTile__content" (click)="onEnvSelected(env.id)">
+<div class="itemTile__content" [ngClass]="panelClass" (click)="onItemSelected(item.id)">
   <ng-container *ngIf="!nameEditMode; else editMode">
-    <span>{{env.name}}</span>
-    <button mat-icon-button [matMenuTriggerFor]="envContextMenu" (click)="$event.stopPropagation()"><mat-icon>more_vert</mat-icon></button>
+    <span (dblclick)="onRenameClick()">{{item.name}}</span>
+    <span>
+      <button *ngIf="showAddButton" mat-icon-button (click)="onAddButtonClick($event)"><mat-icon>add</mat-icon></button>
+      <button mat-icon-button [matMenuTriggerFor]="itemContextMenu" (click)="$event.stopPropagation()"><mat-icon>more_vert</mat-icon></button>
+    </span>
   </ng-container>
 </div>
 
-<mat-menu #envContextMenu="matMenu">
+<mat-menu #itemContextMenu="matMenu">
   <button mat-menu-item (click)="onRenameClick()">Rename</button>
   <button mat-menu-item (click)="onDuplicateClick()">Duplicate</button>
   <button mat-menu-item color="warn" (click)="onDeleteClick()">Delete</button>
@@ -15,7 +18,7 @@
   <div>
     <input 
       #name
-      class="envTile__nameControl" 
+      class="itemTile__nameControl" 
       [formControl]="nameControl"
       (click)="$event.stopPropagation()"
       (keydown.enter)="updateName()"

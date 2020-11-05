@@ -3,3 +3,4 @@ export * from './page-header/page-header.component';
 export * from './section-button/section-button.component';
 export * from './subsection-base/subsection-base.component';
 export * from './file-path/file-path.component';
+export * from './item-tile/item-tile.component';

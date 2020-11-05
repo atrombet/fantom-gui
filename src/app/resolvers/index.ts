@@ -1,1 +1,1 @@
-export * from './environment-form.resolver';
+export * from './form.resolver';

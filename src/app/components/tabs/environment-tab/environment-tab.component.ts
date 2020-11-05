@@ -1,28 +1,32 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { EnvironmentService } from '@services';
-import { Environment } from '@interfaces';
+import { ItemService } from '@services';
+import { Item } from '@interfaces';
 import { Observable, Subscription } from 'rxjs';
+import { ItemType } from '@enums';
 
 @Component({
   selector: 'environment-tab',
-  templateUrl: './environment-tab.component.html',
-  styleUrls: ['./environment-tab.component.scss']
+  templateUrl: './environment-tab.component.html'
 })
 export class EnvironmentTabComponent implements OnInit, OnDestroy {
-  public environments$: Observable<Environment[]>;
+  public environments$: Observable<Item[]>;
   public selectedEnvId: number;
 
-  @Output() public envSelected: EventEmitter<Environment> = new EventEmitter<Environment>();
+  @Output() public envSelected: EventEmitter<Item> = new EventEmitter<Item>();
 
   private subs: Subscription = new Subscription();
 
-  constructor(private envService: EnvironmentService) { }
+  constructor(private service: ItemService) { }
+
+  /********************************
+   * Angular Life cycle hooks
+   ********************************/
 
   /**
    * Angular On Init Lifecycle hook
    */
   public ngOnInit(): void {
-    this.environments$ = this.envService.environments$;
+    this.environments$ = this.service.environments$;
   }
 
   /**
@@ -32,36 +36,40 @@ export class EnvironmentTabComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
+  /********************************
+   * Public Methods
+   ********************************/
+
   /**
    * Adds an environment with an auto-generated name to the list of environments.
    */
   public addEnvironment(): void {
-    this.envService.addEnvironment();
+    this.service.addItem(ItemType.Environment);
   }
 
   /**
-   * Calls the environment service to update the name of the environment.
+   * Calls the item service to update the name of the environment.
    * @param envId - The ID of the environment to update.
    * @param name - The new name of the environment.
    */
   public updateName(envId: number, name: string): void {
-    this.envService.updateEnvName(envId, name);
+    this.service.updateItemName(ItemType.Environment, envId, name);
   }
 
   /**
-   * Calls the env service to trigger a duplication of the given environment
+   * Calls the item service to trigger a duplication of the given environment
    * @param env - The environment to duplicate.
    */
-  public duplicateEnv(env: Environment): void {
-    this.envService.duplicateEnv(env);
+  public duplicateEnv(env: Item): void {
+    this.service.duplicateItem(env);
   }
 
   /**
-   * Calls the env service to trigger deletion of the given environment.
+   * Calls the item service to trigger deletion of the given environment.
    * @param envId - The id of the environment to delete.
    */
   public deleteEnv(envId: number): void {
-    this.envService.deleteEnv(envId);
+    this.service.deleteItem(ItemType.Environment, envId);
   }
 
   /**
@@ -70,7 +78,7 @@ export class EnvironmentTabComponent implements OnInit, OnDestroy {
    */
   public goToEnv(envId: number): void {
     if (envId !== this.selectedEnvId) {
-      const env = this.envService.getEnvById(envId);
+      const env = this.service.getItemById(ItemType.Environment, envId);
       this.envSelected.emit(env);
       this.selectedEnvId = envId;
     }

@@ -1,1 +1,27 @@
-<p>entities-tab works!</p>
+<div class="paxl">
+  <h2>Entities</h2>
+  <div *ngFor="let entity of entities$ | async" class="mbxl">
+    <item-tile 
+      [item]="entity"
+      panelClass="mbm"
+      [showAddButton]="true"
+      (addItem)="addObject(entity.id)"
+      (nameChange)="updateEntityName($event, entity.id)"
+      (duplicate)="duplicateEntity($event)"
+      (delete)="deleteEntity($event)"
+    ></item-tile>
+    <div *ngIf="fetchObjectsForEntity(entity.id) | async as objects" class="mlxl">
+      <div *ngFor="let obj of objects">
+        <item-tile 
+          [item]="obj"
+          panelClass="mbm"
+          (nameChange)="updateObjectName($event, obj.id)"
+          (duplicate)="duplicateObject($event)"
+          (delete)="deleteObject($event)"
+          (itemSelected)="goToObject(obj)"
+        ></item-tile>
+      </div>
+    </div>
+  </div>
+  <item-add-button (click)="addEntity()"></item-add-button>
+</div>

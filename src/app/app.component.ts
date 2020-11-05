@@ -1,8 +1,9 @@
 import { Component, ViewChild, ComponentRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { TAB_ROUTES } from './constants';
+import { TAB_ROUTES } from '@constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Environment, Section } from './interfaces';
+import { Section, Item } from '@interfaces';
+import { ItemType } from '@enums';
 import { PageHeaderComponent } from '@components/shared';
 
 @Component({
@@ -11,7 +12,7 @@ import { PageHeaderComponent } from '@components/shared';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public item: Environment;
+  public item: Item;
   public sections: Section[];
 
   @ViewChild(PageHeaderComponent) public pageHeader: PageHeaderComponent;
@@ -30,8 +31,8 @@ export class AppComponent {
    * Saves this as the top level "Item" the user is viewing.
    * @param env - The newly selected environment
    */
-  public setItem(env: Environment): void {
-    this.item = env;
+  public setItem(item: Item): void {
+    this.item = item;
     this.setSections(this.item.sections);
     this.navigateToSection(this.item.sections[0].subsections[0].route);
   }
@@ -50,6 +51,6 @@ export class AppComponent {
    * @param route - The last segment of the route to navigate to.
    */
   public navigateToSection(route: string): void {
-    this.router.navigate([ `environment/${this.item.id}/${route}` ]);
+    this.router.navigate([ `${this.item.type}/${this.item.id}/${route}` ]);
   }
 }

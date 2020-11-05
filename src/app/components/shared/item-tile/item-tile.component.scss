@@ -2,9 +2,11 @@
 
 $config: mat-typography-config();
 
-.envTile__content {
+.itemTile__content {
+  @include mat-elevation-transition;
   background-color: #646464;
-  height: 100%;
+  height: 56px;
+  border-radius: 8px;
   width: calc(100% - 32px);
   padding-left: 24px;
   padding-right: 8px;
@@ -12,13 +14,18 @@ $config: mat-typography-config();
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 
   &:focus {
     outline: none;
   }
+
+  &:hover {
+    @include mat-elevation(8);  
+  }
 }
 
-.envTile__nameControl {
+.itemTile__nameControl {
   font-family: mat-font-family($config);
   font-size: 18px;
   height: 20px;

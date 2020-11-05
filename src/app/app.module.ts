@@ -28,13 +28,13 @@ import { EnvironmentTabComponent } from '@components/tabs/environment-tab/enviro
 import { EntitiesTabComponent } from '@components/tabs/entities-tab/entities-tab.component';
 import { SimulationComponent } from '@components/simulation/simulation.component';
 import { EnvironmentComponent } from '@components/environment/environment.component';
-import { EnvironmentTileComponent } from '@components/tabs/environment-tab/environment-tile/environment-tile.component';
 import {
   ConfirmModalComponent,
   PageHeaderComponent,
   SectionButtonComponent,
   SubsectionBaseComponent,
-  FilePathComponent
+  FilePathComponent,
+  ItemTileComponent
 } from '@components/shared';
 import { GravityGeneralComponent } from '@components/environment/gravity-general/gravity-general.component';
 import { AtmosphereGeneralComponent } from '@components/environment/atmosphere-general/atmosphere-general.component';
@@ -47,6 +47,8 @@ import { formFieldAppearance } from './constants';
 
 // Directives
 import { DisableControlDirective } from '@directives';
+import { EntityComponent } from './components/entity/entity.component';
+import { ItemAddButtonComponent } from './components/shared/item-add-button/item-add-button.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,6 @@ import { DisableControlDirective } from '@directives';
     EntitiesTabComponent,
     SimulationComponent,
     EnvironmentComponent,
-    EnvironmentTileComponent,
     ConfirmModalComponent,
     PageHeaderComponent,
     SectionButtonComponent,
@@ -67,7 +68,10 @@ import { DisableControlDirective } from '@directives';
     EpochGeneralComponent,
     DisableControlDirective,
     SubsectionBaseComponent,
-    FilePathComponent
+    FilePathComponent,
+    EntityComponent,
+    ItemTileComponent,
+    ItemAddButtonComponent
   ],
   imports: [
     BrowserModule,

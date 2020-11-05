@@ -1,6 +1,6 @@
 @import '~@angular/material/theming';
 
-.env__tile {
+.item__tile {
   @include mat-elevation-transition;
   border-radius: 8px;
   cursor: pointer;
@@ -32,8 +32,8 @@
   }
 }
 
-.env__add {
-  @extend .env__tile;
+.item__add {
+  @extend .item__tile;
   background-color: transparent;
   border: 2px dotted white;
   height: calc(100% - 4px);
