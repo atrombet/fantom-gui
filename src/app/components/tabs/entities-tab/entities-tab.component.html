@@ -1,5 +1,11 @@
 <div class="paxl">
-  <h2>Entities</h2>
+  <h2 class="flex-between">
+    <span>Entities</span>
+    <button mat-raised-button color="primary" (click)="addEntity()">
+      <mat-icon>add</mat-icon>
+      <span class="mls">Add Entity</span>
+    </button>
+  </h2>
   <div *ngFor="let entity of entities$ | async" class="mbxl">
     <item-tile 
       [item]="entity"
@@ -23,5 +29,4 @@
       </div>
     </div>
   </div>
-  <item-add-button (click)="addEntity()"></item-add-button>
 </div>

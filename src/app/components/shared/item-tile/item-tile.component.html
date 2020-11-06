@@ -1,8 +1,11 @@
 <div class="itemTile__content" [ngClass]="panelClass" (click)="onItemSelected(item.id)">
   <ng-container *ngIf="!nameEditMode; else editMode">
-    <span (dblclick)="onRenameClick()">{{item.name}}</span>
+    <span (click)="$event.stopPropagation()" (dblclick)="onRenameClick()">{{item.name}}</span>
     <span>
-      <button *ngIf="showAddButton" mat-icon-button (click)="onAddButtonClick($event)"><mat-icon>add</mat-icon></button>
+      <button *ngIf="showAddButton" mat-stroked-button (click)="onAddButtonClick($event)">
+        <mat-icon>add</mat-icon>
+        <span class="mls">Add Object</span>
+      </button>
       <button mat-icon-button [matMenuTriggerFor]="itemContextMenu" (click)="$event.stopPropagation()"><mat-icon>more_vert</mat-icon></button>
     </span>
   </ng-container>

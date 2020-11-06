@@ -127,6 +127,32 @@ export class ItemService {
     newMap.set(newId, newItem);
     this.state[item.type].data.next(newMap);
     this.state[item.type].lastId = newId;
+    if (item.type === ItemType.Entity) {
+      // Duplicate the objects from the existing entity to the new entity.
+      this.duplicateManyObjects(item.id, newId);
+    }
+  }
+
+  /**
+   * Duplicates all objects from an existing entity to a new entity.
+   * @param entityIdToDup - The ID of the entity whose objects are being duplicated.
+   * @param newEntityId - The ID of the new entity to add the duplicated objects to.
+   */
+  public duplicateManyObjects(entityIdToDup: number, newEntityId: number): void {
+    const newMap = this.cloneMap(ItemType.Object);
+    const objectsToDup = Array.from(newMap.values()).filter(obj => obj.parentId === entityIdToDup);
+    if (!!objectsToDup.length) {
+      objectsToDup.forEach((obj: Item) => {
+        const newId = this.state[ItemType.Object].lastId + 1;
+        newMap.set(newId, {
+          ...obj,
+          id: newId,
+          parentId: newEntityId
+        });
+        this.state[ItemType.Object].lastId = newId;
+      });
+      this.state[ItemType.Object].data.next(newMap);
+    }
   }
 
   /**

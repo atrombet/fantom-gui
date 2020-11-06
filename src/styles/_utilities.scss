@@ -250,3 +250,10 @@ $xlarge: 32px;
 .width-100 {
   width: 100%;
 }
+
+// Flex Utilities
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
