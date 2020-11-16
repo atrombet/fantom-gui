@@ -19,8 +19,5 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div [ngClass]="{'fan--hidden': !gravityOn || !customGravity}">
-      <file-path label="Custom Gravity Filepath" [disabled]="!gravityOn || !customGravity" controlName="custom_gravity_file_path"></file-path>
-    </div>
   </div>
 </ng-container>

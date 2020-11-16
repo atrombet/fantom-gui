@@ -4,8 +4,7 @@ import { bodyShapeValidator } from '@validators';
 export const gravityGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     gravity_on: new FormControl(false),
-    gravity_model: new FormControl(null),
-    custom_gravity_file_path: new FormControl(null)
+    gravity_model: new FormControl(null)
   });
 };
 

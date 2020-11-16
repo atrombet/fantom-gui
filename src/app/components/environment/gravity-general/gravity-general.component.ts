@@ -17,18 +17,8 @@ export class GravityGeneralComponent extends SubsectionBaseComponent {
     }
   }
 
-  /**
-   * Returns true if the gravity model is set to Custom.
-   */
-  public get customGravity(): boolean {
-    if (this.form) {
-      return this.form.get('gravity_model').value === 0;
-    }
-  }
-
   // The options for Gravity Model
   public gravityModelOptions: SelectOption[] = [
-    { value: 0, viewValue: 'Custom' },
     { value: 1, viewValue: 'Spherical' },
     { value: 2, viewValue: 'WGS-84 J2' },
     { value: 3, viewValue: 'WGS-84 EGM96' }
@@ -36,9 +26,5 @@ export class GravityGeneralComponent extends SubsectionBaseComponent {
 
   constructor(protected route: ActivatedRoute) {
     super(route);
-  }
-
-  public printForm(): void {
-    console.log(this.form.value);
   }
 }
