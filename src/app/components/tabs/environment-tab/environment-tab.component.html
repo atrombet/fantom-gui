@@ -1,21 +1,19 @@
 <div class="paxl">
-  <h2 class="flex-between">
+  <h2 class="flex-between fan__tabHeader">
     <span>Environments</span>
     <button mat-raised-button color="primary" (click)="addEnvironment()">
       <mat-icon>add</mat-icon>
       <span class="mls">Add Environment</span>
     </button>
   </h2>
-  <mat-grid-list cols="1" gutterSize="16" rowHeight="56" class="item">
-    <mat-grid-tile *ngFor="let env of environments$ | async" class="item__tile" [ngClass]="{'selected': selectedEnvId === env.id}">
-      <item-tile
-        matRipple
-        [item]="env"
-        (nameChange)="updateName(env.id, $event)"
-        (duplicate)="duplicateEnv($event)"
-        (delete)="deleteEnv($event)"
-        (itemSelected)="goToEnv($event)"
-      ></item-tile>
-    </mat-grid-tile>
-  </mat-grid-list>
+  <div *ngFor="let env of environments$ | async" class="item__tile mbxl">
+    <item-tile 
+      [item]="env"
+      [selected]="selectedEnvId === env.id"
+      (nameChange)="updateName(env.id, $event)"
+      (duplicate)="duplicateEnv($event)"
+      (delete)="deleteEnv($event)"
+      (itemSelected)="goToEnv($event)"
+    ></item-tile>
+  </div>
 </div>

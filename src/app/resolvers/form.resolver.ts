@@ -10,7 +10,7 @@ export class FormResolver implements Resolve<FormGroup> {
 
   public resolve(route: ActivatedRouteSnapshot): FormGroup {
     const id = parseInt(route.params.id, 10);
-    const type = route.data.tab;
+    const type = route.data.itemType;
     const item: Item = this.service.getItemById(type, id);
     const [ section, subsection ] = route.url[0].path.split('_');
     return item

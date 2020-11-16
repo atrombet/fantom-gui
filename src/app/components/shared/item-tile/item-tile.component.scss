@@ -23,6 +23,27 @@ $config: mat-typography-config();
   &:hover {
     @include mat-elevation(8);  
   }
+
+  &:before {
+    content: ".";
+    color: transparent;
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    top: 1px;
+    bottom: 1px;
+    border-radius: 8px;
+    z-index: 2;
+    border: #b2ff59 2px solid;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s linear;
+  }
+
+  &.selected:before {
+    opacity: 1;
+    transition: opacity 0.2s linear;
+  }
 }
 
 .itemTile__nameControl {

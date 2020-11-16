@@ -5,47 +5,27 @@
   border-radius: 8px;
   cursor: pointer;
   width: 100%;
+  position: relative;
 
   &:hover {
     @include mat-elevation(8);
   }
-
-  &:before {
-    content: ".";
-    color: transparent;
-    position: absolute;
-    left: 1px;
-    right: 1px;
-    top: 1px;
-    bottom: 1px;
-    border-radius: 8px;
-    z-index: 2;
-    border: #b2ff59 2px solid;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.2s linear;
-  }
-
-  &.selected:before {
-    opacity: 1;
-    transition: opacity 0.2s linear;
-  }
 }
 
-.item__add {
-  @extend .item__tile;
-  background-color: transparent;
-  border: 2px dotted white;
-  height: calc(100% - 4px);
-  width: calc(100% - 4px);
-  cursor: pointer;
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
+// .item__add {
+//   @extend .item__tile;
+//   background-color: transparent;
+//   border: 2px dotted white;
+//   height: calc(100% - 4px);
+//   width: calc(100% - 4px);
+//   cursor: pointer;
+//   display: flex !important;
+//   justify-content: center;
+//   align-items: center;
 
-  & mat-icon {
-    font-size: 36px;
-    height: 36px;
-    width: 36px;
-  }
-}
+//   & mat-icon {
+//     font-size: 36px;
+//     height: 36px;
+//     width: 36px;
+//   }
+// }

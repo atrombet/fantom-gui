@@ -14,6 +14,7 @@ export class ItemTileComponent implements OnInit, AfterViewInit {
   @Input() public item: Item;
   @Input() public panelClass: string;
   @Input() public showAddButton: string;
+  @Input() public selected: boolean;
   @Output() public addItem: EventEmitter<number> = new EventEmitter<number>();
   @Output() public nameChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() public duplicate: EventEmitter<Item> = new EventEmitter<Item>();

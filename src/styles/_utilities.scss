@@ -257,3 +257,12 @@ $xlarge: 32px;
   justify-content: space-between;
   align-items: center;
 }
+
+// UX Utilities
+.non-actionable {
+  cursor: unset !important;
+}
+
+.actionable {
+  cursor: pointer !important;
+}

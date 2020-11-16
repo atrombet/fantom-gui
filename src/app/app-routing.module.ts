@@ -9,11 +9,14 @@ import { WindGeneralComponent } from '@components/environment/wind-general/wind-
 import { EpochGeneralComponent } from '@components/environment/epoch-general/epoch-general.component';
 import { FormResolver } from '@resolvers';
 import { EntityComponent } from '@components/entity/entity.component';
+import { ItemType } from '@enums';
+import { ObjectComponent } from '@components/object/object.component';
+import { MassCgComponent } from '@components/object/mass-cg/mass-cg.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/simulation' },
   { path: 'simulation', component: SimulationComponent },
-  { path: 'environment', data: { tab: 'environment' }, children: [
+  { path: 'environment', data: { itemType: ItemType.Environment }, children: [
     { path: '', component: EnvironmentComponent },
     { path: ':id', children: [
       { path: '', component: EnvironmentComponent },
@@ -24,8 +27,15 @@ const routes: Routes = [
       { path: 'epoch_general', component: EpochGeneralComponent, resolve: { form: FormResolver } },
     ]},
   ]},
-  { path: 'entity', data: { tab: 'entity' }, children: [
+  { path: 'entity', data: { itemType: ItemType.Entity }, children: [
     { path: '', component: EntityComponent }
+  ]},
+  { path: 'object', data: { itemType: ItemType.Object }, children: [
+    { path: '', component: ObjectComponent },
+    { path: ':id', children: [
+      { path: '', component: ObjectComponent },
+      { path: 'mass_cg', component: MassCgComponent, resolve: { form: FormResolver } }
+    ]}
   ]}
 ];
 

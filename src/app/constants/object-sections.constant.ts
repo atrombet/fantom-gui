@@ -2,46 +2,52 @@ import { Section } from '@interfaces';
 
 export const OBJECT_SECTIONS: () => Section[] = () => [
   {
-    name: 'mass properties',
+    displayName: 'mass properties',
+    name: 'mass',
     icon: 'fitness_center',
     subsections: [
-      { name: 'center of gravity', icon: 'security', form: null, route: 'mass_cg' },
-      { name: 'moments of inertia', icon: 'bubble_chart', form: null, route: 'mass_inertia' }
+      { displayName: 'center of gravity', name: 'cg', icon: 'security', form: null, route: 'mass_cg' },
+      { displayName: 'moments of inertia', name: 'inertia', icon: 'bubble_chart', form: null, route: 'mass_inertia' }
     ]
   },
   {
+    displayName: 'aerodynamics',
     name: 'aerodynamics',
     icon: 'flight',
     subsections: [
-      { name: 'general', icon: 'grade', form: null, route: 'aerodynamics_general' },
-      { name: 'axisymmetric', icon: 'align_horizontal_center', form: null, route: 'aerodynamics_axisymmetric' },
-      { name: 'wind', icon: 'waves', form: null, route: 'aerodynamics_wind' },
-      { name: 'body-fixed', icon: 'border_all', form: null, route: 'aerodynamics_bodyfixed' }
+      { displayName: 'general', name: 'general', icon: 'grade', form: null, route: 'aerodynamics_general' },
+      // tslint:disable-next-line: max-line-length
+      { displayName: 'axisymmetric', name: 'axisymmetric', icon: 'align_horizontal_center', form: null, route: 'aerodynamics_axisymmetric' },
+      { displayName: 'wind', name: 'wind', icon: 'waves', form: null, route: 'aerodynamics_wind' },
+      { displayName: 'body-fixed', name: 'body-fixed', icon: 'border_all', form: null, route: 'aerodynamics_bodyfixed' }
     ]
   },
   {
+    displayName: 'propulsion',
     name: 'propulsion',
     icon: 'local_fire_department',
     subsections: [
-      { name: 'general', icon: 'grade', form: null, route: 'propulsion_general' }
+      { displayName: 'general', name: 'general', icon: 'grade', form: null, route: 'propulsion_general' }
     ]
   },
   {
-    name: 'initial conditions',
-    icon: 'waves',
+    displayName: 'initial conditions',
+    name: 'initial',
+    icon: 'circle',
     subsections: [
-      { name: 'general', icon: 'grade', form: null, route: 'initial_general' },
-      { name: 'position', icon: 'gps_fixed', form: null, route: 'initial_position' },
-      { name: 'velocity', icon: 'double_arrow', form: null, route: 'initial_velocity' },
-      { name: 'orientation', icon: 'widgets', form: null, route: 'initial_orientation' },
-      { name: 'body rates', icon: 'sync', form: null, route: 'initial_bodyrates' },
+      { displayName: 'general', name: 'general', icon: 'grade', form: null, route: 'initial_general' },
+      { displayName: 'position', name: 'position', icon: 'gps_fixed', form: null, route: 'initial_position' },
+      { displayName: 'velocity', name: 'velocity', icon: 'double_arrow', form: null, route: 'initial_velocity' },
+      { displayName: 'orientation', name: 'orientation', icon: 'widgets', form: null, route: 'initial_orientation' },
+      { displayName: 'body rates', name: 'bodyrates', icon: 'sync', form: null, route: 'initial_bodyrates' },
     ]
   },
   {
+    displayName: 'script',
     name: 'script',
     icon: 'code',
     subsections: [
-      { name: 'general', icon: 'grade', form: null, route: 'script_general' }
+      { displayName: 'general', name: 'general', icon: 'grade', form: null, route: 'script_general' }
     ]
   }
 ];

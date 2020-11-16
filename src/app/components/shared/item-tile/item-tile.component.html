@@ -1,4 +1,4 @@
-<div class="itemTile__content" [ngClass]="panelClass" (click)="onItemSelected(item.id)">
+<div class="itemTile__content" [class]="panelClass" [ngClass]="{ 'selected': selected }" (click)="onItemSelected(item.id)">
   <ng-container *ngIf="!nameEditMode; else editMode">
     <span (click)="$event.stopPropagation()" (dblclick)="onRenameClick()">{{item.name}}</span>
     <span>

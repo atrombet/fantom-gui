@@ -1,5 +1,5 @@
 <div class="paxl">
-  <h2 class="flex-between">
+  <h2 class="flex-between fan__tabHeader">
     <span>Entities</span>
     <button mat-raised-button color="primary" (click)="addEntity()">
       <mat-icon>add</mat-icon>
@@ -9,7 +9,7 @@
   <div *ngFor="let entity of entities$ | async" class="mbxl">
     <item-tile 
       [item]="entity"
-      panelClass="mbm"
+      panelClass="mbm non-actionable"
       [showAddButton]="true"
       (addItem)="addObject(entity.id)"
       (nameChange)="updateEntityName($event, entity.id)"
@@ -17,10 +17,11 @@
       (delete)="deleteEntity($event)"
     ></item-tile>
     <div *ngIf="fetchObjectsForEntity(entity.id) | async as objects" class="mlxl">
-      <div *ngFor="let obj of objects">
+      <div *ngFor="let obj of objects" class="item__tile">
         <item-tile 
           [item]="obj"
           panelClass="mbm"
+          [selected]="selectedObjectId === obj.id"
           (nameChange)="updateObjectName($event, obj.id)"
           (duplicate)="duplicateObject($event)"
           (delete)="deleteObject($event)"

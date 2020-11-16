@@ -48,7 +48,8 @@ import { formFieldAppearance } from './constants';
 // Directives
 import { DisableControlDirective } from '@directives';
 import { EntityComponent } from './components/entity/entity.component';
-import { ItemAddButtonComponent } from './components/shared/item-add-button/item-add-button.component';
+import { ObjectComponent } from './components/object/object.component';
+import { MassCgComponent } from './components/object/mass-cg/mass-cg.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { ItemAddButtonComponent } from './components/shared/item-add-button/item
     FilePathComponent,
     EntityComponent,
     ItemTileComponent,
-    ItemAddButtonComponent
+    ObjectComponent,
+    MassCgComponent
   ],
   imports: [
     BrowserModule,
