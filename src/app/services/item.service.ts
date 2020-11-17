@@ -79,11 +79,12 @@ export class ItemService {
   public addItem(type: ItemType, parentId?: number): void {
     const newMap = this.cloneMap(type);
     const newId = this.state[type].lastId + 1;
+    const nameDigit = type !== ItemType.Object ? newId : this.getObjectDefaultNameDigit(newMap, parentId);
     newMap.set(newId, {
       id: newId,
       type,
       parentId,
-      name: `${type}_${('000' + newId).slice(-3)}`,
+      name: `${type}_${('000' + nameDigit).slice(-3)}`,
       sections: this.getSectionsForType(type)
     });
     this.state[type].data.next(newMap);
@@ -111,16 +112,8 @@ export class ItemService {
   public duplicateItem(item: Item): void {
     const newMap = this.cloneMap(item.type);
     const items: Item[] = Array.from(newMap.values());
-    const itemNames: string[] = items.map(i => i.name);
     const nameParts = item.name.split('-');
-    // Find the highest dash number. Ex: [env-1, env-4] => highest dash number is 4.
-    const max = Math.max(
-      ...itemNames
-        .filter(name => name.indexOf(nameParts[0]) === 0)
-        .map(name => name.split('-')[1])
-        .filter(numStr => !!numStr)
-        .map(numStr => parseInt(numStr, 10))
-    );
+    const max = this.getHighestDashNumber(items, nameParts[0]);
     const newName = max >= 0 ? `${nameParts[0]}-${max + 1}` : `${item.name}-1`;
     const newId = this.state[item.type].lastId + 1;
     const newItem: Item = { ...item, id: newId, name: newName };
@@ -188,5 +181,38 @@ export class ItemService {
       case ItemType.Entity: return null;
       case ItemType.Object: return OBJECT_SECTIONS();
     }
+  }
+
+  /**
+   * Get the digit to patch into the name of a new object.
+   * @param objMap - A clone of the object data.
+   * @param entityId - The ID of the parent entity with the objects to review.
+   */
+  private getObjectDefaultNameDigit(objMap: Map<number, Item>, entityId: number): number {
+    // Get objects for the entity.
+    const entityObjs: Item[] = Array.from(objMap.values()).filter(obj => obj.parentId === entityId);
+    // Find the highest dash number.
+    const max: number = !!entityObjs.length ? this.getHighestDashNumber(entityObjs, ItemType.Object, '_') : 0;
+    // Return highest dash number +1.
+    return max + 1;
+  }
+
+  /**
+   * Looks through a set of items to determine the highest enumerated part of their names.
+   * @param items - The items to search through.
+   * @param namePart - The part of the item names to look for.
+   * @param separator - The separating character between namePart and the enumerated part.
+   */
+  private getHighestDashNumber(items: Item[], namePart: string, separator: string = '-'): number {
+    const itemNames: string[] = items.map(i => i.name);
+    // Find the highest dash number. Ex: [env-1, env-4] => highest dash number is 4.
+    const max = Math.max(
+      ...itemNames
+        .filter(name => name.indexOf(namePart) === 0)
+        .map(name => name.split(separator)[1])
+        .filter(numStr => !!numStr)
+        .map(numStr => parseInt(numStr, 10))
+    );
+    return max;
   }
 }
