@@ -1,57 +1,64 @@
 <ng-container *ngIf="form">
   <div class="phl" [formGroup]="form">
-    <h1>Body Settings</h1>
-    <div class="mbxl">
-      <mat-slide-toggle formControlName="body_rotation_on">Enable Body Rotation</mat-slide-toggle>
-    </div>
-    <div class="mbxl">
-      <mat-form-field color="accent" class="fan__input">
-        <mat-label>Body Model</mat-label>
-        <mat-select
-          [disableControl]="!bodyRotationOn"
-          formControlName="body_model"
-          name="bodyModel"
-          placeholder="Body Model"
-          >
-          <mat-option *ngFor="let option of bodyModelOptions" [value]="option.value">
-            {{option.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="mbxl">
-      <mat-form-field color="accent" class="fan__input">
-        <mat-label>Rotation Rate</mat-label>
-        <span matSuffix [ngClass]="{'fan--disabled': !bodyRotationOn}">rad/s</span>
-        <input matInput formControlName="rotation_rate" [disableControl]="!bodyRotationOn" placeholder="Rotation Rate" />
-        <mat-hint>Body rotation rate</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class="fan__divider mbxl"></div>
-    <h1 [ngClass]="{'fan--disabled': disableBodyShape}">Specify Body Shape</h1>
-    <div class="mbxl" [ngClass]="{'fan--disabled': disableBodyShape}">Please specify at least 2 of the following parameters.</div>
-    <div class="mbxl">
-      <mat-form-field color="accent" class="fan__input">
-        <mat-label>Equatorial Radius</mat-label>
-        <span matSuffix [ngClass]="{'fan--disabled': disableBodyShape}">m</span>
-        <input matInput formControlName="equatorial_radius" [disableControl]="disableBodyShape" placeholder="Equatorial Radius" />
-        <mat-hint>Semi-major axis (a)</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class="mbxl">
-      <mat-form-field color="accent" class="fan__input">
-        <mat-label>Polar Radius</mat-label>
-        <span matSuffix [ngClass]="{'fan--disabled': disableBodyShape}">m</span>
-        <input matInput formControlName="polar_radius" [disableControl]="disableBodyShape" placeholder="Polar Radius" />
-        <mat-hint>Semi-minor axis (b)</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class="mbxl">
-      <mat-form-field color="accent" class="fan__input">
-        <mat-label>Eccentricity</mat-label>
-        <input matInput formControlName="eccentricity" [disableControl]="disableBodyShape" placeholder="Eccentricity" />
-        <mat-hint>Eccentricity of an ellipse is defined as: e = sqrt(1 - (b^2 / a^2))</mat-hint>
-      </mat-form-field>
+    <div class="flex">
+      <div class="body-column">
+        
+        <h1>Body Model</h1>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Body Model</mat-label>
+            <mat-select
+              formControlName="body_model"
+              name="bodyModel"
+              placeholder="Body Model"
+              >
+              <mat-option *ngFor="let option of bodyModelOptions" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
+        <h1 [ngClass]="{'fan--disabled': disableBodyShape}">Specify Body Shape</h1>
+        <div class="mbxl" [ngClass]="{'fan--disabled': disableBodyShape}">Please specify at least 2 of the following parameters.</div>
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Equatorial Radius</mat-label>
+            <span matSuffix [ngClass]="{'fan--disabled': disableBodyShape}">m</span>
+            <input matInput formControlName="equatorial_radius" [disableControl]="disableBodyShape" placeholder="Equatorial Radius" />
+            <mat-hint>Semi-major axis (a)</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Polar Radius</mat-label>
+            <span matSuffix [ngClass]="{'fan--disabled': disableBodyShape}">m</span>
+            <input matInput formControlName="polar_radius" [disableControl]="disableBodyShape" placeholder="Polar Radius" />
+            <mat-hint>Semi-minor axis (b)</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Eccentricity</mat-label>
+            <input matInput formControlName="eccentricity" [disableControl]="disableBodyShape" placeholder="Eccentricity" />
+            <mat-hint>Eccentricity of an ellipse is defined as: e = sqrt(1 - (b^2 / a^2))</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <h1>Body Rotation</h1>
+        <div class="mbxl">
+          <mat-slide-toggle formControlName="body_rotation_on">Enable Body Rotation</mat-slide-toggle>
+        </div>
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Rotation Rate</mat-label>
+            <span matSuffix [ngClass]="{'fan--disabled': !bodyRotationOn}">rad/s</span>
+            <input matInput formControlName="rotation_rate" [disableControl]="!bodyRotationOn" placeholder="Rotation Rate" />
+            <mat-hint>Body rotation rate</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
     </div>
   </div>
 </ng-container>

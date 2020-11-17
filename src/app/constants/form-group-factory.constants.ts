@@ -20,7 +20,7 @@ export const bodyGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     body_rotation_on: new FormControl(false),
     body_model: new FormControl(null),
-    rotation_rate: new FormControl(null),
+    rotation_rate: new FormControl('7.292115e-05'),
     equatorial_radius: new FormControl(null),
     polar_radius: new FormControl(null),
     eccentricity: new FormControl(null)
