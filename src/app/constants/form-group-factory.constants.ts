@@ -1,4 +1,4 @@
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { bodyShapeValidator } from '@validators';
 
 export const gravityGeneralFormGroupFactory: () => FormGroup = () => {
@@ -40,5 +40,19 @@ export const epochGeneralFormGroupFactory: () => FormGroup = () => {
     epoch_on: new FormControl(false),
     epoch_date: new FormControl(null),
     epoch_time: new FormControl(null)
+  });
+};
+
+export const massCgFormGroupFactory: () => FormGroup = () => {
+  return new FormGroup({
+    cg_dependency: new FormControl(null),
+    rows: new FormArray([
+      new FormGroup({
+        n: new FormControl(null),
+        x: new FormControl(null),
+        y: new FormControl(null),
+        z: new FormControl(null)
+      })
+    ])
   });
 };

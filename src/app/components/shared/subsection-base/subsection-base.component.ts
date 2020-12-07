@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   template: ``
 })
 export class SubsectionBaseComponent implements OnInit, OnDestroy {
-  private subs: Subscription = new Subscription();
+  protected subs: Subscription = new Subscription();
 
   public form: FormGroup;
 

@@ -1,1 +1,48 @@
-<p>mass-cg works!</p>
+<ng-container *ngIf="form" [formGroup]="form">
+  <div class="phl">
+    <h1>Center of Gravity Settings</h1>
+    <!-- CG Dependency Selector -->
+    <div class="mbxl">
+      <mat-form-field color="accent">
+        <mat-label>CG Dependency</mat-label>
+        <mat-select
+          formControlName="cg_dependency"
+          name="cgDependency"
+          placeholder="Select Dependency"
+        >
+          <mat-option *ngFor="let option of cgDependencies" [value]="option.value">
+            {{option.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- Table Value Parser -->
+    <div>
+      <mat-form-field color="accent">
+        <mat-label>Paste Spreadsheet Data</mat-label>
+        <textarea matInput [formControl]="clipboardParser" placeholder="Paste Data"></textarea>
+      </mat-form-field>
+    </div>
+    <!-- CG Table -->
+    <table class="table mbxl">
+      <thead>
+        <th>{{getDepLabel(form.get('cg_dependency').value) || 'Select Dependency'}}</th>
+        <th>X</th>
+        <th>Y</th>
+        <th>Z</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of form.controls.rows.controls" [formGroup]="row">
+          <td><input onfocus="this.select()" formControlName="n"/></td>
+          <td><input onfocus="this.select()" formControlName="x"/></td>
+          <td><input onfocus="this.select()" formControlName="y"/></td>
+          <td><input onfocus="this.select()" formControlName="z"/></td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <span class="mrl"><button mat-raised-button color="primary" (click)="addRow()">Add Row</button></span>
+      <span><button mat-stroked-button color="warn" (click)="clearTable()">Clear Table</button></span>
+    </div>
+  </div>
+</ng-container>

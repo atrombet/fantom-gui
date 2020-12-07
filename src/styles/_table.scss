@@ -1,0 +1,19 @@
+.table {
+  border-collapse: collapse;
+  
+  & th {
+    text-align: center;
+  }
+
+  & input {
+    font: 400 16px 'Roboto';
+    appearance: none;
+    border: none;
+    text-align: right;
+    padding: 4px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
