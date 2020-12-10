@@ -46,13 +46,6 @@ export const epochGeneralFormGroupFactory: () => FormGroup = () => {
 export const massCgFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     cg_dependency: new FormControl(null),
-    rows: new FormArray([
-      new FormGroup({
-        n: new FormControl(null),
-        x: new FormControl(null),
-        y: new FormControl(null),
-        z: new FormControl(null)
-      })
-    ])
+    rows: new FormArray([])
   });
 };

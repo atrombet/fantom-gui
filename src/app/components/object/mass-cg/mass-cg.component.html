@@ -1,4 +1,4 @@
-<ng-container *ngIf="form" [formGroup]="form">
+<div *ngIf="form" [formGroup]="form" class="massCg">
   <div class="phl">
     <h1>Center of Gravity Settings</h1>
     <!-- CG Dependency Selector -->
@@ -16,33 +16,79 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- Table Value Parser -->
-    <div>
-      <mat-form-field color="accent">
-        <mat-label>Paste Spreadsheet Data</mat-label>
-        <textarea matInput [formControl]="clipboardParser" placeholder="Paste Data"></textarea>
-      </mat-form-field>
+    <div class="flex-between align-end mbl">
+      <!-- Table Value Parser -->
+      <div class="flex align-center">
+        <mat-form-field color="accent" class="fan__input">
+          <mat-label>Paste Data</mat-label>
+          <textarea matInput rows="1" [formControl]="clipboardParser" placeholder="{{parserPlaceholder}}"></textarea>
+        </mat-form-field>
+        <button mat-icon-button>
+          <mat-icon [matMenuTriggerFor]="instructions">help_outline</mat-icon>
+        </button>
+      </div>
+      <!-- Table Buttons -->
+      <div class="massCg__tableButtons">
+        <span class="mrl"><button mat-stroked-button color="warn" [disabled]="!form.get('rows').dirty" (click)="clearTable()">Clear Table</button></span>
+        <span>
+          <button mat-raised-button color="primary" (click)="addRow()">
+            <mat-icon>add</mat-icon>
+            <span class="mls">Add Row</span>
+          </button>
+        </span>
+      </div>
     </div>
     <!-- CG Table -->
-    <table class="table mbxl">
+    <table class="table">
       <thead>
-        <th>{{getDepLabel(form.get('cg_dependency').value) || 'Select Dependency'}}</th>
+        <th>
+          <span *ngIf="getDepLabel(form.get('cg_dependency').value) as dep; else selectDep">{{dep}}</span>
+        </th>
         <th>X</th>
         <th>Y</th>
         <th>Z</th>
       </thead>
       <tbody>
-        <tr *ngFor="let row of form.controls.rows.controls" [formGroup]="row">
-          <td><input onfocus="this.select()" formControlName="n"/></td>
-          <td><input onfocus="this.select()" formControlName="x"/></td>
-          <td><input onfocus="this.select()" formControlName="y"/></td>
-          <td><input onfocus="this.select()" formControlName="z"/></td>
-        </tr>
+        <ng-container *ngIf="!!form.get('rows').value.length; else noRows">
+          <tr *ngFor="let row of form.controls.rows.controls; let index = index;" [formGroup]="row">
+            <td><input onfocus="this.select()" formControlName="n"/></td>
+            <td><input onfocus="this.select()" formControlName="x"/></td>
+            <td><input onfocus="this.select()" formControlName="y"/></td>
+            <td><input onfocus="this.select()" formControlName="z"/></td>
+            <button mat-icon-button class="row-clear-button" (click)="removeRow(index)"><mat-icon>clear</mat-icon></button>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
-    <div>
-      <span class="mrl"><button mat-raised-button color="primary" (click)="addRow()">Add Row</button></span>
-      <span><button mat-stroked-button color="warn" (click)="clearTable()">Clear Table</button></span>
-    </div>
   </div>
-</ng-container>
+</div>
+
+<ng-template #selectDep>
+  <span class="red">Select Dependency</span>
+</ng-template>
+
+<ng-template #noRows>
+  <tr>
+    <td colspan="4">
+      <div class="pal italic">Paste table data above or click "+ Add Row" to begin adding data manually.</div>
+    </td>
+  </tr>
+</ng-template>
+
+<mat-menu #instructions="matMenu">
+  <div class="pal white">
+    <h2>Instructions</h2>
+    <p>
+      Copy data from a spreadsheet and paste into this input.<br>
+      Table data will be reset with each new input.
+    </p>
+    <p>Input expects 4 columns and at least 1 row.</p>
+    <p>Numbers must be formatted to exact precision.</p>
+    <p>
+      <strong>EX:</strong><br>
+      45<br>
+      17.234<br>
+      1.26567543E+10
+    </p>
+  </div>
+</mat-menu>

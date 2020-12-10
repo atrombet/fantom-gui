@@ -270,6 +270,10 @@ $xlarge: 32px;
   align-items: center;
 }
 
+.align-end {
+  align-items: flex-end;
+}
+
 // UX Utilities
 .non-actionable {
   cursor: unset !important;
@@ -277,4 +281,18 @@ $xlarge: 32px;
 
 .actionable {
   cursor: pointer !important;
+}
+
+// Color Utilities
+.red {
+  color: #f44336;
+}
+
+.white {
+  color: #FFFFFF;
+}
+
+// Text Utilities
+.italic {
+  font-style: italic;
 }
