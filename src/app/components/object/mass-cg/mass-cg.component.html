@@ -21,7 +21,7 @@
       <div class="flex align-center">
         <mat-form-field color="accent" class="fan__input">
           <mat-label>Paste Data</mat-label>
-          <textarea matInput rows="1" [formControl]="clipboardParser" placeholder="{{parserPlaceholder}}"></textarea>
+          <textarea name="parser" matInput rows="1" [formControl]="clipboardParser" placeholder="{{parserPlaceholder}}"></textarea>
         </mat-form-field>
         <button mat-icon-button>
           <mat-icon [matMenuTriggerFor]="instructions">help_outline</mat-icon>

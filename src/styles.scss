@@ -85,3 +85,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .fan__tabHeader {
   margin-bottom: 32px !important;
 }
+
+textarea[name=parser] {
+  overflow: hidden !important;
+  resize: none !important;
+}
