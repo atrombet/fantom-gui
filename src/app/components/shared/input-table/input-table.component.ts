@@ -10,7 +10,10 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
 @Component({
   selector: 'input-table',
   templateUrl: './input-table.component.html',
-  styleUrls: ['./input-table.component.scss']
+  styleUrls: ['./input-table.component.scss'],
+  providers: [
+    ParsingService
+  ]
 })
 export class InputTableComponent implements AfterViewInit, OnDestroy {
   private subs: Subscription = new Subscription();

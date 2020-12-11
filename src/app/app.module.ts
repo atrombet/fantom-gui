@@ -46,6 +46,7 @@ import { EntityComponent } from './components/entity/entity.component';
 import { ObjectComponent } from './components/object/object.component';
 import { MassCgComponent } from './components/object/mass-cg/mass-cg.component';
 import { InputTableComponent } from './components/shared/input-table/input-table.component';
+import { MassInertiaComponent } from './components/object/mass-inertia/mass-inertia.component';
 
 // Constants
 import { formFieldAppearance } from './constants';
@@ -76,7 +77,8 @@ import { DisableControlDirective } from '@directives';
     ItemTileComponent,
     ObjectComponent,
     MassCgComponent,
-    InputTableComponent
+    InputTableComponent,
+    MassInertiaComponent
   ],
   imports: [
     BrowserModule,

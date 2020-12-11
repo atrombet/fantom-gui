@@ -1,5 +1,5 @@
 import { Section } from '@interfaces';
-import { massCgFormGroupFactory } from './form-group-factory.constants';
+import { massCgFormGroupFactory, massInertiaFormGroupFactory } from './form-group-factory.constants';
 
 export const OBJECT_SECTIONS: () => Section[] = () => [
   {
@@ -8,7 +8,7 @@ export const OBJECT_SECTIONS: () => Section[] = () => [
     icon: 'fitness_center',
     subsections: [
       { displayName: 'center of gravity', name: 'cg', icon: 'security', form: massCgFormGroupFactory(), route: 'mass_cg' },
-      { displayName: 'moments of inertia', name: 'inertia', icon: 'bubble_chart', form: null, route: 'mass_inertia' }
+      { displayName: 'moments of inertia', name: 'inertia', icon: 'bubble_chart', form: massInertiaFormGroupFactory(), route: 'mass_inertia' }
     ]
   },
   {

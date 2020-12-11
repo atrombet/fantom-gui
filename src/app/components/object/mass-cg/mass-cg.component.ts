@@ -2,15 +2,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectOption, TableColumn } from '@interfaces';
 import { SubsectionBaseComponent } from '@components/shared';
-import { ParsingService } from '@services';
 
 @Component({
   selector: 'mass-cg',
-  templateUrl: './mass-cg.component.html',
-  styleUrls: ['./mass-cg.component.scss'],
-  providers: [
-    ParsingService
-  ]
+  templateUrl: './mass-cg.component.html'
 })
 export class MassCgComponent extends SubsectionBaseComponent {
 

@@ -12,6 +12,7 @@ import { EntityComponent } from '@components/entity/entity.component';
 import { ItemType } from '@enums';
 import { ObjectComponent } from '@components/object/object.component';
 import { MassCgComponent } from '@components/object/mass-cg/mass-cg.component';
+import { MassInertiaComponent } from '@components/object/mass-inertia/mass-inertia.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/simulation' },
@@ -34,7 +35,8 @@ const routes: Routes = [
     { path: '', component: ObjectComponent },
     { path: ':id', children: [
       { path: '', component: ObjectComponent },
-      { path: 'mass_cg', component: MassCgComponent, resolve: { form: FormResolver } }
+      { path: 'mass_cg', component: MassCgComponent, resolve: { form: FormResolver } },
+      { path: 'mass_inertia', component: MassInertiaComponent, resolve: { form: FormResolver } }
     ]}
   ]}
 ];

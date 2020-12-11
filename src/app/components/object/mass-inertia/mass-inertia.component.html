@@ -1,0 +1,39 @@
+<div *ngIf="form" [formGroup]="form" class="massCg">
+  <div class="phl">
+    <h1>Moments of Inertia Settings</h1>
+    <!-- Inertia Dependency Selector -->
+    <div class="mbxl">
+      <mat-form-field color="accent">
+        <mat-label>Inertia Dependency</mat-label>
+        <mat-select
+          formControlName="inertia_dependency"
+          name="inertiaDependency"
+          placeholder="Select Dependency"
+        >
+          <mat-option *ngFor="let option of inertiaDependencies" [value]="option.value">
+            {{option.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- CG Table -->
+    <input-table [columns]="columns" [depName]="depLabel" [rows]="form.get('rows')">
+      <div instructions class="pal white">
+        <h2>Instructions</h2>
+        <p>
+          Copy data from a spreadsheet and paste into this input.<br>
+          Table data will be reset with each new input.
+        </p>
+        <p>Input expects 7 columns and at least 1 row.</p>
+        <p>Numbers must be formatted to exact precision.</p>
+        <p>
+          <strong>EX:</strong><br>
+          45<br>
+          17.234<br>
+          1.26567543E+10
+        </p>
+      </div>
+    </input-table>
+  </div>
+</div>

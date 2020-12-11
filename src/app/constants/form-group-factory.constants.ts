@@ -49,3 +49,10 @@ export const massCgFormGroupFactory: () => FormGroup = () => {
     rows: new FormArray([])
   });
 };
+
+export const massInertiaFormGroupFactory: () => FormGroup = () => {
+  return new FormGroup({
+    inertia_dependency: new FormControl(null, Validators.required),
+    rows: new FormArray([])
+  });
+};
