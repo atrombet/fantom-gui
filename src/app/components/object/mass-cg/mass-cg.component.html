@@ -44,9 +44,9 @@
         <th>
           <span *ngIf="getDepLabel(form.get('cg_dependency').value) as dep; else selectDep">{{dep}}</span>
         </th>
-        <th>X</th>
-        <th>Y</th>
-        <th>Z</th>
+        <th>X [m]</th>
+        <th>Y [m]</th>
+        <th>Z [m]</th>
       </thead>
       <tbody>
         <ng-container *ngIf="!!form.get('rows').value.length; else noRows">

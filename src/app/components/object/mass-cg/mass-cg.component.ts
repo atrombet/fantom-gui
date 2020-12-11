@@ -149,8 +149,8 @@ export class MassCgComponent extends SubsectionBaseComponent implements AfterVie
    */
   public getDepLabel(id: number): string {
     return {
-      1: 'Time',
-      2: 'Mass'
+      1: 'Time [s]',
+      2: 'Mass [kg]'
     }[id];
   }
 }
