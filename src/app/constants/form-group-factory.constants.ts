@@ -1,4 +1,4 @@
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { bodyShapeValidator } from '@validators';
 
 export const gravityGeneralFormGroupFactory: () => FormGroup = () => {
@@ -45,7 +45,7 @@ export const epochGeneralFormGroupFactory: () => FormGroup = () => {
 
 export const massCgFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
-    cg_dependency: new FormControl(null),
+    cg_dependency: new FormControl(null, Validators.required),
     rows: new FormArray([])
   });
 };

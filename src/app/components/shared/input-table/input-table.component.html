@@ -1,0 +1,60 @@
+<div class="inputTable">
+  <div class="flex-between align-end mbl">
+    <!-- Table Value Parser -->
+    <div class="flex align-center">
+      <mat-form-field color="accent" class="fan__input">
+        <mat-label>Paste Data</mat-label>
+        <textarea name="parser" matInput rows="1" [formControl]="clipboardParser" placeholder="{{parserPlaceholder}}"></textarea>
+      </mat-form-field>
+      <button mat-icon-button>
+        <mat-icon [matMenuTriggerFor]="instructions">help_outline</mat-icon>
+      </button>
+    </div>
+    <!-- Table Buttons -->
+    <div class="inputTable__buttons">
+      <span class="mrl"><button mat-stroked-button color="warn" [disabled]="!rows.dirty" (click)="clearTable()">Clear Table</button></span>
+      <span>
+        <button mat-raised-button color="primary" (click)="addRow()">
+          <mat-icon>add</mat-icon>
+          <span class="mls">Add Row</span>
+        </button>
+      </span>
+    </div>
+  </div>
+  <!-- Table -->
+  <table>
+    <thead>
+      <th>
+        <span *ngIf="!!depName; else selectDep">{{depName}}</span>
+      </th>
+      <th *ngFor="let col of columns">{{col.headerName}}</th>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="!!rows.value.length; else noRows">
+        <tr *ngFor="let row of rows.controls; let index = index;" [formGroup]="row">
+          <td><input onfocus="this.select()" formControlName="dep"/></td>
+          <td *ngFor="let col of columns">
+            <input onfocus="this.select()" formControlName="{{col.variable}}" />
+          </td>
+          <button mat-icon-button class="row-clear-button" (click)="removeRow(index)"><mat-icon>clear</mat-icon></button>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #selectDep>
+  <span class="red">Select Dependency</span>
+</ng-template>
+
+<ng-template #noRows>
+  <tr>
+    <td colspan="4">
+      <div class="pal italic">Paste table data above or click "+ Add Row" to begin adding data manually.</div>
+    </td>
+  </tr>
+</ng-template>
+
+<mat-menu #instructions="matMenu">
+  <ng-content select="[instructions]"></ng-content>
+</mat-menu>

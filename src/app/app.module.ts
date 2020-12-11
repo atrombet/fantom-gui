@@ -42,15 +42,16 @@ import { AtmosphereGeneralComponent } from '@components/environment/atmosphere-g
 import { BodyGeneralComponent } from '@components/environment/body-general/body-general.component';
 import { WindGeneralComponent } from '@components/environment/wind-general/wind-general.component';
 import { EpochGeneralComponent } from '@components/environment/epoch-general/epoch-general.component';
+import { EntityComponent } from './components/entity/entity.component';
+import { ObjectComponent } from './components/object/object.component';
+import { MassCgComponent } from './components/object/mass-cg/mass-cg.component';
+import { InputTableComponent } from './components/shared/input-table/input-table.component';
 
 // Constants
 import { formFieldAppearance } from './constants';
 
 // Directives
 import { DisableControlDirective } from '@directives';
-import { EntityComponent } from './components/entity/entity.component';
-import { ObjectComponent } from './components/object/object.component';
-import { MassCgComponent } from './components/object/mass-cg/mass-cg.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { MassCgComponent } from './components/object/mass-cg/mass-cg.component';
     EntityComponent,
     ItemTileComponent,
     ObjectComponent,
-    MassCgComponent
+    MassCgComponent,
+    InputTableComponent
   ],
   imports: [
     BrowserModule,
