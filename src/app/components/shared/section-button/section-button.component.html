@@ -1,4 +1,4 @@
-<button mat-flat-button class="section-button">
+<button mat-flat-button class="section-button" [disabled]="section?.isDisabled" (click)="sectionSelected.emit()">
   <mat-icon>{{section?.icon}}</mat-icon>
   <div>{{section?.displayName}}</div>
 </button>

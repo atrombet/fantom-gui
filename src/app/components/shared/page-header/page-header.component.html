@@ -12,10 +12,10 @@
   <div class="subsection">
     <ng-container *ngIf="!!selectedSection?.subsections?.length">
       <section-button
-      *ngFor="let subsection of selectedSection.subsections; let index = index"
-      [section]="subsection"
-      (click)="selectSection(selectedSection, index)"
-      [ngClass]="{'selected': selectedSubsection.name === subsection.name}"
+        *ngFor="let subsection of selectedSection.subsections; let index = index"
+        [section]="subsection"
+        (sectionSelected)="selectSection(selectedSection, index)"
+        [ngClass]="{'selected': selectedSubsection.name === subsection.name}"
       ></section-button>
     </ng-container>
   </div>

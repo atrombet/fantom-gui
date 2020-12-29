@@ -1,0 +1,70 @@
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <div class="flex">
+      <div class="body-column">
+        <h1>Aerodynamics General Settings</h1>
+        
+        <!-- Aero Mode -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Mode</mat-label>
+            <mat-select
+              formControlName="aero_mode"
+              name="aeroMode"
+              placeholder="Aerodynamics Mode"
+              >
+              <mat-option *ngFor="let option of aeroModeOptions" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Aero Reference Area -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Reference Area</mat-label>
+            <input matInput placeholder="Reference Area" formControlName="aero_ref_area"/>
+            <span matSuffix>m^2</span>
+            <mat-hint>Aerodynamic coefficient Sref</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Aero Reference Length -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Reference Length</mat-label>
+            <input matInput placeholder="Reference Length" formControlName="aero_ref_length"/>
+            <span matSuffix>m</span>
+            <mat-hint>Aerodynamic coefficient lref</mat-hint>
+          </mat-form-field>
+        </div>
+        
+        <h1>Moment Reference Location</h1>
+        <div class="mbxl">Aerodynamic moment reference location in body coordinate frame</div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>X</mat-label>
+            <input matInput formControlName="aero_moment_ref_x" />
+            <span matSuffix>m</span>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Y</mat-label>
+            <input matInput formControlName="aero_moment_ref_y" />
+            <span matSuffix>m</span>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Z</mat-label>
+            <input matInput formControlName="aero_moment_ref_z" />
+            <span matSuffix>m</span>
+          </mat-form-field>
+        </div>
+      </div>  
+    </div>
+  </div>
+</ng-container>
+

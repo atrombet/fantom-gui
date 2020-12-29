@@ -5,4 +5,5 @@ export interface Section {
   name: string;
   icon: string;
   subsections: Subsection[];
+  isDisabled: boolean;
 }

@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Section, Subsection } from '../../../interfaces';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Section, Subsection } from '@interfaces';
 
 @Component({
   selector: 'section-button',
@@ -8,4 +8,5 @@ import { Section, Subsection } from '../../../interfaces';
 })
 export class SectionButtonComponent {
   @Input() public section: Section | Subsection;
+  @Output() public sectionSelected: EventEmitter<void> = new EventEmitter<void>();
 }

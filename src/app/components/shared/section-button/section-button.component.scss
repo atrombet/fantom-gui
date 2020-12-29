@@ -6,6 +6,10 @@
   height: 100%;
   transition: color 0.2s linear;
 
+  &.mat-button-disabled {
+    background-color: transparent !important;
+  }
+
   & mat-icon {
     font-size: 32px;
     height: 32px;

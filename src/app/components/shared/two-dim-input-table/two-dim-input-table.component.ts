@@ -1,35 +1,31 @@
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmModalOptions, TableColumn } from '@interfaces';
-import { ParsingService } from '@services';
 import { Subscription } from 'rxjs';
+import { ParsingService } from '@services';
+import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { filter, first } from 'rxjs/operators';
+import { ConfirmModalOptions } from '@interfaces';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
-  selector: 'input-table',
-  templateUrl: './input-table.component.html',
-  styleUrls: ['./input-table.component.scss'],
-  providers: [
-    ParsingService
-  ]
+  selector: 'two-dim-input-table',
+  templateUrl: './two-dim-input-table.component.html',
+  styleUrls: ['./two-dim-input-table.component.scss'],
+  providers: [ ParsingService ]
 })
-export class InputTableComponent implements AfterViewInit, OnDestroy {
+export class TwoDimInputTableComponent implements AfterViewInit, OnDestroy {
   private subs: Subscription = new Subscription();
 
-  @Input() public columns: TableColumn[];
-  @Input() public depName: string;
+  @Input() public colDep: string;
+  @Input() public rowDep: string;
+  @Input() public columns: FormArray;
   @Input() public rows: FormArray;
+  @Input() public data: FormArray;
 
   public clipboardParser = new FormControl('');
   public parserPlaceholder = 'Paste clipboard data here to populate table.';
 
   constructor(public dialog: MatDialog, private fb: FormBuilder, private parser: ParsingService) { }
-
-  /******************************
-   * Angular Lifecycle Hooks
-   ******************************/
 
   public ngAfterViewInit(): void {
     this.subs.add(
@@ -39,7 +35,7 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
         this.handleParserInput(value);
         this.clipboardParser.reset();
       })
-    );
+    )
   }
 
   public ngOnDestroy(): void {
@@ -51,13 +47,21 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
    ******************************/
 
   /**
-   * Adds a new row to the row FormArray based on the columns supplied to this component.
+   * Adds a new column to the grid.
+   */
+  public addColumn(): void {
+    this.columns.push(this.fb.control(''));
+    this.data.controls.forEach((row: FormArray) => {
+      row.push(this.fb.control(''))
+    });
+  }
+
+  /**
+   * Adds a new row to the grid.
    */
   public addRow(): void {
-    const initColData = this.columns.reduce((obj, col) => {
-      return { ...obj, [col.variable]: null }
-    }, {});
-    this.rows.push(this.fb.group({ dep: null, ...initColData }));
+    this.rows.push(this.fb.control(''));
+    this.data.push(this.fb.array(this.columns.value.map(() => this.fb.control(''))));
   }
 
   /**
@@ -66,6 +70,7 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
    */
   public removeRow(index: number): void {
     this.rows.removeAt(index);
+    this.data.removeAt(index);
   }
 
   /**
@@ -82,6 +87,8 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
     dialogRef.afterClosed().pipe(first()).subscribe(confirmed => {
       if (confirmed) {
         this.rows.reset();
+        this.columns.reset();
+        this.data.reset();
       }
     });
   }
@@ -91,7 +98,7 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
    * @param data - The value entered into the parser input field.
    */
   public handleParserInput(data: string): void {
-    if (this.rows.dirty) {
+    if (this.data.dirty) {
       const options: ConfirmModalOptions = {
         title: 'Confirm Override Table Data',
         message: 'This action will override all table data and cannot be undone. Are you sure you want to continue?',
@@ -114,31 +121,50 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
    * @param data - The value entered into the parser input field.
    */
   public patchClipboardDataToForm(data: string): void {
+    const currCols = this.columns.controls.length;
+    const currRows = this.rows.controls.length;
+    const currData = this.data.controls.length;
     // Parse the data with the parsing service.
     const parsedData: string[][] = this.parser.parseClipboardData(data);
-    // Iterate over each row in the parsed data.
-    const rowFormGroups: FormGroup[] = parsedData.map(row => {
-      // Generate an array of the variables names for the columns in this table instance.
-      const colVariables: string[] = this.columns.map(col => col.variable);
-      // Add 'dep' to the beginning of the variables names array.
-      colVariables.unshift('dep');
-      // Combine the parsed row data with the corresponding variable name (assumes parsed data is in ltr order).
-      const newRow = colVariables.reduce((group, col, index) => {
-        return { ...group, [col]: row[index] };
-      }, {});
-      // Create a form group from the newRow object.
-      return this.fb.group(newRow);
+
+    // Set the column headers
+    const newColumns = parsedData[0].slice(1);
+    if (currCols > newColumns.length) {
+      const colsToRemove = currCols - newColumns.length;
+      for (let colIndex = colsToRemove - 1; colIndex < currCols; colIndex++) {
+        this.columns.removeAt(colIndex);
+      }
+    }
+    newColumns.forEach((col, index) => {
+      this.columns.setControl(index, this.fb.control(col));
     });
-    // Replace the rows form array with the data that been parsed into an array of FormGroups.
-    this.rows = this.fb.array(rowFormGroups);
-    // Mark the form array as dirty so we know the table has data.
+    this.columns.markAsDirty();
+
+    // Set the rows
+    const newRows = parsedData.slice(1);
+    if (currRows > newRows.length) {
+      const rowsToRemove = currRows - newRows.length;
+      for (let rowIndex = rowsToRemove - 1; rowIndex < currRows; rowIndex++) {
+        this.rows.removeAt(rowIndex);
+      }
+    }
+    newRows.map(row => row[0]).forEach((row, index) => {
+      this.rows.setControl(index, this.fb.control(row));
+    });
     this.rows.markAsDirty();
+
+    // Set the data
+    const newData = parsedData.slice(1).map(row => row.slice(1));
+    if (currData > newData.length) {
+      const dataRowsToRemove = currData - newData.length;
+      for (let dataRowIndex = dataRowsToRemove - 1; dataRowIndex < currData; dataRowIndex++) {
+        this.data.removeAt(dataRowIndex);
+      }
+    }
+    parsedData.slice(1).map(row => row.slice(1)).forEach((dataRow, index) => {
+      this.data.setControl(index, this.fb.array(dataRow.map(val => this.fb.control(val))));
+    })
+    this.data.markAsDirty();
   }
-  
-  /**
-   * Clears the parser input field on the UI of any displayed text.
-   */
-  public clearParser(): void {
-    this.clipboardParser.reset();
-  }
+
 }

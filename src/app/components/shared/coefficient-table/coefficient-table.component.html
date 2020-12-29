@@ -1,0 +1,42 @@
+<ng-container *ngIf="form" [formGroup]="form">
+  <!-- Column Dependency -->
+  <div>
+    <mat-form-field color="accent" class="fan__input">
+      <mat-label>Column Dependency</mat-label>
+      <mat-select
+        formControlName="col_dep"
+        name="col_dep"
+        placeholder="Column Dependency"
+      >
+        <mat-option *ngFor="let option of depOptions" [value]="option.value" [disabled]="option.value === form.get('row_dep').value">
+          {{option.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Row Dependency -->
+  <div class="mbxl">
+    <mat-form-field color="accent" class="fan__input">
+      <mat-label>Row Dependency</mat-label>
+      <mat-select
+        formControlName="row_dep"
+        name="row_dep"
+        placeholder="Row Dependency"
+      >
+        <mat-option *ngFor="let option of depOptions" [value]="option.value" [disabled]="option.value === form.get('col_dep').value">
+          {{option.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Two Dim Table -->
+  <two-dim-input-table 
+    [colDep]="getOptionName(form.get('col_dep').value)"
+    [rowDep]="getOptionName(form.get('row_dep').value)"
+    [columns]="form.get('columns')"
+    [rows]="form.get('rows')"
+    [data]="form.get('data')"
+  ></two-dim-input-table>
+</ng-container>

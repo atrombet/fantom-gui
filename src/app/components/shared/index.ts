@@ -5,3 +5,6 @@ export * from './subsection-base/subsection-base.component';
 export * from './file-path/file-path.component';
 export * from './item-tile/item-tile.component';
 export * from './input-table/input-table.component';
+export * from './coefficient-table/coefficient-table.component';
+export * from './two-dim-input-table/two-dim-input-table.component';
+export * from './toggle-button-group/toggle-button-group.component';

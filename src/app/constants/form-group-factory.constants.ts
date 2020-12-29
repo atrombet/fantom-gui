@@ -56,3 +56,38 @@ export const massInertiaFormGroupFactory: () => FormGroup = () => {
     rows: new FormArray([])
   });
 };
+
+export const aeroGeneralFormGroupFactory: () => FormGroup = () => {
+  return new FormGroup({
+    aero_mode: new FormControl(null),
+    aero_ref_area: new FormControl(null),
+    aero_ref_length: new FormControl(null),
+    aero_moment_ref_x: new FormControl(null),
+    aero_moment_ref_y: new FormControl(null),
+    aero_moment_ref_z: new FormControl(null),
+  });
+};
+
+export const aero2DTableFormGroupFactory: () => FormGroup = () => {
+  return new FormGroup({
+    force1: twoDimTable(),
+    force2: twoDimTable(),
+    force3: twoDimTable(),
+    moment1: twoDimTable(),
+    moment2: twoDimTable(),
+    moment3: twoDimTable(),
+    damping1: twoDimTable(),
+    damping2: twoDimTable(),
+    damping3: twoDimTable()
+  });
+};
+
+const twoDimTable: () => FormGroup = () => {
+  return new FormGroup({
+    row_dep: new FormControl(null),
+    col_dep: new FormControl(null),
+    columns: new FormArray([]),
+    rows: new FormArray([]),
+    data: new FormArray([])
+  })
+}

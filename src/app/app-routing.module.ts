@@ -13,6 +13,10 @@ import { ItemType } from '@enums';
 import { ObjectComponent } from '@components/object/object.component';
 import { MassCgComponent } from '@components/object/mass-cg/mass-cg.component';
 import { MassInertiaComponent } from '@components/object/mass-inertia/mass-inertia.component';
+import { AeroGeneralComponent } from '@components/object/aero-general/aero-general.component';
+import { AeroAxiComponent } from '@components/object/aero-axi/aero-axi.component';
+import { AeroWindComponent } from '@components/object/aero-wind/aero-wind.component';
+import { AeroBodyComponent } from '@components/object/aero-body/aero-body.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/simulation' },
@@ -36,7 +40,11 @@ const routes: Routes = [
     { path: ':id', children: [
       { path: '', component: ObjectComponent },
       { path: 'mass_cg', component: MassCgComponent, resolve: { form: FormResolver } },
-      { path: 'mass_inertia', component: MassInertiaComponent, resolve: { form: FormResolver } }
+      { path: 'mass_inertia', component: MassInertiaComponent, resolve: { form: FormResolver } },
+      { path: 'aerodynamics_general', component: AeroGeneralComponent, resolve: { form: FormResolver } },
+      { path: 'aerodynamics_axisymmetric', component: AeroAxiComponent, resolve: { form: FormResolver } },
+      { path: 'aerodynamics_wind', component: AeroWindComponent, resolve: { form: FormResolver } },
+      { path: 'aerodynamics_bodyfixed', component: AeroBodyComponent, resolve: { form: FormResolver } }
     ]}
   ]}
 ];

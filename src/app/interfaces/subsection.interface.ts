@@ -6,4 +6,5 @@ export interface Subsection {
   icon: string;
   form: FormGroup;
   route: string;
+  isDisabled: boolean;
 }

@@ -1,0 +1,86 @@
+<div class="tdInputTable">
+  <div class="flex-between align-end mbl">
+
+    <!-- Table Value Parser -->
+    <div class="flex align-center">
+      <mat-form-field color="accent" class="fan__input">
+        <mat-label>Paste Data</mat-label>
+        <textarea name="parser" matInput rows="1" [formControl]="clipboardParser" placeholder="{{parserPlaceholder}}"></textarea>
+      </mat-form-field>
+      <button mat-icon-button>
+        <mat-icon [matMenuTriggerFor]="instructions">help_outline</mat-icon>
+      </button>
+    </div>
+
+    <!-- Table Buttons -->
+    <div class="tdInputTable__buttons">
+      <span class="mrl">
+        <button mat-stroked-button color="warn" [disabled]="!rows.dirty && !columns.dirty && !data.dirty" (click)="clearTable()">
+          Clear Table
+        </button>
+      </span>
+      <span class="mrl">
+        <button mat-raised-button color="primary" (click)="addRow()">
+          <mat-icon>add</mat-icon>
+          <span class="mls">Add Row</span>
+        </button>
+      </span>
+      <span>
+        <button mat-raised-button color="primary" (click)="addColumn()">
+          <mat-icon>add</mat-icon>
+          <span class="mls">Add Column</span>
+        </button>
+      </span>
+    </div>
+
+  </div>
+
+  <!-- Table -->
+  <div class="flex">
+    <!-- Row label -->
+    <span class="tdInputTable__rowLabel">
+      <span *ngIf="rowDep; else selectDep">{{rowDep}}</span>
+    </span>
+  
+    <div>
+      <!-- Column Label -->
+      <div class="tdInputTable__columnLabel">
+        <span *ngIf="colDep; else selectDep">{{colDep}}</span>
+      </div>
+
+      <!-- Table -->
+      <table *ngIf="!!columns.controls.length || !!rows.controls.length; else noRows">
+        <tbody>
+          <tr class="tdInputTable__columnHeader">
+            <!-- Intentionally left blank -->
+            <th></th>
+            <!-- Columns -->
+            <th *ngFor="let col of columns.controls"><input onfocus="this.select()" [formControl]="col" /></th>
+          </tr>
+          <tr *ngFor="let row of rows.controls; let i = index">
+            <th class="tdInputTable__rowHeader"><input onfocus="this.select()" [formControl]="row" /></th>
+            <td *ngFor="let cell of data.controls[i].controls"><input onfocus="this.select()" [formControl]="cell" /></td>
+            <button mat-icon-button class="row-clear-button" (click)="removeRow(i)"><mat-icon>clear</mat-icon></button>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #selectDep>
+  <span class="red">Select Dependency</span>
+</ng-template>
+
+<ng-template #noRows>
+  <tr>
+    <td colspan="4">
+      <div class="pal italic">Paste table data above or use the "+ Add Row" and "+ Add Column" buttons to begin adding data manually.</div>
+    </td>
+  </tr>
+</ng-template>
+
+<mat-menu #instructions="matMenu">
+  <ng-content select="[instructions]"></ng-content>
+</mat-menu>

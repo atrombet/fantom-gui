@@ -20,7 +20,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 
 // Component Imports
 import { AppComponent } from './app.component';
@@ -35,7 +36,10 @@ import {
   SectionButtonComponent,
   SubsectionBaseComponent,
   FilePathComponent,
-  ItemTileComponent
+  ItemTileComponent,
+  ToggleButtonGroupComponent,
+  CoefficientTableComponent,
+  TwoDimInputTableComponent
 } from '@components/shared';
 import { GravityGeneralComponent } from '@components/environment/gravity-general/gravity-general.component';
 import { AtmosphereGeneralComponent } from '@components/environment/atmosphere-general/atmosphere-general.component';
@@ -47,6 +51,10 @@ import { ObjectComponent } from './components/object/object.component';
 import { MassCgComponent } from './components/object/mass-cg/mass-cg.component';
 import { InputTableComponent } from './components/shared/input-table/input-table.component';
 import { MassInertiaComponent } from './components/object/mass-inertia/mass-inertia.component';
+import { AeroGeneralComponent } from './components/object/aero-general/aero-general.component';
+import { AeroAxiComponent } from './components/object/aero-axi/aero-axi.component';
+import { AeroWindComponent } from './components/object/aero-wind/aero-wind.component';
+import { AeroBodyComponent } from './components/object/aero-body/aero-body.component';
 
 // Constants
 import { formFieldAppearance } from './constants';
@@ -78,7 +86,14 @@ import { DisableControlDirective } from '@directives';
     ObjectComponent,
     MassCgComponent,
     InputTableComponent,
-    MassInertiaComponent
+    MassInertiaComponent,
+    AeroGeneralComponent,
+    AeroAxiComponent,
+    AeroWindComponent,
+    AeroBodyComponent,
+    ToggleButtonGroupComponent,
+    CoefficientTableComponent,
+    TwoDimInputTableComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +114,7 @@ import { DisableControlDirective } from '@directives';
     MatSelectModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    MatTooltipModule
+    MatButtonToggleModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldAppearance }

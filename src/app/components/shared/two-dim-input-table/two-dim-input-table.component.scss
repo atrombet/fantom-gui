@@ -1,0 +1,68 @@
+.tdInputTable {
+  & table {
+    border-collapse: collapse;
+  
+    & input {
+      font: 400 16px 'Roboto';
+      appearance: none;
+      border: none;
+      text-align: right;
+      padding: 4px;
+      width: 100px;
+  
+      &:focus {
+        outline: none;
+      }
+    }
+  
+    & .row-clear-button {
+      color: #C4C4C4;
+      height: 27px;
+      width: 27px;
+      line-height: 25px;
+      transition: color 0.15s linear;
+  
+      &:hover {
+        color: #f44336;
+        transition: color 0.15s linear;
+      }
+  
+      & .mat-icon {
+        line-height: 25px;
+        font-size: 19px;
+      }
+    }
+  }
+}
+
+.tdInputTable__buttons {
+  padding-bottom: 1.34375em;
+  margin-bottom: 3.5px;
+}
+
+.tdInputTable__columnHeader {
+
+  & input {
+    font-weight: bold !important;
+  }
+}
+
+.tdInputTable__rowHeader {
+  & input {
+    font-weight: bold !important;
+  }
+}
+
+.tdInputTable__rowLabel {
+  margin-top: 29px;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  text-align: center;
+  padding: 4px;
+}
+
+.tdInputTable__columnLabel {
+  margin-left: 110px;
+  text-align: center;
+  padding: 4px;
+}
