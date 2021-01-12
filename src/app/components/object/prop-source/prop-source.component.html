@@ -31,29 +31,29 @@
 
     <div>
       <h2>Orientation</h2>
-      <div class="mbxl">Propulsion source orientation in body coordinate frame</div>
-      <!-- X orientation -->
+      <div class="mbxl">Propulsion source orientation relative to body coordinate frame</div>
+      <!-- Roll -->
       <div>
         <mat-form-field color="accent" class="fan__input">
-          <mat-label>X</mat-label>
-          <input matInput formControlName="orientation_x" />
-          <span matSuffix>m</span>
+          <mat-label>Roll</mat-label>
+          <input matInput formControlName="orientation_roll" />
+          <span matSuffix>deg</span>
         </mat-form-field>
       </div>
-      <!-- Y orientation -->
+      <!-- Pitch -->
       <div>
         <mat-form-field color="accent" class="fan__input">
-          <mat-label>Y</mat-label>
-          <input matInput formControlName="orientation_y" />
-          <span matSuffix>m</span>
+          <mat-label>Pitch</mat-label>
+          <input matInput formControlName="orientation_pitch" />
+          <span matSuffix>deg</span>
         </mat-form-field>
       </div>
-      <!-- Z orientation -->
+      <!-- Yaw -->
       <div class="mbxl">
         <mat-form-field color="accent" class="fan__input">
-          <mat-label>Z</mat-label>
-          <input matInput formControlName="orientation_z" />
-          <span matSuffix>m</span>
+          <mat-label>Yaw</mat-label>
+          <input matInput formControlName="orientation_yaw" />
+          <span matSuffix>deg</span>
         </mat-form-field>
       </div>
     </div>

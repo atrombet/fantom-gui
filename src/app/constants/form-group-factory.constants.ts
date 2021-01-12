@@ -104,9 +104,9 @@ export const propSourceFormGroupFactory: (name?: string) => FormGroup = (name) =
     position_x: new FormControl(''),
     position_y: new FormControl(''),
     position_z: new FormControl(''),
-    orientation_x: new FormControl(''),
-    orientation_y: new FormControl(''),
-    orientation_z: new FormControl(''),
+    orientation_roll: new FormControl(''),
+    orientation_pitch: new FormControl(''),
+    orientation_yaw: new FormControl(''),
     nozzle_exit_area: new FormControl('')
   });
 }

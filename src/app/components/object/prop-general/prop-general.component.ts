@@ -29,7 +29,7 @@ export class PropGeneralComponent extends SubsectionBaseComponent implements Aft
    */
   public addPropSource(): void {
     const nextSourceNumber = this.sources.controls.length + 1;
-    this.sources.push(propSourceFormGroupFactory(`Propulsion Source ${nextSourceNumber}`))
+    this.sources.push(propSourceFormGroupFactory(`hardware_${('000' + nextSourceNumber).slice(-3)}`))
   }
 
   /**
