@@ -43,6 +43,14 @@ export const epochGeneralFormGroupFactory: () => FormGroup = () => {
   });
 };
 
+export const metaGeneralFormGroupFactory: () => FormGroup = () => {
+  return new FormGroup({
+    dof: new FormControl(null),
+    parent_object: new FormControl(null),
+    solver: new FormControl(null)
+  });
+};
+
 export const massCgFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     cg_dependency: new FormControl(null, Validators.required),

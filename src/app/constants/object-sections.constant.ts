@@ -5,10 +5,20 @@ import {
   massInertiaFormGroupFactory,
   aeroGeneralFormGroupFactory,
   aero2DTableFormGroupFactory,
-  propGeneralFormGroupFactory
+  propGeneralFormGroupFactory,
+  metaGeneralFormGroupFactory
 } from './form-group-factory.constants';
 
 export const OBJECT_SECTIONS: () => Section[] = () => [
+  {
+    displayName: 'metadata',
+    name: 'meta',
+    icon: 'local_offer',
+    subsections: [
+      { displayName: 'general', name: 'general', icon: 'grade', form: metaGeneralFormGroupFactory(), route: 'meta_general', isDisabled: false }
+    ],
+    isDisabled: false
+  },
   {
     displayName: 'mass properties',
     name: 'mass',

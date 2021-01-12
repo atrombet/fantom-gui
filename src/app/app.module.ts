@@ -66,6 +66,7 @@ import { DisableControlDirective } from '@directives';
 import { PropGeneralComponent } from './components/object/prop-general/prop-general.component';
 import { PropSourceComponent } from './components/object/prop-source/prop-source.component';
 import { SimpleTileComponent } from './components/shared/simple-tile/simple-tile.component';
+import { MetaGeneralComponent } from './components/object/meta-general/meta-general.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { SimpleTileComponent } from './components/shared/simple-tile/simple-tile
     TwoDimInputTableComponent,
     PropGeneralComponent,
     PropSourceComponent,
-    SimpleTileComponent
+    SimpleTileComponent,
+    MetaGeneralComponent
   ],
   imports: [
     BrowserModule,

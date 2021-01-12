@@ -18,6 +18,7 @@ import { AeroAxiComponent } from '@components/object/aero-axi/aero-axi.component
 import { AeroWindComponent } from '@components/object/aero-wind/aero-wind.component';
 import { AeroBodyComponent } from '@components/object/aero-body/aero-body.component';
 import { PropGeneralComponent } from '@components/object/prop-general/prop-general.component';
+import { MetaGeneralComponent } from '@components/object/meta-general/meta-general.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/simulation' },
@@ -40,6 +41,7 @@ const routes: Routes = [
     { path: '', component: ObjectComponent },
     { path: ':id', children: [
       { path: '', component: ObjectComponent },
+      { path: 'meta_general', component: MetaGeneralComponent, resolve: { form: FormResolver } },
       { path: 'mass_cg', component: MassCgComponent, resolve: { form: FormResolver } },
       { path: 'mass_inertia', component: MassInertiaComponent, resolve: { form: FormResolver } },
       { path: 'aerodynamics_general', component: AeroGeneralComponent, resolve: { form: FormResolver } },

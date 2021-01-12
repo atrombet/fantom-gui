@@ -1,0 +1,59 @@
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <div class="flex">
+      <div class="body-column">
+        <h1>Metadata General Settings</h1>
+        
+        <!-- Degrees of Freedom -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Degrees of Freedom</mat-label>
+            <mat-select
+              formControlName="dof"
+              name="dof"
+              placeholder="Degrees of Freedom"
+            >
+              <mat-option *ngFor="let option of dofOptions" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Parent Object -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Parent Object</mat-label>
+            <mat-select
+              formControlName="parent_object"
+              name="parent_object"
+              placeholder="Parent Object"
+            >
+              <mat-option *ngFor="let option of parentObjectOptions" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Solver -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Solver</mat-label>
+            <mat-select
+              formControlName="solver"
+              name="solver"
+              placeholder="Solver"
+            >
+              <mat-option *ngFor="let option of solverOptions" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+      </div>  
+    </div>
+  </div>
+</ng-container>
+
