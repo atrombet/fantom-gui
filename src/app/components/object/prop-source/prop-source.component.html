@@ -1,0 +1,70 @@
+<ng-container *ngIf="!!propSource" [formGroup]="propSource">
+  <div class="flex">
+    <div class="mrxl">
+      <h2>Position</h2>
+      <div class="mbxl">Propulsion source location in body coordinate frame</div>
+      <!-- X Position -->
+      <div>
+        <mat-form-field color="accent" class="fan__input">
+          <mat-label>X</mat-label>
+          <input matInput formControlName="position_x" />
+          <span matSuffix>m</span>
+        </mat-form-field>
+      </div>
+      <!-- Y Position -->
+      <div>
+        <mat-form-field color="accent" class="fan__input">
+          <mat-label>Y</mat-label>
+          <input matInput formControlName="position_y" />
+          <span matSuffix>m</span>
+        </mat-form-field>
+      </div>
+      <!-- Z Position -->
+      <div>
+        <mat-form-field color="accent" class="fan__input">
+          <mat-label>Z</mat-label>
+          <input matInput formControlName="position_z" />
+          <span matSuffix>m</span>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div>
+      <h2>Orientation</h2>
+      <div class="mbxl">Propulsion source orientation in body coordinate frame</div>
+      <!-- X orientation -->
+      <div>
+        <mat-form-field color="accent" class="fan__input">
+          <mat-label>X</mat-label>
+          <input matInput formControlName="orientation_x" />
+          <span matSuffix>m</span>
+        </mat-form-field>
+      </div>
+      <!-- Y orientation -->
+      <div>
+        <mat-form-field color="accent" class="fan__input">
+          <mat-label>Y</mat-label>
+          <input matInput formControlName="orientation_y" />
+          <span matSuffix>m</span>
+        </mat-form-field>
+      </div>
+      <!-- Z orientation -->
+      <div class="mbxl">
+        <mat-form-field color="accent" class="fan__input">
+          <mat-label>Z</mat-label>
+          <input matInput formControlName="orientation_z" />
+          <span matSuffix>m</span>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nozzle Exit Area -->
+  <div class="mbxl">
+    <mat-form-field color="accent" class="fan__input">
+      <mat-label>Nozzle Exit Area</mat-label>
+      <input matInput formControlName="nozzle_exit_area" />
+      <span matSuffix>m^2</span>
+    </mat-form-field>
+  </div>
+</ng-container>

@@ -11,21 +11,3 @@
     @include mat-elevation(8);
   }
 }
-
-// .item__add {
-//   @extend .item__tile;
-//   background-color: transparent;
-//   border: 2px dotted white;
-//   height: calc(100% - 4px);
-//   width: calc(100% - 4px);
-//   cursor: pointer;
-//   display: flex !important;
-//   justify-content: center;
-//   align-items: center;
-
-//   & mat-icon {
-//     font-size: 36px;
-//     height: 36px;
-//     width: 36px;
-//   }
-// }

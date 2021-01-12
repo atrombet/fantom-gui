@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ToggleButtonSubgroup } from '@interfaces';
 
 @Component({
   selector: 'toggle-button-group',
@@ -8,20 +9,14 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 export class ToggleButtonGroupComponent implements OnInit {
   public selected: string;
 
-  @Input() public subgroups: { 
-    title: string, 
-    buttons: {
-      id: string,
-      label: string 
-    }[]
-  }[];
+  @Input() public subgroups: ToggleButtonSubgroup[];
 
   @Output() public selectionMade: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
   public ngOnInit(): void {
-    const firstId = this.subgroups[0].buttons[0].id;
+    const firstId = this.subgroups[0]?.buttons[0]?.id || null;
     this.selected = firstId;
     this.selectionMade.emit(firstId);
   }

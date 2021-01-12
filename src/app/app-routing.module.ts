@@ -17,6 +17,7 @@ import { AeroGeneralComponent } from '@components/object/aero-general/aero-gener
 import { AeroAxiComponent } from '@components/object/aero-axi/aero-axi.component';
 import { AeroWindComponent } from '@components/object/aero-wind/aero-wind.component';
 import { AeroBodyComponent } from '@components/object/aero-body/aero-body.component';
+import { PropGeneralComponent } from '@components/object/prop-general/prop-general.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/simulation' },
@@ -44,7 +45,8 @@ const routes: Routes = [
       { path: 'aerodynamics_general', component: AeroGeneralComponent, resolve: { form: FormResolver } },
       { path: 'aerodynamics_axisymmetric', component: AeroAxiComponent, resolve: { form: FormResolver } },
       { path: 'aerodynamics_wind', component: AeroWindComponent, resolve: { form: FormResolver } },
-      { path: 'aerodynamics_bodyfixed', component: AeroBodyComponent, resolve: { form: FormResolver } }
+      { path: 'aerodynamics_bodyfixed', component: AeroBodyComponent, resolve: { form: FormResolver } },
+      { path: 'propulsion_general', component: PropGeneralComponent, resolve: { form: FormResolver } }
     ]}
   ]}
 ];

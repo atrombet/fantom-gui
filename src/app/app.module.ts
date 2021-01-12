@@ -21,6 +21,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatListModule } from '@angular/material/list';
+
 
 
 // Component Imports
@@ -61,6 +63,9 @@ import { formFieldAppearance } from './constants';
 
 // Directives
 import { DisableControlDirective } from '@directives';
+import { PropGeneralComponent } from './components/object/prop-general/prop-general.component';
+import { PropSourceComponent } from './components/object/prop-source/prop-source.component';
+import { SimpleTileComponent } from './components/shared/simple-tile/simple-tile.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +98,10 @@ import { DisableControlDirective } from '@directives';
     AeroBodyComponent,
     ToggleButtonGroupComponent,
     CoefficientTableComponent,
-    TwoDimInputTableComponent
+    TwoDimInputTableComponent,
+    PropGeneralComponent,
+    PropSourceComponent,
+    SimpleTileComponent
   ],
   imports: [
     BrowserModule,
@@ -114,7 +122,8 @@ import { DisableControlDirective } from '@directives';
     MatSelectModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatListModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldAppearance }

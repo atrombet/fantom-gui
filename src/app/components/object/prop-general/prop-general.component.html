@@ -1,0 +1,45 @@
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <div class="flex">
+      <div class="body-column">
+        <h1>Propulsion General Settings</h1>
+
+        <!-- Add Propulsion Source Button -->
+        <div class="mbxl">
+          <button mat-raised-button color="primary" (click)="addPropSource()">
+            <mat-icon>add</mat-icon>
+            <span class="mls">Add Propulsion Source</span>
+          </button>
+        </div>
+
+        <div class="prop__container">
+
+          <!-- Propulsion Source List -->
+          <div>
+            <div class="item__tile" *ngFor="let source of form.get('sources').controls; let i = index">
+              <simple-tile
+                panelClass="mbm"
+                (click)="propSourceSelected(i)"
+                [selected]="i === selectedPropSourceIndex"
+                [name]="source.get('name').value"
+                (nameChange)="renamePropSource($event, source.get('name'))"
+                (duplicate)="duplicatePropSource(source)"
+                (delete)="removePropSource(i)"
+              ></simple-tile>
+            </div>
+          </div>
+
+          <!-- Propulsion Source Editor -->
+          <div>
+            <ng-container *ngIf="selectedPropSourceIndex !== null">
+              <prop-source [propSource]="sources.controls[selectedPropSourceIndex]"></prop-source>
+            </ng-container>
+          </div>
+        </div>
+       
+      </div>  
+    </div>
+  </div>
+</ng-container>
+
+

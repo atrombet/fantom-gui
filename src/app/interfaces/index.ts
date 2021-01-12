@@ -6,3 +6,4 @@ export * from './item.interface';
 export * from './app-state.interface';
 export * from './name-change-event.interface';
 export * from './table-column.interface';
+export * from './toggle-button-subgroup.interface';

@@ -4,7 +4,8 @@ import {
   massCgFormGroupFactory,
   massInertiaFormGroupFactory,
   aeroGeneralFormGroupFactory,
-  aero2DTableFormGroupFactory
+  aero2DTableFormGroupFactory,
+  propGeneralFormGroupFactory
 } from './form-group-factory.constants';
 
 export const OBJECT_SECTIONS: () => Section[] = () => [
@@ -35,7 +36,7 @@ export const OBJECT_SECTIONS: () => Section[] = () => [
     name: 'propulsion',
     icon: 'local_fire_department',
     subsections: [
-      { displayName: 'general', name: 'general', icon: 'grade', form: null, route: 'propulsion_general', isDisabled: false }
+      { displayName: 'general', name: 'general', icon: 'grade', form: propGeneralFormGroupFactory(), route: 'propulsion_general', isDisabled: false }
     ],
     isDisabled: false
   },

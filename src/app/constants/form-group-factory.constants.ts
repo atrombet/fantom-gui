@@ -89,5 +89,24 @@ const twoDimTable: () => FormGroup = () => {
     columns: new FormArray([]),
     rows: new FormArray([]),
     data: new FormArray([])
-  })
+  });
+}
+
+export const propGeneralFormGroupFactory: () => FormGroup = () => {
+  return new FormGroup({
+    sources: new FormArray([])
+  });
+};
+
+export const propSourceFormGroupFactory: (name?: string) => FormGroup = (name) => {
+  return new FormGroup({
+    name: new FormControl(name || 'source'),
+    position_x: new FormControl(''),
+    position_y: new FormControl(''),
+    position_z: new FormControl(''),
+    orientation_x: new FormControl(''),
+    orientation_y: new FormControl(''),
+    orientation_z: new FormControl(''),
+    nozzle_exit_area: new FormControl('')
+  });
 }

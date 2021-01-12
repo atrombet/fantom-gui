@@ -1,14 +1,16 @@
 <div class="flex">
   <div *ngFor="let sub of subgroups" class="flex-column align-center mrxl">
-    <span>{{sub.title}}</span>
-    <div>
-      <span *ngFor="let button of sub.buttons" class="mrs">
-        <button 
+    <ng-container *ngIf="!!sub?.buttons?.length">
+      <span>{{sub.title}}</span>
+      <div>
+        <span *ngFor="let button of sub.buttons" class="mrs">
+          <button 
           mat-flat-button
           [color]="button.id === selected ? 'accent' : ''"
           (click)="buttonSelected(button.id)"
-        >{{button.label}}</button>
-      </span>
-    </div>
+          >{{button.label}}</button>
+        </span>
+      </div>
+    </ng-container>
   </div>
 </div>
