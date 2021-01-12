@@ -18,7 +18,7 @@ export class AeroAxiComponent extends SubsectionBaseComponent {
       { id: 'moment2', label: 'CM' },
       { id: 'moment3', label: 'CN' }
     ]},
-    { title: 'Force Coefficients', buttons: [
+    { title: 'Moment Damping Coefficients', buttons: [
       { id: 'damping1', label: 'clp' },
       { id: 'damping2', label: 'cmq' },
       { id: 'damping3', label: 'cnr' }
