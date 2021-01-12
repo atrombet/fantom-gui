@@ -25,9 +25,9 @@ export const OBJECT_SECTIONS: () => Section[] = () => [
     icon: 'flight',
     subsections: [
       { displayName: 'general', name: 'general', icon: 'grade', form: aeroGeneralFormGroupFactory(), route: 'aerodynamics_general', isDisabled: false },
-      { displayName: 'axisymmetric', name: 'axisymmetric', icon: 'align_horizontal_center', form: aero2DTableFormGroupFactory(), route: 'aerodynamics_axisymmetric', isDisabled: false },
-      { displayName: 'wind', name: 'wind', icon: 'waves', form: aero2DTableFormGroupFactory(), route: 'aerodynamics_wind', isDisabled: false },
-      { displayName: 'body-fixed', name: 'bodyfixed', icon: 'border_all', form: aero2DTableFormGroupFactory(), route: 'aerodynamics_bodyfixed', isDisabled: false }
+      { displayName: 'axisymmetric', name: 'axisymmetric', icon: 'align_horizontal_center', form: aero2DTableFormGroupFactory(), route: 'aerodynamics_axisymmetric', isDisabled: true },
+      { displayName: 'wind', name: 'wind', icon: 'waves', form: aero2DTableFormGroupFactory(), route: 'aerodynamics_wind', isDisabled: true },
+      { displayName: 'body-fixed', name: 'bodyfixed', icon: 'border_all', form: aero2DTableFormGroupFactory(), route: 'aerodynamics_bodyfixed', isDisabled: true }
     ],
     isDisabled: false
   },
