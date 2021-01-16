@@ -1,0 +1,45 @@
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <div class="flex">
+      <div class="body-column">
+        <h1>Segments</h1>
+
+        <!-- Add Segment Button -->
+        <div class="mbxl">
+          <button mat-raised-button color="primary" (click)="addSegment()">
+            <mat-icon>add</mat-icon>
+            <span class="mls">Add Segment</span>
+          </button>
+        </div>
+
+        <div class="fan__simpleItemContainer">
+
+          <!-- Segment List -->
+          <div>
+            <div class="item__tile" *ngFor="let segment of form.get('segments').controls; let i = index">
+              <simple-tile
+                panelClass="mbm"
+                (click)="segmentSelected(i)"
+                [selected]="i === selectedSegmentIndex"
+                [name]="segment.get('name').value"
+                (nameChange)="renameSegment($event, segment.get('name'))"
+                (duplicate)="duplicateSegment(segment)"
+                (delete)="removeSegment(i)"
+              ></simple-tile>
+            </div>
+          </div>
+
+          <!-- Segment Editor -->
+          <div>
+            <ng-container *ngIf="selectedSegmentIndex !== null">
+              <segment [propSource]="segments.controls[selectedSegmentIndex]"></segment>
+            </ng-container>
+          </div>
+        </div>
+       
+      </div>  
+    </div>
+  </div>
+</ng-container>
+
+

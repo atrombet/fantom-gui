@@ -24,6 +24,7 @@ import { InitialPositionComponent } from '@components/object/initial-position/in
 import { InitialVelocityComponent } from '@components/object/initial-velocity/initial-velocity.component';
 import { InitialOrientationComponent } from '@components/object/initial-orientation/initial-orientation.component';
 import { InitialBodyratesComponent } from '@components/object/initial-bodyrates/initial-bodyrates.component';
+import { ScriptGeneralComponent } from '@components/object/script-general/script-general.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/simulation' },
@@ -58,7 +59,8 @@ const routes: Routes = [
       { path: 'initial_position', component: InitialPositionComponent, resolve: { form: FormResolver } },
       { path: 'initial_velocity', component: InitialVelocityComponent, resolve: { form: FormResolver } },
       { path: 'initial_orientation', component: InitialOrientationComponent, resolve: { form: FormResolver } },
-      { path: 'initial_bodyrates', component: InitialBodyratesComponent, resolve: { form: FormResolver } }
+      { path: 'initial_bodyrates', component: InitialBodyratesComponent, resolve: { form: FormResolver } },
+      { path: 'script_general', component: ScriptGeneralComponent, resolve: { form: FormResolver } }
     ]}
   ]}
 ];

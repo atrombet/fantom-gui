@@ -8,7 +8,8 @@ import {
   propGeneralFormGroupFactory,
   metaGeneralFormGroupFactory,
   initialGeneralFormGroupFactory,
-  initialConditionsFormGroupFactory
+  initialConditionsFormGroupFactory,
+  scriptGeneralFormGroupFactory
 } from './form-group-factory.constants';
 
 export const OBJECT_SECTIONS: () => Section[] = () => [
@@ -70,7 +71,7 @@ export const OBJECT_SECTIONS: () => Section[] = () => [
     name: 'script',
     icon: 'code',
     subsections: [
-      { displayName: 'general', name: 'general', icon: 'grade', form: null, route: 'script_general', isDisabled: false }
+      { displayName: 'general', name: 'general', icon: 'grade', form: scriptGeneralFormGroupFactory(), route: 'script_general', isDisabled: false }
     ],
     isDisabled: false
   }

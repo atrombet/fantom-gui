@@ -6,8 +6,7 @@ import { propSourceFormGroupFactory } from '@constants';
 
 @Component({
   selector: 'prop-general',
-  templateUrl: './prop-general.component.html',
-  styleUrls: ['./prop-general.component.scss']
+  templateUrl: './prop-general.component.html'
 })
 export class PropGeneralComponent extends SubsectionBaseComponent implements AfterViewInit {
   public selectedPropSourceIndex: number = null;

@@ -72,6 +72,8 @@ import { InitialPositionComponent } from './components/object/initial-position/i
 import { InitialVelocityComponent } from './components/object/initial-velocity/initial-velocity.component';
 import { InitialOrientationComponent } from './components/object/initial-orientation/initial-orientation.component';
 import { InitialBodyratesComponent } from './components/object/initial-bodyrates/initial-bodyrates.component';
+import { ScriptGeneralComponent } from './components/object/script-general/script-general.component';
+import { SegmentComponent } from './components/object/segment/segment.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +115,9 @@ import { InitialBodyratesComponent } from './components/object/initial-bodyrates
     InitialPositionComponent,
     InitialVelocityComponent,
     InitialOrientationComponent,
-    InitialBodyratesComponent
+    InitialBodyratesComponent,
+    ScriptGeneralComponent,
+    SegmentComponent
   ],
   imports: [
     BrowserModule,

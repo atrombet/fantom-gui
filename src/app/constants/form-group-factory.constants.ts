@@ -135,3 +135,30 @@ export const initialConditionsFormGroupFactory: () => FormGroup = () => {
     value_3: new FormControl('')
   });
 };
+
+export const scriptGeneralFormGroupFactory: () => FormGroup = () => {
+  return new FormGroup({
+    segments: new FormArray([])
+  });
+};
+
+export const segmentFormGroupFactory: (name?: string) => FormGroup = (name) => {
+  return new FormGroup({
+    name: new FormControl(name || 'segment'),
+    dof: new FormControl(''),
+    print_dt: new FormControl(''),
+    integration_dt: new FormControl(''),
+    reset_user_time: new FormControl(false),
+    reset_propulsion_time: new FormControl(false),
+    gnc: new FormGroup({
+      mode: new FormControl(''),
+      frame: new FormControl(''),
+      value_1: new FormGroup({}),
+      value_2: new FormGroup({}),
+      value_3: new FormGroup({})
+    }),
+    parameter: new FormControl(''),
+    condition: new FormControl(''),
+    value: new FormControl('')
+  });
+}

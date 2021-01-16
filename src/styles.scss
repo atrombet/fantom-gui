@@ -89,6 +89,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-bottom: 32px !important;
 }
 
+.fan__simpleItemContainer {
+  display: grid;
+  grid-template-columns: 256px 3fr;
+  column-gap: 32px;
+  height: 100%;
+  width: 100%;
+}
+
 textarea[name=parser] {
   overflow: hidden !important;
   resize: none !important;
