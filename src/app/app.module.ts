@@ -67,6 +67,11 @@ import { PropGeneralComponent } from './components/object/prop-general/prop-gene
 import { PropSourceComponent } from './components/object/prop-source/prop-source.component';
 import { SimpleTileComponent } from './components/shared/simple-tile/simple-tile.component';
 import { MetaGeneralComponent } from './components/object/meta-general/meta-general.component';
+import { InitialGeneralComponent } from './components/object/initial-general/initial-general.component';
+import { InitialPositionComponent } from './components/object/initial-position/initial-position.component';
+import { InitialVelocityComponent } from './components/object/initial-velocity/initial-velocity.component';
+import { InitialOrientationComponent } from './components/object/initial-orientation/initial-orientation.component';
+import { InitialBodyratesComponent } from './components/object/initial-bodyrates/initial-bodyrates.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +108,12 @@ import { MetaGeneralComponent } from './components/object/meta-general/meta-gene
     PropGeneralComponent,
     PropSourceComponent,
     SimpleTileComponent,
-    MetaGeneralComponent
+    MetaGeneralComponent,
+    InitialGeneralComponent,
+    InitialPositionComponent,
+    InitialVelocityComponent,
+    InitialOrientationComponent,
+    InitialBodyratesComponent
   ],
   imports: [
     BrowserModule,

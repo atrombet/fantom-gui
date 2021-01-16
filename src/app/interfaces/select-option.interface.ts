@@ -1,5 +1,5 @@
 export interface SelectOption {
-  value: number;
+  value: number | string;
   viewValue: string;
   tableHeaderValue?: string;
 }

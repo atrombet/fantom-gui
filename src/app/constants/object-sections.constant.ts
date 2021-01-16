@@ -6,7 +6,9 @@ import {
   aeroGeneralFormGroupFactory,
   aero2DTableFormGroupFactory,
   propGeneralFormGroupFactory,
-  metaGeneralFormGroupFactory
+  metaGeneralFormGroupFactory,
+  initialGeneralFormGroupFactory,
+  initialConditionsFormGroupFactory
 } from './form-group-factory.constants';
 
 export const OBJECT_SECTIONS: () => Section[] = () => [
@@ -55,11 +57,11 @@ export const OBJECT_SECTIONS: () => Section[] = () => [
     name: 'initial',
     icon: 'circle',
     subsections: [
-      { displayName: 'general', name: 'general', icon: 'grade', form: null, route: 'initial_general', isDisabled: false },
-      { displayName: 'position', name: 'position', icon: 'gps_fixed', form: null, route: 'initial_position', isDisabled: false },
-      { displayName: 'velocity', name: 'velocity', icon: 'double_arrow', form: null, route: 'initial_velocity', isDisabled: false },
-      { displayName: 'orientation', name: 'orientation', icon: 'widgets', form: null, route: 'initial_orientation', isDisabled: false },
-      { displayName: 'body rates', name: 'bodyrates', icon: 'sync', form: null, route: 'initial_bodyrates', isDisabled: false },
+      { displayName: 'general', name: 'general', icon: 'grade', form: initialGeneralFormGroupFactory(), route: 'initial_general', isDisabled: false },
+      { displayName: 'position', name: 'position', icon: 'gps_fixed', form: initialConditionsFormGroupFactory(), route: 'initial_position', isDisabled: false },
+      { displayName: 'velocity', name: 'velocity', icon: 'double_arrow', form: initialConditionsFormGroupFactory(), route: 'initial_velocity', isDisabled: false },
+      { displayName: 'orientation', name: 'orientation', icon: 'widgets', form: initialConditionsFormGroupFactory(), route: 'initial_orientation', isDisabled: false },
+      { displayName: 'body rates', name: 'bodyrates', icon: 'sync', form: initialConditionsFormGroupFactory(), route: 'initial_bodyrates', isDisabled: false },
     ],
     isDisabled: false
   },

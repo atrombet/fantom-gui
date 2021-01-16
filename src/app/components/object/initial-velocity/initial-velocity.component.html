@@ -1,0 +1,50 @@
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <div class="flex">
+      <div class="body-column">
+        <h1>Initial Velocity Settings</h1>
+        
+        <!-- Frame -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Frame</mat-label>
+            <mat-select
+              formControlName="frame"
+              name="frame"
+              placeholder="Frame"
+            >
+              <mat-option *ngFor="let option of frameOptions" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <h1>Initial Velocity</h1>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>X</mat-label>
+            <input matInput formControlName="value_1" />
+            <span matSuffix>m/sec</span>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Y</mat-label>
+            <input matInput formControlName="value_2" />
+            <span matSuffix>m/sec</span>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Z</mat-label>
+            <input matInput formControlName="value_3" />
+            <span matSuffix>m/sec</span>
+          </mat-form-field>
+        </div>
+
+      </div>  
+    </div>
+  </div>
+</ng-container>
+

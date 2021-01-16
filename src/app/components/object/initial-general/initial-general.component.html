@@ -1,0 +1,34 @@
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <div class="flex">
+      <div class="body-column">
+        <h1>Initial Conditions General Settings</h1>
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Time</mat-label>
+            <input matInput formControlName="time_sec" />
+            <span matSuffix>sec</span>
+            <mat-hint>Initial time</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Mass</mat-label>
+            <input matInput formControlName="mass_kg" />
+            <span matSuffix>kg</span>
+            <mat-hint>Initial object mass</mat-hint>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Ground Range</mat-label>
+            <input matInput formControlName="ground_range_m" />
+            <span matSuffix>m</span>
+            <mat-hint>Initial ground range</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>  
+    </div>
+  </div>
+</ng-container>
+

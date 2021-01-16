@@ -19,6 +19,11 @@ import { AeroWindComponent } from '@components/object/aero-wind/aero-wind.compon
 import { AeroBodyComponent } from '@components/object/aero-body/aero-body.component';
 import { PropGeneralComponent } from '@components/object/prop-general/prop-general.component';
 import { MetaGeneralComponent } from '@components/object/meta-general/meta-general.component';
+import { InitialGeneralComponent } from '@components/object/initial-general/initial-general.component';
+import { InitialPositionComponent } from '@components/object/initial-position/initial-position.component';
+import { InitialVelocityComponent } from '@components/object/initial-velocity/initial-velocity.component';
+import { InitialOrientationComponent } from '@components/object/initial-orientation/initial-orientation.component';
+import { InitialBodyratesComponent } from '@components/object/initial-bodyrates/initial-bodyrates.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/simulation' },
@@ -48,7 +53,12 @@ const routes: Routes = [
       { path: 'aerodynamics_axisymmetric', component: AeroAxiComponent, resolve: { form: FormResolver } },
       { path: 'aerodynamics_wind', component: AeroWindComponent, resolve: { form: FormResolver } },
       { path: 'aerodynamics_bodyfixed', component: AeroBodyComponent, resolve: { form: FormResolver } },
-      { path: 'propulsion_general', component: PropGeneralComponent, resolve: { form: FormResolver } }
+      { path: 'propulsion_general', component: PropGeneralComponent, resolve: { form: FormResolver } },
+      { path: 'initial_general', component: InitialGeneralComponent, resolve: { form: FormResolver } },
+      { path: 'initial_position', component: InitialPositionComponent, resolve: { form: FormResolver } },
+      { path: 'initial_velocity', component: InitialVelocityComponent, resolve: { form: FormResolver } },
+      { path: 'initial_orientation', component: InitialOrientationComponent, resolve: { form: FormResolver } },
+      { path: 'initial_bodyrates', component: InitialBodyratesComponent, resolve: { form: FormResolver } }
     ]}
   ]}
 ];

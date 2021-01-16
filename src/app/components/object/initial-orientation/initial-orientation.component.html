@@ -1,0 +1,50 @@
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <div class="flex">
+      <div class="body-column">
+        <h1>Initial Orientation Settings</h1>
+        
+        <!-- Frame -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Frame</mat-label>
+            <mat-select
+              formControlName="frame"
+              name="frame"
+              placeholder="Frame"
+            >
+              <mat-option *ngFor="let option of frameOptions" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <h1>Initial Orientation</h1>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Roll</mat-label>
+            <input matInput formControlName="value_1" />
+            <span matSuffix>deg</span>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Pitch</mat-label>
+            <input matInput formControlName="value_2" />
+            <span matSuffix>deg</span>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Yaw</mat-label>
+            <input matInput formControlName="value_3" />
+            <span matSuffix>deg</span>
+          </mat-form-field>
+        </div>
+
+      </div>  
+    </div>
+  </div>
+</ng-container>
+

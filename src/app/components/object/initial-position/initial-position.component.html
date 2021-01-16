@@ -1,0 +1,50 @@
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <div class="flex">
+      <div class="body-column">
+        <h1>Initial Position Settings</h1>
+        
+        <!-- Frame -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Frame</mat-label>
+            <mat-select
+              formControlName="frame"
+              name="frame"
+              placeholder="Frame"
+            >
+              <mat-option *ngFor="let option of frameOptions" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <h1>Initial Position</h1>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>{{ form.get('frame').value === 'geodetic' ? 'Latitude' : 'X' }}</mat-label>
+            <input matInput formControlName="value_1" />
+            <span matSuffix>{{ form.get('frame').value === 'geodetic' ? 'deg' : 'm' }}</span>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>{{ form.get('frame').value === 'geodetic' ? 'Longitude' : 'Y' }}</mat-label>
+            <input matInput formControlName="value_2" />
+            <span matSuffix>{{ form.get('frame').value === 'geodetic' ? 'deg' : 'm' }}</span>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>{{ form.get('frame').value === 'geodetic' ? 'Altitude' : 'Z' }}</mat-label>
+            <input matInput formControlName="value_3" />
+            <span matSuffix>m</span>
+          </mat-form-field>
+        </div>
+
+      </div>  
+    </div>
+  </div>
+</ng-container>
+
