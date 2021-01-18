@@ -11,6 +11,7 @@ import { segmentFormGroupFactory } from '@constants';
 export class ScriptGeneralComponent extends SubsectionBaseComponent implements AfterViewInit {
   public selectedSegmentIndex: number = null;
   public segments: FormArray;
+  public propSources: string[];
 
   constructor(protected route: ActivatedRoute) {
     super(route);
@@ -21,6 +22,7 @@ export class ScriptGeneralComponent extends SubsectionBaseComponent implements A
    */
   public ngAfterViewInit(): void {
     this.segments = this.form.get('segments') as FormArray;
+    this.propSources = this.data.propSources?.value.map(propSource => propSource.name);
   }
 
   /**

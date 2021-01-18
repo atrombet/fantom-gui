@@ -11,6 +11,7 @@ export class SubsectionBaseComponent implements OnInit, OnDestroy {
   protected subs: Subscription = new Subscription();
 
   public form: FormGroup;
+  public data: any;
 
   constructor(protected route: ActivatedRoute) {}
 
@@ -19,8 +20,9 @@ export class SubsectionBaseComponent implements OnInit, OnDestroy {
    */
   public ngOnInit(): void {
     this.subs.add(
-      this.route.data.subscribe(({ form }) => {
-        this.form = form;
+      this.route.data.subscribe(data => {
+        this.data = data;
+        this.form = data.form;
       })
     );
   }

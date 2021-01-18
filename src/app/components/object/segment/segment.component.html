@@ -1,1 +1,160 @@
-<p>segment works!</p>
+<ng-container *ngIf="!!segment" [formGroup]="segment">
+  <h1>{{segment.get('name').value}} Settings</h1>
+  
+  <div class="flex">
+    <div class="mrxl">
+
+      <!-- DOF -->
+      <div class="mbxl">
+        <mat-form-field color="accent" class="fan__input">
+          <mat-label>Degrees of Freedom</mat-label>
+          <mat-select
+            formControlName="dof"
+            name="dof"
+            placeholder="Degrees of Freedom"
+          >
+            <mat-option *ngFor="let option of dofOptions" [value]="option.value">
+              {{option.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Integration dt -->
+      <div class="mbxl">
+        <mat-form-field color="accent" class="fan__input">
+          <mat-label>Integration dt</mat-label>
+          <input matInput formControlName="integration_dt" />
+          <span matSuffix>sec</span>
+          <mat-hint>Sets the internal integration solver time interval.</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <!-- Print dt -->
+      <div class="mbxl">
+        <mat-form-field color="accent" class="fan__input">
+          <mat-label>Print dt</mat-label>
+          <input matInput formControlName="print_dt" />
+          <span matSuffix>sec</span>
+          <mat-hint>Sets the output print time interval.</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div>
+      <!-- User Time Reset -->
+      <div class="mbxl">
+        <mat-slide-toggle formControlName="reset_user_time">User Time Reset</mat-slide-toggle>
+        <mat-hint class="toggle-hint">This flag resets user time to zero.</mat-hint>
+      </div>
+
+      <!-- Propulsion Time Reset -->
+      <div class="mbxl">
+        <mat-slide-toggle formControlName="reset_propulsion_time">Propulsion Time Reset</mat-slide-toggle>
+        <mat-hint class="toggle-hint">This flag resets propulsion time to zero.</mat-hint>
+      </div>
+    </div>
+  </div>
+
+  <h1>Propulsion Source Enable</h1>
+  <div class="mbxl">
+    <p>Select each propulsion source to be active for the current segment.</p>
+    <ng-container *ngIf="!!propSources.length; else noPropSources">
+      <div class="columns-2">
+        <div *ngFor="let source of propSources" class="mbs">
+          <mat-slide-toggle>{{source}}</mat-slide-toggle>
+        </div>
+      </div>
+    </ng-container>
+    
+    <ng-template #noPropSources>
+      <p class="italic">There are no propulsion sources for this object. Add some under the Propulsion - General page to enable them in this segment.</p>
+    </ng-template>
+  </div>
+
+  <h1>Segment Table</h1>
+  <div class="flex mbxl" [formGroup]="segment.get('gnc')">
+    <div class="mrxl">
+      <div>
+        <!-- Mode -->
+        <div>
+          <mat-form-field color="accent">
+            <mat-label>Mode</mat-label>
+            <mat-select
+              formControlName="mode"
+              name="mode"
+              placeholder="Mode"
+            >
+              <mat-option *ngFor="let option of modeOptions" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Frame -->
+      <div>
+        <mat-form-field color="accent">
+          <mat-label>Frame</mat-label>
+          <mat-select
+            formControlName="frame"
+            name="frame"
+            placeholder="Frame"
+          >
+            <mat-option *ngFor="let option of frameOptions" [value]="option.value">
+              {{option.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <input-table [columns]="tableColumns" depName="Time [sec]" [rows]="segment.get('gnc').get('rows')"></input-table>
+  </div>
+
+  <h1>Go to next segment when</h1>
+  <div class="flex">
+    <!-- Parameter -->
+    <div class="mrl">
+      <mat-form-field color="accent">
+        <mat-label>Parameter</mat-label>
+        <mat-select
+          formControlName="parameter"
+          name="parameter"
+          placeholder="Parameter"
+        >
+          <mat-option *ngFor="let option of parameterOptions" [value]="option.value">
+            {{option.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Criteria -->
+    <div class="mrl">
+      <mat-form-field color="accent">
+        <mat-label>Criteria</mat-label>
+        <mat-select
+          formControlName="condition"
+          name="condition"
+          placeholder="Criteria"
+        >
+          <mat-option *ngFor="let option of criteriaOptions" [value]="option.value">
+            {{option.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Value -->
+    <div>
+      <mat-form-field color="accent">
+        <mat-label>Value</mat-label>
+        <input matInput formControlName="value" />
+      </mat-form-field>
+    </div>
+
+  </div>
+
+</ng-container>

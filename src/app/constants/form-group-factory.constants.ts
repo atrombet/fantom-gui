@@ -145,17 +145,19 @@ export const scriptGeneralFormGroupFactory: () => FormGroup = () => {
 export const segmentFormGroupFactory: (name?: string) => FormGroup = (name) => {
   return new FormGroup({
     name: new FormControl(name || 'segment'),
-    dof: new FormControl(''),
+    dof: new FormControl('3+3'),
     print_dt: new FormControl(''),
     integration_dt: new FormControl(''),
     reset_user_time: new FormControl(false),
     reset_propulsion_time: new FormControl(false),
+    active_propulsion_sources: new FormArray([]),
     gnc: new FormGroup({
       mode: new FormControl(''),
       frame: new FormControl(''),
-      value_1: new FormGroup({}),
-      value_2: new FormGroup({}),
-      value_3: new FormGroup({})
+      rows: new FormArray([]),
+      value_1: new FormGroup({}), // Maybe don't need?
+      value_2: new FormGroup({}), // Maybe don't need?
+      value_3: new FormGroup({})  // Maybe don't need?
     }),
     parameter: new FormControl(''),
     condition: new FormControl(''),

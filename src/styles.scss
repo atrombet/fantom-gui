@@ -91,7 +91,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .fan__simpleItemContainer {
   display: grid;
-  grid-template-columns: 256px 3fr;
+  grid-template-columns: 256px 1fr;
   column-gap: 32px;
   height: 100%;
   width: 100%;
@@ -100,4 +100,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 textarea[name=parser] {
   overflow: hidden !important;
   resize: none !important;
+}
+
+mat-hint.toggle-hint {
+  font-size: 10.5px;
+  display: block;
+  padding-left: 10.5px;
+  margin-top: 7px;
 }
