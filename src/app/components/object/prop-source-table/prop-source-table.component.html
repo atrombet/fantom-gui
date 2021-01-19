@@ -1,24 +1,28 @@
-<div class="inputTable">
-  <div class="flex-between align-end mbl">
+<div class="inputTable propSource">
+  <div class="mbl">
     <!-- Table Value Parser -->
-    <div class="flex align-center">
-      <mat-form-field color="accent" class="fan__input">
+    <div class="flex align-center width-100">
+      <mat-form-field color="accent" class="parser">
         <mat-label>Paste Data</mat-label>
-        <textarea name="parser" matInput rows="1" [formControl]="clipboardParser" placeholder="{{parserPlaceholder}}"></textarea>
+        <textarea name="parser" matInput rows="1" [formControl]="clipboardParser" placeholder="Paste data here"></textarea>
       </mat-form-field>
       <button mat-icon-button>
         <mat-icon [matMenuTriggerFor]="instructions">help_outline</mat-icon>
       </button>
     </div>
     <!-- Table Buttons -->
-    <div class="inputTable__buttons">
-      <span class="mrl"><button mat-stroked-button color="warn" [disabled]="!rows.dirty" (click)="clearTable()">Clear Table</button></span>
-      <span>
+    <div class="flex align-center mbxl">
+      <div class="mrl">
+        <button mat-stroked-button color="warn" [disabled]="!rows.dirty" (click)="clearTable()">
+          Clear Table
+        </button>
+      </div>
+      <div>
         <button mat-raised-button color="primary" (click)="addRow()">
           <mat-icon>add</mat-icon>
           <span class="mls">Add Row</span>
         </button>
-      </span>
+      </div>
     </div>
   </div>
   <!-- Table -->
@@ -27,7 +31,9 @@
       <th>
         <span *ngIf="!!depName; else selectDep">{{depName}}</span>
       </th>
-      <th *ngFor="let col of columns">{{col.headerName}}</th>
+      <ng-container *ngIf="!!columns[0].headerName; else selectDep">
+        <th *ngFor="let col of columns">{{col.headerName}}</th>
+      </ng-container>
     </thead>
     <tbody>
       <ng-container *ngIf="!!rows?.value.length; else noRows">

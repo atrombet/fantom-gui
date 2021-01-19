@@ -74,6 +74,7 @@ import { InitialOrientationComponent } from './components/object/initial-orienta
 import { InitialBodyratesComponent } from './components/object/initial-bodyrates/initial-bodyrates.component';
 import { ScriptGeneralComponent } from './components/object/script-general/script-general.component';
 import { SegmentComponent } from './components/object/segment/segment.component';
+import { PropSourceTableComponent } from './components/object/prop-source-table/prop-source-table.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +118,8 @@ import { SegmentComponent } from './components/object/segment/segment.component'
     InitialOrientationComponent,
     InitialBodyratesComponent,
     ScriptGeneralComponent,
-    SegmentComponent
+    SegmentComponent,
+    PropSourceTableComponent
   ],
   imports: [
     BrowserModule,

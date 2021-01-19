@@ -115,7 +115,11 @@ export const propSourceFormGroupFactory: (name?: string) => FormGroup = (name) =
     orientation_roll: new FormControl(''),
     orientation_pitch: new FormControl(''),
     orientation_yaw: new FormControl(''),
-    nozzle_exit_area: new FormControl('')
+    nozzle_exit_area: new FormControl(''),
+    dep_1: new FormControl(''),
+    table_1: new FormArray([]),
+    dep_2: new FormControl(''),
+    table_2: new FormArray([])
   });
 };
 

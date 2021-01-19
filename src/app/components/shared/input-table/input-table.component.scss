@@ -1,6 +1,14 @@
 .inputTable {
   max-width: 740px;
 
+  &.propSource {
+    max-width: 381px !important;
+
+    & .parser {
+      width: calc(100% - 40px);
+    }
+  }
+
   & table {
     border-collapse: collapse;
     

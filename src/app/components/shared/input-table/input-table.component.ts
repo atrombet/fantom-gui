@@ -25,7 +25,7 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
   public clipboardParser = new FormControl('');
   public parserPlaceholder = 'Paste clipboard data here to populate table.';
 
-  constructor(public dialog: MatDialog, private fb: FormBuilder, private parser: ParsingService) { }
+  constructor(public dialog: MatDialog, protected fb: FormBuilder, protected parser: ParsingService) { }
 
   /******************************
    * Angular Lifecycle Hooks
@@ -114,10 +114,11 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
    * @param data - The value entered into the parser input field.
    */
   public patchClipboardDataToForm(data: string): void {
+    this.rows.clear();
     // Parse the data with the parsing service.
     const parsedData: string[][] = this.parser.parseClipboardData(data);
     // Iterate over each row in the parsed data.
-    const rowFormGroups: FormGroup[] = parsedData.map(row => {
+    parsedData.forEach(row => {
       // Generate an array of the variables names for the columns in this table instance.
       const colVariables: string[] = this.columns.map(col => col.variable);
       // Add 'dep' to the beginning of the variables names array.
@@ -126,11 +127,9 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
       const newRow = colVariables.reduce((group, col, index) => {
         return { ...group, [col]: row[index] };
       }, {});
-      // Create a form group from the newRow object.
-      return this.fb.group(newRow);
+      // Create a form group from the newRow object and push it to the array.
+      this.rows.push(this.fb.group(newRow));
     });
-    // Replace the rows form array with the data that been parsed into an array of FormGroups.
-    this.rows = this.fb.array(rowFormGroups);
     // Mark the form array as dirty so we know the table has data.
     this.rows.markAsDirty();
   }
