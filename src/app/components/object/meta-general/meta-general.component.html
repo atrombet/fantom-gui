@@ -29,7 +29,7 @@
               name="parent_object"
               placeholder="Parent Object"
             >
-              <mat-option *ngFor="let option of parentObjectOptions" [value]="option.value">
+              <mat-option *ngFor="let option of parentObjectOptions" [value]="option.value" [disabled]="option.value === objectId">
                 {{option.viewValue}}
               </mat-option>
             </mat-select>

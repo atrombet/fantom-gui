@@ -7,7 +7,7 @@ import { AtmosphereGeneralComponent } from '@components/environment/atmosphere-g
 import { BodyGeneralComponent } from '@components/environment/body-general/body-general.component';
 import { WindGeneralComponent } from '@components/environment/wind-general/wind-general.component';
 import { EpochGeneralComponent } from '@components/environment/epoch-general/epoch-general.component';
-import { FormResolver, PropSourcesResolver } from '@resolvers';
+import { FormResolver, ParentIdResolver, PropSourcesResolver } from '@resolvers';
 import { EntityComponent } from '@components/entity/entity.component';
 import { ItemType } from '@enums';
 import { ObjectComponent } from '@components/object/object.component';
@@ -47,7 +47,7 @@ const routes: Routes = [
     { path: '', component: ObjectComponent },
     { path: ':id', children: [
       { path: '', component: ObjectComponent },
-      { path: 'meta_general', component: MetaGeneralComponent, resolve: { form: FormResolver } },
+      { path: 'meta_general', component: MetaGeneralComponent, resolve: { form: FormResolver, parentId: ParentIdResolver } },
       { path: 'mass_cg', component: MassCgComponent, resolve: { form: FormResolver } },
       { path: 'mass_inertia', component: MassInertiaComponent, resolve: { form: FormResolver } },
       { path: 'aerodynamics_general', component: AeroGeneralComponent, resolve: { form: FormResolver } },
@@ -70,7 +70,8 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     FormResolver,
-    PropSourcesResolver
+    PropSourcesResolver,
+    ParentIdResolver
   ]
 })
 export class AppRoutingModule { }
