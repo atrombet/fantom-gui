@@ -41,7 +41,9 @@ import {
   ItemTileComponent,
   ToggleButtonGroupComponent,
   CoefficientTableComponent,
-  TwoDimInputTableComponent
+  TwoDimInputTableComponent,
+  TwoDimCoefficientTableComponent,
+  OneDimCoefficientTableComponent
 } from '@components/shared';
 import { GravityGeneralComponent } from '@components/environment/gravity-general/gravity-general.component';
 import { AtmosphereGeneralComponent } from '@components/environment/atmosphere-general/atmosphere-general.component';
@@ -75,6 +77,7 @@ import { InitialBodyratesComponent } from './components/object/initial-bodyrates
 import { ScriptGeneralComponent } from './components/object/script-general/script-general.component';
 import { SegmentComponent } from './components/object/segment/segment.component';
 import { PropSourceTableComponent } from './components/object/prop-source-table/prop-source-table.component';
+import { AeroPageComponent } from './components/object/aero-page/aero-page.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +122,10 @@ import { PropSourceTableComponent } from './components/object/prop-source-table/
     InitialBodyratesComponent,
     ScriptGeneralComponent,
     SegmentComponent,
-    PropSourceTableComponent
+    PropSourceTableComponent,
+    TwoDimCoefficientTableComponent,
+    OneDimCoefficientTableComponent,
+    AeroPageComponent
   ],
   imports: [
     BrowserModule,

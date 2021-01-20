@@ -1,0 +1,52 @@
+<ng-container *ngIf="form">
+  <div class="phl" [formGroup]="form">
+    <div class="flex">
+      <div class="body-column">
+        <h1>Aerodynamics {{pageTitle}} Settings</h1>
+
+        <!-- Coefficient buttons -->
+        <div class="mbxl">
+          <toggle-button-group [subgroups]="coefficientSubgroups" (selectionMade)="coefficientSelected($event)"></toggle-button-group>
+        </div>
+
+        <!-- Table -->
+        <ng-container *ngIf="selectedCoefficient" [formGroup]="form.get(selectedCoefficient)">
+          
+          <!-- Table Size Selector -->
+          <div class="mbxl">
+            <mat-form-field color="accent" class="fan__input">
+              <mat-label>Coefficient Table Dimensions</mat-label>
+              <mat-select
+                formControlName="size"
+                name="dep"
+                placeholder="Dimensions"
+              >
+                <mat-option *ngFor="let option of tableDimOptions" [value]="option.value">
+                  {{option.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Coefficient Table -->
+          <ng-container [ngSwitch]="form.get(selectedCoefficient).get('size').value">
+
+            <!-- 1D Table -->
+            <ng-container *ngSwitchCase="1">
+              <one-dim-coefficient-table [depOptions]="depOptions" [form]="form.get(selectedCoefficient).get('table')"></one-dim-coefficient-table>
+            </ng-container>
+
+            <!-- 2D Table -->
+            <ng-container *ngSwitchCase="2">
+              <two-dim-coefficient-table [depOptions]="depOptions" [form]="form.get(selectedCoefficient).get('table')"></two-dim-coefficient-table>
+            </ng-container>
+
+            <div *ngSwitchDefault class="italic">Select the number of dimensions for the table.</div>
+
+          </ng-container>
+        </ng-container>
+       
+      </div>  
+    </div>
+  </div>
+</ng-container>

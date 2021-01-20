@@ -4,12 +4,12 @@ import {
   massCgFormGroupFactory,
   massInertiaFormGroupFactory,
   aeroGeneralFormGroupFactory,
-  aero2DTableFormGroupFactory,
   propGeneralFormGroupFactory,
   metaGeneralFormGroupFactory,
   initialGeneralFormGroupFactory,
   initialConditionsFormGroupFactory,
-  scriptGeneralFormGroupFactory
+  scriptGeneralFormGroupFactory,
+  aeroTableFormGroupFactory
 } from './form-group-factory.constants';
 
 export const OBJECT_SECTIONS: () => Section[] = () => [
@@ -38,9 +38,9 @@ export const OBJECT_SECTIONS: () => Section[] = () => [
     icon: 'flight',
     subsections: [
       { displayName: 'general', name: 'general', icon: 'grade', form: aeroGeneralFormGroupFactory(), route: 'aerodynamics_general', isDisabled: false },
-      { displayName: 'axisymmetric', name: 'axisymmetric', icon: 'align_horizontal_center', form: aero2DTableFormGroupFactory(), route: 'aerodynamics_axisymmetric', isDisabled: true },
-      { displayName: 'wind', name: 'wind', icon: 'waves', form: aero2DTableFormGroupFactory(), route: 'aerodynamics_wind', isDisabled: true },
-      { displayName: 'body-fixed', name: 'bodyfixed', icon: 'border_all', form: aero2DTableFormGroupFactory(), route: 'aerodynamics_bodyfixed', isDisabled: true }
+      { displayName: 'axisymmetric', name: 'axisymmetric', icon: 'align_horizontal_center', form: aeroTableFormGroupFactory(), route: 'aerodynamics_axisymmetric', isDisabled: true },
+      { displayName: 'wind', name: 'wind', icon: 'waves', form: aeroTableFormGroupFactory(), route: 'aerodynamics_wind', isDisabled: true },
+      { displayName: 'body-fixed', name: 'bodyfixed', icon: 'border_all', form: aeroTableFormGroupFactory(), route: 'aerodynamics_bodyfixed', isDisabled: true }
     ],
     isDisabled: false
   },

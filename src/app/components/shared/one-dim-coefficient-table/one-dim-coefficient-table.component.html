@@ -1,0 +1,27 @@
+<ng-container *ngIf="form" [formGroup]="form">
+
+  <!-- Dependency -->
+  <div>
+    <mat-form-field color="accent" class="fan__input">
+      <mat-label>Dependency</mat-label>
+      <mat-select
+        formControlName="dep"
+        name="dep"
+        placeholder="Dependency"
+      >
+        <mat-option *ngFor="let option of depOptions" [value]="option.value">
+          {{option.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Input Table -->
+  <input-table
+    [columns]="[{ variable: 'dep', headerName: getOptionName(form.get('dep').value) }]"
+    depName="Time [sec]"
+    [rows]="form.get('rows')"
+  >
+  </input-table>
+
+</ng-container>

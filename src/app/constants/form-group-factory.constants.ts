@@ -90,7 +90,28 @@ export const aero2DTableFormGroupFactory: () => FormGroup = () => {
   });
 };
 
-const twoDimTable: () => FormGroup = () => {
+export const aeroTableFormGroupFactory: () => FormGroup = () => {
+  return new FormGroup({
+    force1: coefficientFormGroup(),
+    force2: coefficientFormGroup(),
+    force3: coefficientFormGroup(),
+    moment1: coefficientFormGroup(),
+    moment2: coefficientFormGroup(),
+    moment3: coefficientFormGroup(),
+    damping1: coefficientFormGroup(),
+    damping2: coefficientFormGroup(),
+    damping3: coefficientFormGroup()
+  });
+};
+
+const coefficientFormGroup: () => FormGroup = () => {
+  return new FormGroup({
+    size: new FormControl(null, Validators.required),
+    table: new FormGroup({})
+  });
+};
+
+export const twoDimTable: () => FormGroup = () => {
   return new FormGroup({
     row_dep: new FormControl(null),
     col_dep: new FormControl(null),
@@ -98,7 +119,14 @@ const twoDimTable: () => FormGroup = () => {
     rows: new FormArray([]),
     data: new FormArray([])
   });
-}
+};
+
+export const oneDimTable: () => FormGroup = () => {
+  return new FormGroup({
+    dep: new FormControl(null, Validators.required),
+    rows: new FormArray([])
+  });
+};
 
 export const propGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({

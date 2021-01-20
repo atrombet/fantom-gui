@@ -8,3 +8,5 @@ export * from './input-table/input-table.component';
 export * from './coefficient-table/coefficient-table.component';
 export * from './two-dim-input-table/two-dim-input-table.component';
 export * from './toggle-button-group/toggle-button-group.component';
+export * from './one-dim-coefficient-table/one-dim-coefficient-table.component';
+export * from './two-dim-coefficient-table/two-dim-coefficient-table.component';

@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SubsectionBaseComponent } from '@components/shared';
+import { AeroPageComponent } from '../aero-page/aero-page.component';
 
 @Component({
   selector: 'aero-axi',
-  templateUrl: './aero-axi.component.html'
+  templateUrl: '../aero-page/aero-page.component.html'
 })
-export class AeroAxiComponent extends SubsectionBaseComponent {
-  public axiSubgroups = [
+export class AeroAxiComponent extends AeroPageComponent {
+  public pageTitle = 'Axisymmetric';
+
+  public coefficientSubgroups = [
     { title: 'Force Coefficients', buttons: [
       { id: 'force1', label: 'Caxial' },
       { id: 'force2', label: 'Clat' },
@@ -25,13 +27,7 @@ export class AeroAxiComponent extends SubsectionBaseComponent {
     ]}
   ];
 
-  public selectedCoefficient: string;
-
   constructor(protected route: ActivatedRoute) {
     super(route);
-  }
-
-  public coefficientSelected(id: string): void {
-    this.selectedCoefficient = id;
   }
 }

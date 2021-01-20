@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SubsectionBaseComponent } from '@components/shared';
+import { AeroPageComponent } from '../aero-page/aero-page.component';
 
 @Component({
   selector: 'aero-wind',
-  templateUrl: './aero-wind.component.html'
+  templateUrl: '../aero-page/aero-page.component.html'
 })
-export class AeroWindComponent extends SubsectionBaseComponent {
-  public windSubgroups = [
+export class AeroWindComponent extends AeroPageComponent {
+  public pageTitle = 'Wind';
+
+  public coefficientSubgroups = [
     { title: 'Force Coefficients', buttons: [
       { id: 'force1', label: 'Cdrag' },
       { id: 'force2', label: 'Cside' },
@@ -25,13 +27,7 @@ export class AeroWindComponent extends SubsectionBaseComponent {
     ]}
   ];
 
-  public selectedCoefficient: string;
-
   constructor(protected route: ActivatedRoute) {
     super(route);
-  }
-
-  public coefficientSelected(id: string): void {
-    this.selectedCoefficient = id;
   }
 }
