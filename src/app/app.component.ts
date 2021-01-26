@@ -29,12 +29,14 @@ export class AppComponent {
 
   /**
    * Saves this as the top level "Item" the user is viewing.
-   * @param env - The newly selected environment
+   * @param item - The newly selected item.
    */
   public setItem(item: Item): void {
-    this.item = item;
-    this.setSections(this.item.sections);
-    this.navigateToSection(this.item.sections[0].subsections[0].route);
+    if (item.type !== this.item?.type || item.id !== this.item?.id) {
+      this.item = item;
+      this.setSections(this.item.sections);
+      this.navigateToSection(this.item.sections[0].subsections[0].route);
+    }
   }
 
   /**

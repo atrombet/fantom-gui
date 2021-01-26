@@ -77,10 +77,8 @@ export class EnvironmentTabComponent implements OnInit, OnDestroy {
    * @param envId - Id of the environment
    */
   public goToEnv(envId: number): void {
-    if (envId !== this.selectedEnvId) {
-      const env = this.service.getItemById(ItemType.Environment, envId);
-      this.envSelected.emit(env);
-      this.selectedEnvId = envId;
-    }
+    const env = this.service.getItemById(ItemType.Environment, envId);
+    this.envSelected.emit(env);
+    this.selectedEnvId = envId;
   }
 }

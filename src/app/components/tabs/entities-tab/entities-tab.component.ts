@@ -118,9 +118,7 @@ export class EntitiesTabComponent implements OnInit, OnDestroy {
    * @param object - The object that has been selected.
    */
   public goToObject(object: Item): void {
-    if (object.id !== this.selectedObjectId) {
-      this.objectSelected.emit(object);
-      this.selectedObjectId = object.id;
-    }
+    this.objectSelected.emit(object);
+    this.selectedObjectId = object.id;
   }
 }
