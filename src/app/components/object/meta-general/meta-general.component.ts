@@ -48,7 +48,10 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
           });
         })
       ).subscribe((objectOptions: SelectOption[]) => {
-        this.parentObjectOptions = objectOptions;
+        this.parentObjectOptions = [
+          { value: 0, viewValue: 'None' },
+          ...objectOptions
+        ];
       })
     );
   }
