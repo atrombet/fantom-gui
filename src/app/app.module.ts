@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxElectronModule } from 'ngx-electron';
 
 // Material Imports
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -78,6 +79,7 @@ import { ScriptGeneralComponent } from './components/object/script-general/scrip
 import { SegmentComponent } from './components/object/segment/segment.component';
 import { PropSourceTableComponent } from './components/object/prop-source-table/prop-source-table.component';
 import { AeroPageComponent } from './components/object/aero-page/aero-page.component';
+import { ExportButtonComponent } from './components/shared/export-button/export-button.component';
 
 @NgModule({
   declarations: [
@@ -125,9 +127,11 @@ import { AeroPageComponent } from './components/object/aero-page/aero-page.compo
     PropSourceTableComponent,
     TwoDimCoefficientTableComponent,
     OneDimCoefficientTableComponent,
-    AeroPageComponent
+    AeroPageComponent,
+    ExportButtonComponent
   ],
   imports: [
+    NgxElectronModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

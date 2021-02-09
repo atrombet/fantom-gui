@@ -1,3 +1,3 @@
 export enum SimFields {
-  MaxSimTime = 'max_simulation_time'
+  MaxSimTime = 'maximum_time_sec'
 }

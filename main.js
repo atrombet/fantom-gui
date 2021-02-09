@@ -4,7 +4,13 @@ const url = require("url");
 
 let win;
 function createWindow() {
-  win = new BrowserWindow({ width: 1200, height: 800 });
+  win = new BrowserWindow({ 
+    width: 1200,
+    height: 800,
+    webPreferences: { 
+      nodeIntegration: true
+    }
+  });
   // load the dist folder from Angular
   win.loadURL(
     url.format({
@@ -14,7 +20,7 @@ function createWindow() {
     })
   );
   // The following is optional and will open the DevTools:
-  // win.webContents.openDevTools()
+  win.webContents.openDevTools()
   win.on("closed", () => {
     win = null;
   });

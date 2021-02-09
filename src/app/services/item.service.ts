@@ -50,6 +50,15 @@ export class ItemService {
     );
   }
 
+  // Returns the stored objects without filtering by parent entity id.
+  public get allObjects$(): Observable<Item[]> {
+    return this.state[ItemType.Object].data.pipe(
+      map((objectMap: Map<number, Item>) => {
+        return Array.from(objectMap.values());
+      })
+    );
+  }
+
   // Returns the stored objects behavior subject as an observable of Item[] which is nice to work with on templates.
   public objects$(entityId: number): Observable<Item[]> {
     return this.state[ItemType.Object].data.pipe(

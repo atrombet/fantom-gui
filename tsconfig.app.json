@@ -8,6 +8,7 @@
       "@components/*": [ "src/app/components/*" ],
       "@interfaces": [ "src/app/interfaces/index.ts" ],
       "@constants": [ "src/app/constants/index.ts" ],
+      "@functions": [ "src/app/functions/index.ts" ],
       "@enums": [ "src/app/enums/index.ts" ],
       "@services": [ "src/app/services/index.ts" ],
       "@resolvers": [ "src/app/resolvers/index.ts" ],
