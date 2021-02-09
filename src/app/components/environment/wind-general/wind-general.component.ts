@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubsectionBaseComponent } from '@components/shared';
-import { SelectOption } from '@interfaces';
+import { SelectOption, TableColumn } from '@interfaces';
 
 @Component({
   selector: 'wind-general',
@@ -31,6 +31,12 @@ export class WindGeneralComponent extends SubsectionBaseComponent {
       return this.form.get('wind_profile').value === 0;
     }
   }
+
+  public columns: TableColumn[] = [
+    { variable: 'north', headerName: 'North [m/s]' },
+    { variable: 'east', headerName: 'East [m/s]' },
+    { variable: 'up', headerName: 'Up [m/s]' }
+  ];
 
   constructor(protected route: ActivatedRoute) {
     super(route);

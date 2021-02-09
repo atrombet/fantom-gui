@@ -11,7 +11,7 @@ export const atmosphereGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     atmosphere_on: new FormControl(false),
     atmospheric_model: new FormControl(null),
-    custom_atmosphere_file_path: new FormControl(null)
+    rows: new FormArray([])
   });
 };
 
@@ -29,7 +29,7 @@ export const windGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     wind_on: new FormControl(false),
     wind_profile: new FormControl(null),
-    custom_wind_file_path: new FormControl(null)
+    rows: new FormArray([])
   });
 };
 
