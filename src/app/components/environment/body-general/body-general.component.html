@@ -4,7 +4,7 @@
       <div class="body-column">
         
         <h1>Body Model</h1>
-        <div>
+        <div class="mbxl">
           <mat-form-field color="accent" class="fan__input">
             <mat-label>Body Model</mat-label>
             <mat-select
@@ -20,21 +20,12 @@
         </div>
         
         <h1 [ngClass]="{'fan--disabled': disableBodyShape}">Body Shape Parameters</h1>
-        <div class="mbxl" [ngClass]="{'fan--disabled': disableBodyShape}">Please specify at least 2 of the following parameters.</div>
         <div class="mbxl">
           <mat-form-field color="accent" class="fan__input">
             <mat-label>Equatorial Radius</mat-label>
             <span matSuffix [ngClass]="{'fan--disabled': disableBodyShape}">m</span>
             <input matInput formControlName="equatorial_radius" [disableControl]="disableBodyShape" placeholder="Equatorial Radius" />
             <mat-hint>Semi-major axis (a)</mat-hint>
-          </mat-form-field>
-        </div>
-        <div class="mbxl">
-          <mat-form-field color="accent" class="fan__input">
-            <mat-label>Polar Radius</mat-label>
-            <span matSuffix [ngClass]="{'fan--disabled': disableBodyShape}">m</span>
-            <input matInput formControlName="polar_radius" [disableControl]="disableBodyShape" placeholder="Polar Radius" />
-            <mat-hint>Semi-minor axis (b)</mat-hint>
           </mat-form-field>
         </div>
         <div class="mbxl">
