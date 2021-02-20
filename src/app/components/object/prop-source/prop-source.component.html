@@ -70,63 +70,48 @@
 
   <div class="fan__divider mbxl"></div>
 
-  <div class="flex">
-
-    <!-- Time Varying Dependency 1 -->
-    <div class="mrxl">
-      <div class="mbxl">
-        <mat-form-field color="accent" class="fan__input">
-          <mat-label>Dependency 1</mat-label>
-          <mat-select
-            formControlName="dep_1"
-            name="dep_1"
-            placeholder="Dependency"
-            >
-            <mat-option *ngFor="let option of timeVaryingOptions" [value]="option.value" [disabled]="option.value === propSource.get('dep_2').value">
-              {{option.viewValue}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <!-- Table 1 -->
-      <prop-source-table 
-        [columns]="[{ 
-          variable: 'value_1',
-          headerName: getOptionName(propSource.get('dep_1').value)
-        }]"
-        depName="Time [sec]"
-        [rows]="propSource.get('table_1')"
-      ></prop-source-table>
-    </div>
-
-    <!-- Time Varying Dependency 2 -->
-    <div>
-      <div class="mbxl">
-        <mat-form-field color="accent" class="fan__input">
-          <mat-label>Dependency 2</mat-label>
-          <mat-select
-            formControlName="dep_2"
-            name="dep_2"
-            placeholder="Dependency"
-            >
-            <mat-option *ngFor="let option of timeVaryingOptions" [value]="option.value" [disabled]="option.value === propSource.get('dep_1').value">
-              {{option.viewValue}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <!-- Table 2 -->
-      <prop-source-table 
-        [columns]="[{ 
-          variable: 'value_2',
-          headerName: getOptionName(propSource.get('dep_2').value)
-        }]"
-        depName="Time [sec]"
-        [rows]="propSource.get('table_2')"
-      ></prop-source-table>
-    </div>
-
+  <!-- Propulsion Mode -->
+  <div class="mbxl">
+    <mat-form-field color="accent" class="fan__input">
+      <mat-label>Propulsion Mode</mat-label>
+      <mat-select
+        formControlName="mode"
+        name="mode"
+        placeholder="Select Mode"
+        >
+        <mat-option *ngFor="let option of propulsionModeOptions" [value]="option.value">
+          {{option.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
+
+  <ng-container *ngIf="propSource.get('mode').value !== 0">
+    <div class="flex">
+      <div class="mrxl">  
+        <!-- Table 1 -->
+        <prop-source-table 
+          [columns]="[{ 
+            variable: 'value_1',
+            headerName: tableDeps['dep_1']
+          }]"
+          depName="Time [sec]"
+          [rows]="propSource.get('table_1')"
+        ></prop-source-table>
+      </div>
+
+      <div>
+        <!-- Table 2 -->
+        <prop-source-table 
+          [columns]="[{ 
+            variable: 'value_2',
+            headerName: tableDeps['dep_2']
+          }]"
+          depName="Time [sec]"
+          [rows]="propSource.get('table_2')"
+        ></prop-source-table>
+      </div>
+    </div>
+  </ng-container>
+
 </ng-container>

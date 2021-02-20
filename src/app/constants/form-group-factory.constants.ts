@@ -142,9 +142,8 @@ export const propSourceFormGroupFactory: (name?: string) => FormGroup = (name) =
     orientation_pitch: new FormControl(''),
     orientation_yaw: new FormControl(''),
     nozzle_exit_area: new FormControl(''),
-    dep_1: new FormControl(''),
+    mode: new FormControl(0),
     table_1: new FormArray([]),
-    dep_2: new FormControl(''),
     table_2: new FormArray([])
   });
 };
