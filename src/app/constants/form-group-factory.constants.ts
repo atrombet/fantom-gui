@@ -43,9 +43,11 @@ export const epochGeneralFormGroupFactory: () => FormGroup = () => {
 
 export const metaGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
-    dof: new FormControl(null),
-    parent_object: new FormControl(null),
-    solver: new FormControl(null)
+    dof: new FormControl(1),
+    parent_object: new FormControl('none'),
+    solver: new FormControl(1),
+    hold_down: new FormControl(0),
+    local_environment: new FormControl('none')
   });
 };
 
@@ -74,31 +76,17 @@ export const aeroGeneralFormGroupFactory: () => FormGroup = () => {
   });
 };
 
-export const aero2DTableFormGroupFactory: () => FormGroup = () => {
-  return new FormGroup({
-    force1: twoDimTable(),
-    force2: twoDimTable(),
-    force3: twoDimTable(),
-    moment1: twoDimTable(),
-    moment2: twoDimTable(),
-    moment3: twoDimTable(),
-    damping1: twoDimTable(),
-    damping2: twoDimTable(),
-    damping3: twoDimTable()
-  });
-};
-
 export const aeroTableFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
-    force1: coefficientFormGroup(),
-    force2: coefficientFormGroup(),
-    force3: coefficientFormGroup(),
-    moment1: coefficientFormGroup(),
-    moment2: coefficientFormGroup(),
-    moment3: coefficientFormGroup(),
-    damping1: coefficientFormGroup(),
-    damping2: coefficientFormGroup(),
-    damping3: coefficientFormGroup()
+    force_1: coefficientFormGroup(),
+    force_2: coefficientFormGroup(),
+    force_3: coefficientFormGroup(),
+    moment_1: coefficientFormGroup(),
+    moment_2: coefficientFormGroup(),
+    moment_3: coefficientFormGroup(),
+    moment_damping_1: coefficientFormGroup(),
+    moment_damping_2: coefficientFormGroup(),
+    moment_damping_3: coefficientFormGroup()
   });
 };
 

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubsectionBaseComponent } from '@components/shared';
 import { SelectOption } from '@interfaces';
-import { map, switchMap } from 'rxjs/operators';
+import { tap, switchMap } from 'rxjs/operators';
 import { ItemService } from '@services';
 import { Item } from '@interfaces';
-import { combineLatest, forkJoin } from 'rxjs';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'meta-general',
@@ -21,6 +21,7 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
   ];
 
   public parentObjectOptions: SelectOption[];
+  public localEnvOptions: SelectOption[];
 
   public solverOptions: SelectOption[] = [
     { value: 1, viewValue: 'Runge-Kutta 4th Order' }
@@ -42,17 +43,24 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
           this.objectId = parseInt(params.id, 10);
           return this.itemService.objects$(data.parentId);
         }),
-        map((objects: Item[]) => {
-          return objects.map(object => {
-            return { value: object.id, viewValue: object.name } as SelectOption;
-          });
+        switchMap((objects: Item[]) => {
+          this.parentObjectOptions = [
+            { value: 'none', viewValue: 'None' },
+            ...objects.map(object => {
+              return { value: object.id, viewValue: object.name } as SelectOption;
+            })
+          ];
+          return this.itemService.environments$;
+        }),
+        tap((environments: Item[]) => {
+          this.localEnvOptions = [
+            { value: 'none', viewValue: 'None' },
+            ...environments.map(env => {
+              return { value: env.id, viewValue: env.name } as SelectOption;
+            })
+          ];
         })
-      ).subscribe((objectOptions: SelectOption[]) => {
-        this.parentObjectOptions = [
-          { value: 0, viewValue: 'None' },
-          ...objectOptions
-        ];
-      })
+      ).subscribe()
     );
   }
 }

@@ -1,3 +1,4 @@
+// tslint:disable: no-string-literal
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubsectionBaseComponent } from '@components/shared';
@@ -17,7 +18,7 @@ export class AeroPageComponent extends SubsectionBaseComponent {
   public tableDimOptions: SelectOption[] = [
     { value: 1, viewValue: '1D' },
     { value: 2, viewValue: '2D' }
-  ]
+  ];
 
   public depOptions: SelectOption[] = [
     { value: 1, viewValue: 'Alpha' },

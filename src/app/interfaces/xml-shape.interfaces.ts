@@ -28,7 +28,7 @@ export interface EnvironmentShape {
     utc: {
       value: string;
     };
-  }
+  };
 }
 
 export interface EntityShape {

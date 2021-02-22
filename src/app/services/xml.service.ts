@@ -5,17 +5,18 @@ import { take, tap } from 'rxjs/operators';
 import { ItemService } from './item.service';
 import { SimulationFormService } from './simulation-form.service';
 import { Item } from '@interfaces';
-import {
-  appendSimXMLNode,
-  appendEnvXMLNodes
-} from '@functions';
+import { appendSimXMLNode, appendEnvXMLNodes } from '@functions';
 import format from 'xml-formatter';
+import { EntityXmlGenerator } from '@classes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class XmlService {
   public xml$ = new BehaviorSubject<string>(null);
+
+  public entityXmlGen = new EntityXmlGenerator();
+
   constructor(private simulationService: SimulationFormService, private itemService: ItemService, private electron: ElectronService) { }
 
   public exportXml(): void {
@@ -52,6 +53,9 @@ export class XmlService {
 
     // Create and append environment nodes.
     appendEnvXMLNodes(environments, xmlDoc, rootNode);
+
+    // Create and append entity nodes.
+    this.entityXmlGen.appendEntXMLNodes(entities, xmlDoc, rootNode);
 
     // Create serializer.
     const serializer = new XMLSerializer();

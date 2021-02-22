@@ -11,19 +11,19 @@ export class AeroWindComponent extends AeroPageComponent {
 
   public coefficientSubgroups = [
     { title: 'Force Coefficients', buttons: [
-      { id: 'force1', label: 'Cdrag' },
-      { id: 'force2', label: 'Cside' },
-      { id: 'force3', label: 'Clift' }
+      { id: 'force_1', label: 'Cdrag' },
+      { id: 'force_2', label: 'Cside' },
+      { id: 'force_3', label: 'Clift' }
     ]},
     { title: 'Moment Coefficients', buttons: [
-      { id: 'moment1', label: 'CL' },
-      { id: 'moment2', label: 'CM' },
-      { id: 'moment3', label: 'CN' }
+      { id: 'moment_1', label: 'CL' },
+      { id: 'moment_2', label: 'CM' },
+      { id: 'moment_3', label: 'CN' }
     ]},
     { title: 'Moment Damping Coefficients', buttons: [
-      { id: 'damping1', label: 'clp' },
-      { id: 'damping2', label: 'cmq' },
-      { id: 'damping3', label: 'cnr' }
+      { id: 'moment_damping_1', label: 'clp' },
+      { id: 'moment_damping_2', label: 'cmq' },
+      { id: 'moment_damping_3', label: 'cnr' }
     ]}
   ];
 

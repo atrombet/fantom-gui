@@ -52,6 +52,30 @@
           </mat-form-field>
         </div>
 
+        <!-- Hold Down -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Hold Down</mat-label>
+            <input matInput placeholder="Hold Down" formControlName="hold_down"/>
+          </mat-form-field>
+        </div>
+
+        <!-- Local Environment -->
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Local Environment</mat-label>
+            <mat-select
+              formControlName="local_environment"
+              name="local_environment"
+              placeholder="Local Environment"
+            >
+              <mat-option *ngFor="let option of localEnvOptions" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
       </div>  
     </div>
   </div>

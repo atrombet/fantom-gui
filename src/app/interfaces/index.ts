@@ -8,3 +8,4 @@ export * from './name-change-event.interface';
 export * from './table-column.interface';
 export * from './toggle-button-subgroup.interface';
 export * from './xml-shape.interfaces';
+export * from './entity-xml.interfaces';

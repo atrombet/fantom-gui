@@ -14,6 +14,7 @@
       "@resolvers": [ "src/app/resolvers/index.ts" ],
       "@directives": [ "src/app/directives/index.ts" ],
       "@validators": [ "src/app/validators/index.ts" ],
+      "@classes": [ "src/app/classes/index.ts" ]
     },
   },
   "files": [

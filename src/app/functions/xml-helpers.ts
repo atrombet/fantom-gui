@@ -7,3 +7,16 @@ export function createNodeFromObject(obj: any, xmlDoc: XMLDocument, nodeName: st
     return parentNode;
   }, xmlDoc.createElement(nodeName));
 }
+
+export function createNodeFromValue(value: string | number, xmlDoc: XMLDocument, nodeName: string): Element {
+  const node = xmlDoc.createElement(nodeName);
+  const text = xmlDoc.createTextNode(value.toString());
+  node.appendChild(text);
+  return node;
+}
+
+export function appendArray(nodes: Element[], parentNode: Element): void {
+  nodes.forEach(node => {
+    parentNode.appendChild(node);
+  });
+}
