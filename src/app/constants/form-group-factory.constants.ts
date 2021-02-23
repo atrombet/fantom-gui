@@ -43,11 +43,10 @@ export const epochGeneralFormGroupFactory: () => FormGroup = () => {
 
 export const metaGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
-    dof: new FormControl(1),
     parent_object: new FormControl('none'),
     solver: new FormControl(1),
-    hold_down: new FormControl(0),
-    local_environment: new FormControl('none')
+    hold_down: new FormControl(false),
+    local_environment: new FormControl(null, Validators.required)
   });
 };
 

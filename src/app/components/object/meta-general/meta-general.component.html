@@ -3,22 +3,6 @@
     <div class="flex">
       <div class="body-column">
         <h1>Metadata General Settings</h1>
-        
-        <!-- Degrees of Freedom -->
-        <div class="mbxl">
-          <mat-form-field color="accent" class="fan__input">
-            <mat-label>Degrees of Freedom</mat-label>
-            <mat-select
-              formControlName="dof"
-              name="dof"
-              placeholder="Degrees of Freedom"
-            >
-              <mat-option *ngFor="let option of dofOptions" [value]="option.value">
-                {{option.viewValue}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
 
         <!-- Parent Object -->
         <div class="mbxl">
@@ -54,10 +38,7 @@
 
         <!-- Hold Down -->
         <div class="mbxl">
-          <mat-form-field color="accent" class="fan__input">
-            <mat-label>Hold Down</mat-label>
-            <input matInput placeholder="Hold Down" formControlName="hold_down"/>
-          </mat-form-field>
+          <mat-slide-toggle formControlName="hold_down">Hold Down</mat-slide-toggle>
         </div>
 
         <!-- Local Environment -->
@@ -73,6 +54,7 @@
                 {{option.viewValue}}
               </mat-option>
             </mat-select>
+            <mat-hint>This is a required field. Create an environment if this list is empty.</mat-hint>
           </mat-form-field>
         </div>
 

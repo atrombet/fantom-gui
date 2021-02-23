@@ -14,12 +14,6 @@ import { combineLatest } from 'rxjs';
 export class MetaGeneralComponent extends SubsectionBaseComponent implements OnInit {
   public objectId: number;
 
-  public dofOptions: SelectOption[] = [
-    { value: 1, viewValue: '6' },
-    { value: 2, viewValue: '3 + 3' },
-    { value: 3, viewValue: '3' }
-  ];
-
   public parentObjectOptions: SelectOption[];
   public localEnvOptions: SelectOption[];
 
@@ -54,7 +48,6 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
         }),
         tap((environments: Item[]) => {
           this.localEnvOptions = [
-            { value: 'none', viewValue: 'None' },
             ...environments.map(env => {
               return { value: env.id, viewValue: env.name } as SelectOption;
             })
