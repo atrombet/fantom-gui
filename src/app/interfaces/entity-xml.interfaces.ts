@@ -73,3 +73,9 @@ export interface PropTableFileNames {
   specific_impulse?: FileName;
   mass_flow_rate_kg_per_sec?: FileName;
 }
+
+export interface GncTableFileNames {
+  value_1: FileName;
+  value_2: FileName;
+  value_3: FileName;
+}

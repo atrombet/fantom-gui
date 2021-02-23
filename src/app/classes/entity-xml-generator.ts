@@ -2,7 +2,7 @@
 // tslint:disable: no-string-literal
 import { createNodeFromObject, createNodeFromValue, appendArray } from '../functions/xml-helpers';
 import { flattenSections } from '../functions/item-helpers';
-import { CGFileNames, CGProps, CoefficientDependencies, CoefficientFileNames, MomentFileNames, MomentProps, PropTableFileNames, FileName } from '@interfaces';
+import { CGFileNames, CGProps, CoefficientDependencies, CoefficientFileNames, MomentFileNames, MomentProps, PropTableFileNames, FileName, GncTableFileNames } from '@interfaces';
 
 export class EntityXmlGenerator {
   public entityName: string;
@@ -66,6 +66,7 @@ export class EntityXmlGenerator {
       this.appendPropertiesNode(obj, xmlDoc, objNode);
       this.appendAeroNode(obj, xmlDoc, objNode);
       this.appendPropulsionNode(obj, xmlDoc, objNode);
+      this.appendScriptNode(obj, xmlDoc, objNode);
 
       // Append the object to the entity
       entNode.appendChild(objNode);
@@ -346,5 +347,68 @@ export class EntityXmlGenerator {
    * Object Scripts
    *********************************/
 
-  private appendScriptNode(object: any, xmlDoc: XMLDocument, objNode: Element): void {}
+  private appendScriptNode(object: any, xmlDoc: XMLDocument, objNode: Element): void {
+    const scriptNode = xmlDoc.createElement('script');
+    const segments = object.script.general.segments;
+
+    const nSegmentsNode = createNodeFromValue(segments.length, xmlDoc, 'n_segment');
+    scriptNode.appendChild(nSegmentsNode);
+
+    segments.forEach(segment => {
+      const segmentNode = xmlDoc.createElement('segment');
+      const { gnc, parameter, condition, value } = segment;
+
+      // Main segment params
+      this.appendMainSegmentParams(segment, xmlDoc, segmentNode);
+
+      // GNC params
+      const gncNode = xmlDoc.createElement('gnc');
+      gncNode.appendChild(createNodeFromValue(gnc.mode, xmlDoc, 'mode'));
+      gncNode.appendChild(createNodeFromValue(gnc.frame, xmlDoc, 'frame'));
+      const gncFilenames = this.generateGncTables(segment);
+      Object.keys(gncFilenames).forEach(key => {
+        const fileNode = createNodeFromObject(gncFilenames[key], xmlDoc, key);
+        gncNode.appendChild(fileNode);
+      });
+      segmentNode.appendChild(gncNode);
+
+      // End Criteria params
+      const endCriteria = { parameter, condition, value };
+      const endCriteriaNode = createNodeFromObject(endCriteria, xmlDoc, 'end_criteria');
+      segmentNode.appendChild(endCriteriaNode);
+
+      scriptNode.appendChild(segmentNode);
+    });
+
+    objNode.appendChild(scriptNode);
+  }
+
+  private appendMainSegmentParams(segment: any, xmlDoc: XMLDocument, segmentNode: Element): void {
+    const { name, dof, print_dt, integration_dt, reset_user_time, reset_propulsion_time, active_propulsion_sources } = segment;
+    segmentNode.appendChild(createNodeFromValue(name, xmlDoc, 'name'));
+    segmentNode.appendChild(createNodeFromValue(dof, xmlDoc, 'dof'));
+    segmentNode.appendChild(createNodeFromValue(print_dt, xmlDoc, 'print_dt'));
+    segmentNode.appendChild(createNodeFromValue(integration_dt, xmlDoc, 'integration_dt'));
+    segmentNode.appendChild(createNodeFromValue(reset_user_time ? 1 : 0, xmlDoc, 'reset_user_time'));
+    segmentNode.appendChild(createNodeFromValue(reset_propulsion_time ? 1 : 0, xmlDoc, 'reset_propulsion_time'));
+
+    const activeSourceNode = xmlDoc.createElement('enable');
+    active_propulsion_sources.forEach(source => {
+      activeSourceNode.appendChild(createNodeFromValue(source, xmlDoc, 'propulsion'));
+    });
+    segmentNode.appendChild(activeSourceNode);
+  }
+
+  private generateGncTables(segment: any): GncTableFileNames {
+    const filepath = `./simulation/${this.entityName}/${this.currentObjectName}/script/${segment.name}`;
+
+    // TODO: actually generate the table xmls
+
+    return {
+      value_1: { filename: `${filepath}/value_1.xml` },
+      value_2: { filename: `${filepath}/value_2.xml` },
+      value_3: { filename: `${filepath}/value_3.xml` }
+    };
+  }
+
 }
