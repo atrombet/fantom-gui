@@ -59,7 +59,7 @@ const routes: Routes = [
       { path: 'initial_position', component: InitialPositionComponent, resolve: { form: FormResolver } },
       { path: 'initial_velocity', component: InitialVelocityComponent, resolve: { form: FormResolver } },
       { path: 'initial_orientation', component: InitialOrientationComponent, resolve: { form: FormResolver } },
-      { path: 'initial_bodyrates', component: InitialBodyratesComponent, resolve: { form: FormResolver } },
+      { path: 'initial_bodyrates', component: InitialBodyratesComponent, resolve: { form: FormResolver, sixDof: ObjectDofResolver } },
       { path: 'script_general', component: ScriptGeneralComponent, resolve: {
         form: FormResolver,
         propSources: PropSourcesResolver,

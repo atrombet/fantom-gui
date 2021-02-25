@@ -59,6 +59,11 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
   }
 
   public ngAfterViewInit(): void {
+    if (this.form.get('allow_six_dof').value) {
+      this.enableSectionsIn6Dof();
+    } else {
+      this.disableSectionsIn3Dof();
+    }
     this.subs.add(
       this.form.get('allow_six_dof').valueChanges.subscribe(value => {
         if (value) {
@@ -77,6 +82,17 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
       this.objectId,
       [ { name: 'mass', isDisabled: true } ]
     );
+    this.itemService.getItemById(ItemType.Object, this.objectId)
+      .sections
+      .find(sec => sec.name === 'initial')
+      .subsections
+      .find(sub => sub.name === 'bodyrates')
+      .form
+      .patchValue({
+        value_1: 0,
+        value_2: 0,
+        value_3: 0
+      });
   }
 
   private enableSectionsIn6Dof(): void {

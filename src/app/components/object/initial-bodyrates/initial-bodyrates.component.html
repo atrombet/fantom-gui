@@ -20,26 +20,26 @@
           </mat-form-field>
         </div>
 
-        <h1>Initial Body Rates</h1>
+        <h1 [ngClass]="{'fan--disabled': !data.sixDof}">Initial Body Rates</h1>
         <div>
           <mat-form-field color="accent" class="fan__input">
             <mat-label>P</mat-label>
-            <input matInput formControlName="value_1" />
-            <span matSuffix>deg/sec</span>
+            <input matInput [disableControl]="!data.sixDof" formControlName="value_1" />
+            <span matSuffix [ngClass]="{'fan--disabled': !data.sixDof}">deg/sec</span>
           </mat-form-field>
         </div>
         <div>
           <mat-form-field color="accent" class="fan__input">
             <mat-label>Q</mat-label>
-            <input matInput formControlName="value_2" />
-            <span matSuffix>deg/sec</span>
+            <input matInput [disableControl]="!data.sixDof" formControlName="value_2" />
+            <span matSuffix [ngClass]="{'fan--disabled': !data.sixDof}">deg/sec</span>
           </mat-form-field>
         </div>
         <div>
           <mat-form-field color="accent" class="fan__input">
             <mat-label>R</mat-label>
-            <input matInput formControlName="value_3" />
-            <span matSuffix>deg/sec</span>
+            <input matInput [disableControl]="!data.sixDof" formControlName="value_3" />
+            <span matSuffix [ngClass]="{'fan--disabled': !data.sixDof}">deg/sec</span>
           </mat-form-field>
         </div>
 
