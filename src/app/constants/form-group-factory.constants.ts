@@ -123,12 +123,12 @@ export const propGeneralFormGroupFactory: () => FormGroup = () => {
 export const propSourceFormGroupFactory: (name?: string) => FormGroup = (name) => {
   return new FormGroup({
     name: new FormControl(name || 'source'),
-    position_x: new FormControl(''),
-    position_y: new FormControl(''),
-    position_z: new FormControl(''),
-    orientation_roll: new FormControl(''),
-    orientation_pitch: new FormControl(''),
-    orientation_yaw: new FormControl(''),
+    position_x: new FormControl(0),
+    position_y: new FormControl(0),
+    position_z: new FormControl(0),
+    orientation_roll: new FormControl(0),
+    orientation_pitch: new FormControl(0),
+    orientation_yaw: new FormControl(0),
     nozzle_exit_area: new FormControl(''),
     mode: new FormControl(0),
     table_1: new FormArray([]),
