@@ -34,33 +34,33 @@
         <div class="mbxl">
           <mat-form-field color="accent" class="fan__input">
             <mat-label>Reference Length</mat-label>
-            <input matInput placeholder="Reference Length" formControlName="aero_ref_length"/>
-            <span matSuffix>m</span>
+            <input matInput [disableControl]="!data.sixDof" placeholder="Reference Length" formControlName="aero_ref_length"/>
+            <span matSuffix [ngClass]="{'fan--disabled': !data.sixDof}">m</span>
             <mat-hint>Aerodynamic coefficient lref</mat-hint>
           </mat-form-field>
         </div>
         
-        <h1>Moment Reference Location</h1>
-        <div class="mbxl">Aerodynamic moment reference location in body coordinate frame</div>
+        <h1 [ngClass]="{'fan--disabled': !data.sixDof}">Moment Reference Location</h1>
+        <div class="mbxl" [ngClass]="{'fan--disabled': !data.sixDof}">Aerodynamic moment reference location in body coordinate frame</div>
         <div>
           <mat-form-field color="accent" class="fan__input">
             <mat-label>X</mat-label>
-            <input matInput formControlName="aero_moment_ref_x" />
-            <span matSuffix>m</span>
+            <input matInput [disableControl]="!data.sixDof" formControlName="aero_moment_ref_x" />
+            <span matSuffix [ngClass]="{'fan--disabled': !data.sixDof}">m</span>
           </mat-form-field>
         </div>
         <div>
           <mat-form-field color="accent" class="fan__input">
             <mat-label>Y</mat-label>
-            <input matInput formControlName="aero_moment_ref_y" />
-            <span matSuffix>m</span>
+            <input matInput [disableControl]="!data.sixDof" formControlName="aero_moment_ref_y" />
+            <span matSuffix [ngClass]="{'fan--disabled': !data.sixDof}">m</span>
           </mat-form-field>
         </div>
         <div>
           <mat-form-field color="accent" class="fan__input">
             <mat-label>Z</mat-label>
-            <input matInput formControlName="aero_moment_ref_z" />
-            <span matSuffix>m</span>
+            <input matInput [disableControl]="!data.sixDof" formControlName="aero_moment_ref_z" />
+            <span matSuffix [ngClass]="{'fan--disabled': !data.sixDof}">m</span>
           </mat-form-field>
         </div>
       </div>  

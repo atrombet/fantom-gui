@@ -175,16 +175,38 @@ export class ItemService {
    * @param subsection - The names and disabled states of the subsections to update.
    * @param parentSectionName - The name of the parent section.
    */
-  public updateItemSubsVis(type: ItemType, id: number, subsection: { name: string, isDisabled: boolean}[], parentSectionName: string): void {
+  public updateItemSubsVis(
+    type: ItemType,
+    id: number,
+    subsection: { name: string, isDisabled: boolean}[],
+    parentSectionName: string
+  ): void {
     const newMap = this.cloneMap(type);
     const item: Item = newMap.get(id);
     const section = item.sections.find(s => s.name === parentSectionName);
     if (section) {
       subsection.forEach(sub => {
-        const subsection = section.subsections.find(s => s.name === sub.name);
-        subsection.isDisabled = sub.isDisabled;
-      })
+        const subToDisable = section.subsections.find(s => s.name === sub.name);
+        subToDisable.isDisabled = sub.isDisabled;
+      });
     }
+    newMap.set(id, item);
+    this.state[type].data.next(newMap);
+  }
+
+  /**
+   * Updates a set of sections
+   * @param type - The type of the item to search for sections.
+   * @param id - The id of the item.
+   * @param subsection - The names and disabled states of the sections to update.
+   */
+  public updateItemSectionVis(type: ItemType, id: number, sections: { name: string, isDisabled: boolean}[]): void {
+    const newMap = this.cloneMap(type);
+    const item: Item = newMap.get(id);
+    sections.forEach(sec => {
+      const sectionToDisable = item.sections.find(s => s.name === sec.name);
+      sectionToDisable.isDisabled = sec.isDisabled;
+    });
     newMap.set(id, item);
     this.state[type].data.next(newMap);
   }

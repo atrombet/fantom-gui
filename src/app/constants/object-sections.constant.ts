@@ -30,7 +30,7 @@ export const OBJECT_SECTIONS: () => Section[] = () => [
       { displayName: 'center of gravity', name: 'cg', icon: 'security', form: massCgFormGroupFactory(), route: 'mass_cg', isDisabled: false },
       { displayName: 'moments of inertia', name: 'inertia', icon: 'bubble_chart', form: massInertiaFormGroupFactory(), route: 'mass_inertia', isDisabled: false }
     ],
-    isDisabled: false
+    isDisabled: true
   },
   {
     displayName: 'aerodynamics',
@@ -38,9 +38,9 @@ export const OBJECT_SECTIONS: () => Section[] = () => [
     icon: 'flight',
     subsections: [
       { displayName: 'general', name: 'general', icon: 'grade', form: aeroGeneralFormGroupFactory(), route: 'aerodynamics_general', isDisabled: false },
+      { displayName: 'body-fixed', name: 'bodyfixed', icon: 'border_all', form: aeroTableFormGroupFactory(), route: 'aerodynamics_bodyfixed', isDisabled: true },
       { displayName: 'axisymmetric', name: 'axisymmetric', icon: 'align_horizontal_center', form: aeroTableFormGroupFactory(), route: 'aerodynamics_axisymmetric', isDisabled: true },
-      { displayName: 'wind', name: 'wind', icon: 'waves', form: aeroTableFormGroupFactory(), route: 'aerodynamics_wind', isDisabled: true },
-      { displayName: 'body-fixed', name: 'bodyfixed', icon: 'border_all', form: aeroTableFormGroupFactory(), route: 'aerodynamics_bodyfixed', isDisabled: true }
+      { displayName: 'wind', name: 'wind', icon: 'waves', form: aeroTableFormGroupFactory(), route: 'aerodynamics_wind', isDisabled: true }
     ],
     isDisabled: false
   },

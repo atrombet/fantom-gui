@@ -3,5 +3,6 @@ export interface ToggleButtonSubgroup {
   buttons: {
     id: string;
     label: string;
+    enable: boolean;
   }[];
 }

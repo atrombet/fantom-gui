@@ -51,6 +51,7 @@ export class EntityXmlGenerator {
   public appendObjectXMLNodes(objects: any, xmlDoc: XMLDocument, entNode: Element): void {
     objects.forEach(complexObj => {
       const obj = flattenSections(complexObj);
+      const allowSixDof = obj.meta.general.allow_six_dof;
 
       // Create object node.
       const objNode = xmlDoc.createElement('object');
@@ -63,7 +64,7 @@ export class EntityXmlGenerator {
       // Append section data to object.
       this.appendMetadata(obj, xmlDoc, objNode);
       this.appendInitNode(obj, xmlDoc, objNode);
-      this.appendPropertiesNode(obj, xmlDoc, objNode);
+      if (allowSixDof) { this.appendPropertiesNode(obj, xmlDoc, objNode); }
       this.appendAeroNode(obj, xmlDoc, objNode);
       this.appendPropulsionNode(obj, xmlDoc, objNode);
       this.appendScriptNode(obj, xmlDoc, objNode);
@@ -78,7 +79,7 @@ export class EntityXmlGenerator {
    **************************/
 
   private appendMetadata(object: any, xmlDoc: XMLDocument, objNode: Element): void {
-    const { dof, parent_object, solver, hold_down, local_environment } = object.meta.general;
+    const { parent_object, solver, hold_down, local_environment } = object.meta.general;
     const parentNode = createNodeFromValue(parent_object, xmlDoc, 'parent');
     const solverNode = createNodeFromValue(solver, xmlDoc, 'solver');
     const holdDownNode = createNodeFromValue(hold_down, xmlDoc, 'hold_down');
@@ -175,6 +176,7 @@ export class EntityXmlGenerator {
 
   private appendAeroNode(object: any, xmlDoc: XMLDocument, objNode: Element): void {
     const aeroNode = xmlDoc.createElement('aerodynamics');
+    const allowSixDof = object.meta.general.allow_six_dof;
     const { aero_mode, aero_ref_area, aero_ref_length, aero_moment_ref_x, aero_moment_ref_y, aero_moment_ref_z } = object.aerodynamics.general;
 
     // Mode
@@ -182,15 +184,19 @@ export class EntityXmlGenerator {
     aeroNode.appendChild(modeNode);
 
     // Reference
-    const referenceNode = createNodeFromObject({
-      area: aero_ref_area,
-      length: aero_ref_length,
-      moment_reference_location: `${aero_moment_ref_x}, ${aero_moment_ref_y}, ${aero_moment_ref_z}`
-    }, xmlDoc, 'reference');
+    let referenceObj: any = { area: aero_ref_area };
+    if (allowSixDof) {
+      referenceObj = {
+        ...referenceObj,
+        length: aero_ref_length,
+        moment_reference_location: `${aero_moment_ref_x}, ${aero_moment_ref_y}, ${aero_moment_ref_z}`
+      };
+    }
+    const referenceNode = createNodeFromObject(referenceObj, xmlDoc, 'reference');
     aeroNode.appendChild(referenceNode);
 
     // Coefficients
-    const coFileNames = this.generateCoefficientsFiles(object.aerodynamics);
+    const coFileNames = this.generateCoefficientsFiles(object.aerodynamics, allowSixDof);
     const coefficientsNode = xmlDoc.createElement('coefficients');
     Object.keys(coFileNames).forEach(key => {
       coefficientsNode.appendChild(
@@ -200,7 +206,7 @@ export class EntityXmlGenerator {
     aeroNode.appendChild(coefficientsNode);
 
     // Coefficients Dependencies
-    const coDepValues = this.generateCoefficientDependencies(object.aerodynamics);
+    const coDepValues = this.generateCoefficientDependencies(object.aerodynamics, allowSixDof);
     const coDepNode = xmlDoc.createElement('coefficients_dependencies');
     Object.keys(coDepValues).forEach(key => {
       coDepNode.appendChild(
@@ -212,26 +218,31 @@ export class EntityXmlGenerator {
     objNode.appendChild(aeroNode);
   }
 
-  private generateCoefficientsFiles(aero: any): CoefficientFileNames {
+  private generateCoefficientsFiles(aero: any, allowSixDof: boolean): CoefficientFileNames {
     const filepath = `./simulation/${this.entityName}/${this.currentObjectName}/aerodynamics`;
 
     // TODO: Generate files.
 
-    const filenames: CoefficientFileNames = {
+    let filenames: CoefficientFileNames = {
       force_1: { filename: `${filepath}/force_1.xml` },
       force_2: { filename: `${filepath}/force_2.xml` },
-      force_3: { filename: `${filepath}/force_3.xml` },
-      moment_1: { filename: `${filepath}/moment_1.xml` },
-      moment_2: { filename: `${filepath}/moment_2.xml` },
-      moment_3: { filename: `${filepath}/moment_3.xml` },
-      moment_damping_1: { filename: `${filepath}/moment_damping_1.xml` },
-      moment_damping_2: { filename: `${filepath}/moment_damping_2.xml` },
-      moment_damping_3: { filename: `${filepath}/moment_damping_3.xml` }
+      force_3: { filename: `${filepath}/force_3.xml` }
     };
+    if (allowSixDof) {
+      filenames = {
+        ...filenames,
+        moment_1: { filename: `${filepath}/moment_1.xml` },
+        moment_2: { filename: `${filepath}/moment_2.xml` },
+        moment_3: { filename: `${filepath}/moment_3.xml` },
+        moment_damping_1: { filename: `${filepath}/moment_damping_1.xml` },
+        moment_damping_2: { filename: `${filepath}/moment_damping_2.xml` },
+        moment_damping_3: { filename: `${filepath}/moment_damping_3.xml` }
+      };
+    }
     return filenames;
   }
 
-  private generateCoefficientDependencies(aero: any): CoefficientDependencies {
+  private generateCoefficientDependencies(aero: any, allowSixDof: boolean): CoefficientDependencies {
     const getCoDef = (coDefVal): string => {
       return coDefVal.size === 1 ? coDefVal.table['dep'] : `${coDefVal.table['row_dep']}, ${coDefVal.table['col_dep']}`;
     };
@@ -244,17 +255,22 @@ export class EntityXmlGenerator {
       case 3: vals = aero.wind; break;
     }
 
-    const deps: CoefficientDependencies = {
+    let deps: CoefficientDependencies = {
       force_1: { dependency: getCoDef(vals.force_1)},
       force_2: { dependency: getCoDef(vals.force_2)},
-      force_3: { dependency: getCoDef(vals.force_3)},
-      moment_1: { dependency: getCoDef(vals.moment_1)},
-      moment_2: { dependency: getCoDef(vals.moment_2)},
-      moment_3: { dependency: getCoDef(vals.moment_3)},
-      moment_damping_1: { dependency: getCoDef(vals.moment_damping_1)},
-      moment_damping_2: { dependency: getCoDef(vals.moment_damping_2)},
-      moment_damping_3: { dependency: getCoDef(vals.moment_damping_3)}
+      force_3: { dependency: getCoDef(vals.force_3)}
     };
+    if (allowSixDof) {
+      deps = {
+        ...deps,
+        moment_1: { dependency: getCoDef(vals.moment_1)},
+        moment_2: { dependency: getCoDef(vals.moment_2)},
+        moment_3: { dependency: getCoDef(vals.moment_3)},
+        moment_damping_1: { dependency: getCoDef(vals.moment_damping_1)},
+        moment_damping_2: { dependency: getCoDef(vals.moment_damping_2)},
+        moment_damping_3: { dependency: getCoDef(vals.moment_damping_3)}
+      };
+    }
     return deps;
   }
 

@@ -5,9 +5,10 @@
       <div>
         <span *ngFor="let button of sub.buttons" class="mrs">
           <button 
-          mat-flat-button
-          [color]="button.id === selected ? 'accent' : ''"
-          (click)="buttonSelected(button.id)"
+            mat-flat-button
+            [color]="button.id === selected ? 'accent' : ''"
+            (click)="buttonSelected(button.id)"
+            [disabled]="!button.enable"
           >{{button.label}}</button>
         </span>
       </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubsectionBaseComponent } from '@components/shared';
 import { SelectOption } from '@interfaces';
@@ -6,12 +6,13 @@ import { tap, switchMap } from 'rxjs/operators';
 import { ItemService } from '@services';
 import { Item } from '@interfaces';
 import { combineLatest } from 'rxjs';
+import { ItemType } from '../../../enums';
 
 @Component({
   selector: 'meta-general',
   templateUrl: './meta-general.component.html'
 })
-export class MetaGeneralComponent extends SubsectionBaseComponent implements OnInit {
+export class MetaGeneralComponent extends SubsectionBaseComponent implements OnInit, AfterViewInit {
   public objectId: number;
 
   public parentObjectOptions: SelectOption[];
@@ -54,6 +55,36 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
           ];
         })
       ).subscribe()
+    );
+  }
+
+  public ngAfterViewInit(): void {
+    this.subs.add(
+      this.form.get('allow_six_dof').valueChanges.subscribe(value => {
+        if (value) {
+          this.enableSectionsIn6Dof();
+        } else {
+          this.disableSectionsIn3Dof();
+        }
+      })
+    );
+  }
+
+  private disableSectionsIn3Dof(): void {
+    // Disable Mass Properties
+    this.itemService.updateItemSectionVis(
+      ItemType.Object,
+      this.objectId,
+      [ { name: 'mass', isDisabled: true } ]
+    );
+  }
+
+  private enableSectionsIn6Dof(): void {
+    // Enable Mass Properties
+    this.itemService.updateItemSectionVis(
+      ItemType.Object,
+      this.objectId,
+      [ { name: 'mass', isDisabled: false } ]
     );
   }
 }

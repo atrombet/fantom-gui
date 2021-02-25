@@ -4,7 +4,7 @@
       <section-button 
       *ngFor="let section of sections"
       [section]="section"
-      (click)="selectSection(section)"
+      (sectionSelected)="selectSection(section)"
       [ngClass]="{'selected': selectedSection.name === section.name}"
       ></section-button>
     </ng-container>

@@ -45,6 +45,16 @@ export class AeroPageComponent extends SubsectionBaseComponent {
           this.form.get(this.selectedCoefficient)['controls'].table = twoDimTable();
         }
       })
-    )
+    );
+  }
+
+  public disableMomentAndDampingCoefficients(coSubGroups): void {
+    coSubGroups[1].buttons.forEach(button => button.enable = false);
+    coSubGroups[2].buttons.forEach(button => button.enable = false);
+  }
+
+  public enableMomentAndDampingCoefficients(coSubGroups): void {
+    coSubGroups[1].buttons.forEach(button => button.enable = true);
+    coSubGroups[2].buttons.forEach(button => button.enable = true);
   }
 }

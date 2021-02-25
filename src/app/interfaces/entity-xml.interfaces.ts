@@ -48,24 +48,24 @@ export interface CoefficientFileNames {
   force_1: FileName;
   force_2: FileName;
   force_3: FileName;
-  moment_1: FileName;
-  moment_2: FileName;
-  moment_3: FileName;
-  moment_damping_1: FileName;
-  moment_damping_2: FileName;
-  moment_damping_3: FileName;
+  moment_1?: FileName;
+  moment_2?: FileName;
+  moment_3?: FileName;
+  moment_damping_1?: FileName;
+  moment_damping_2?: FileName;
+  moment_damping_3?: FileName;
 }
 
 export interface CoefficientDependencies {
   force_1: Dependency;
   force_2: Dependency;
   force_3: Dependency;
-  moment_1: Dependency;
-  moment_2: Dependency;
-  moment_3: Dependency;
-  moment_damping_1: Dependency;
-  moment_damping_2: Dependency;
-  moment_damping_3: Dependency;
+  moment_1?: Dependency;
+  moment_2?: Dependency;
+  moment_3?: Dependency;
+  moment_damping_1?: Dependency;
+  moment_damping_2?: Dependency;
+  moment_damping_3?: Dependency;
 }
 
 export interface PropTableFileNames {

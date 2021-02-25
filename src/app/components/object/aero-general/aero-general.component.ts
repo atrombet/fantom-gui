@@ -29,6 +29,12 @@ export class AeroGeneralComponent extends SubsectionBaseComponent implements Aft
   }
 
   public ngAfterViewInit(): void {
+    this.itemService.updateItemSubsVis(
+      ItemType.Object,
+      parseInt(this.route.snapshot.params.id, 10),
+      [{ name: 'bodyfixed', isDisabled: false }],
+      'aerodynamics'
+    );
     this.subs.add(
       this.form.get('aero_mode').valueChanges.subscribe(value => {
         const subsections = Object.keys(this.modeToSubsectionMap).map(key => {
