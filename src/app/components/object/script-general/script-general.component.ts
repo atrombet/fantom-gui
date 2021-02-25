@@ -12,6 +12,7 @@ export class ScriptGeneralComponent extends SubsectionBaseComponent implements A
   public selectedSegmentIndex: number = null;
   public segments: FormArray;
   public propSources: string[];
+  public allowSixDof: boolean;
 
   constructor(protected route: ActivatedRoute) {
     super(route);
@@ -23,6 +24,7 @@ export class ScriptGeneralComponent extends SubsectionBaseComponent implements A
   public ngAfterViewInit(): void {
     this.segments = this.form.get('segments') as FormArray;
     this.propSources = this.data.propSources?.value.map(propSource => propSource.name);
+    this.allowSixDof = this.data.sixDof;
   }
 
   /**

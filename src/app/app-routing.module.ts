@@ -7,7 +7,7 @@ import { AtmosphereGeneralComponent } from '@components/environment/atmosphere-g
 import { BodyGeneralComponent } from '@components/environment/body-general/body-general.component';
 import { WindGeneralComponent } from '@components/environment/wind-general/wind-general.component';
 import { EpochGeneralComponent } from '@components/environment/epoch-general/epoch-general.component';
-import { FormResolver, ParentIdResolver, PropSourcesResolver } from '@resolvers';
+import { FormResolver, ParentIdResolver, PropSourcesResolver, ObjectDofResolver } from '@resolvers';
 import { EntityComponent } from '@components/entity/entity.component';
 import { ItemType } from '@enums';
 import { ObjectComponent } from '@components/object/object.component';
@@ -60,7 +60,11 @@ const routes: Routes = [
       { path: 'initial_velocity', component: InitialVelocityComponent, resolve: { form: FormResolver } },
       { path: 'initial_orientation', component: InitialOrientationComponent, resolve: { form: FormResolver } },
       { path: 'initial_bodyrates', component: InitialBodyratesComponent, resolve: { form: FormResolver } },
-      { path: 'script_general', component: ScriptGeneralComponent, resolve: { form: FormResolver, propSources: PropSourcesResolver } }
+      { path: 'script_general', component: ScriptGeneralComponent, resolve: {
+        form: FormResolver,
+        propSources: PropSourcesResolver,
+        sixDof: ObjectDofResolver
+      } }
     ]}
   ]}
 ];
@@ -71,7 +75,8 @@ const routes: Routes = [
   providers: [
     FormResolver,
     PropSourcesResolver,
-    ParentIdResolver
+    ParentIdResolver,
+    ObjectDofResolver
   ]
 })
 export class AppRoutingModule { }

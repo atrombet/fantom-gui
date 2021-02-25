@@ -45,6 +45,7 @@ export const metaGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     parent_object: new FormControl('none'),
     solver: new FormControl(1),
+    allow_six_dof: new FormControl(false),
     hold_down: new FormControl(false),
     local_environment: new FormControl(null, Validators.required)
   });

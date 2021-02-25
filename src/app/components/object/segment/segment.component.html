@@ -13,10 +13,11 @@
             name="dof"
             placeholder="Degrees of Freedom"
           >
-            <mat-option *ngFor="let option of dofOptions" [value]="option.value">
+            <mat-option *ngFor="let option of dofOptions" [value]="option.value" [disabled]="!allowSixDof && option.value === '6'">
               {{option.viewValue}}
             </mat-option>
           </mat-select>
+          <mat-hint>Enable "Allow 6 DOF" on Metadata - General to select 6 DOF.</mat-hint>
         </mat-form-field>
       </div>
 

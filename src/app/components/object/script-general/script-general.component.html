@@ -32,7 +32,7 @@
           <!-- Segment Editor -->
           <div>
             <ng-container *ngIf="selectedSegmentIndex !== null">
-              <segment [segment]="segments.controls[selectedSegmentIndex]" [propSources]="propSources"></segment>
+              <segment [segment]="segments.controls[selectedSegmentIndex]" [propSources]="propSources" [allowSixDof]="allowSixDof"></segment>
             </ng-container>
           </div>
         </div>

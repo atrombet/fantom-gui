@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { SelectOption, TableColumn } from '@interfaces';
 
 @Component({
@@ -9,6 +9,7 @@ import { SelectOption, TableColumn } from '@interfaces';
 export class SegmentComponent {
   @Input() public segment: FormGroup;
   @Input() public propSources: string[];
+  @Input() public allowSixDof: boolean;
 
   public dofOptions: SelectOption[] = [
     { value: '3+3', viewValue: '3 + 3' },
