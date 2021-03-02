@@ -1,3 +1,5 @@
+import { XmlFile } from "../interfaces";
+
 export function createNodeFromObject(obj: any, xmlDoc: XMLDocument, nodeName: string): Element {
   return Object.keys(obj).reduce((parentNode, key) => {
     const node = xmlDoc.createElement(key);
@@ -18,5 +20,13 @@ export function createNodeFromValue(value: string | number, xmlDoc: XMLDocument,
 export function appendArray(nodes: Element[], parentNode: Element): void {
   nodes.forEach(node => {
     parentNode.appendChild(node);
+  });
+}
+
+export function appendFilepaths(files: { [key: string]: XmlFile }, parentNode: Element, xmlDoc: XMLDocument): void {
+  Object.keys(files).forEach(key => {
+    parentNode.appendChild(
+      createNodeFromObject({ filename: files[key].filepath }, xmlDoc, key)
+    );
   });
 }

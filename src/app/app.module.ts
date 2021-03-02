@@ -24,8 +24,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatListModule } from '@angular/material/list';
 
-
-
 // Component Imports
 import { AppComponent } from './app.component';
 import { SimulationTabComponent } from '@components/tabs/simulation-tab/simulation-tab.component';

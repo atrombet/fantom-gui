@@ -1,10 +1,11 @@
 // tslint:disable: max-line-length
 // tslint:disable: no-string-literal
-import { createNodeFromObject, createNodeFromValue, appendArray } from '../functions/xml-helpers';
+import { createNodeFromObject, createNodeFromValue, appendArray, appendFilepaths } from '../functions/xml-helpers';
 import { flattenSections } from '../functions/item-helpers';
-import { CGFileNames, CGProps, CoefficientDependencies, CoefficientFileNames, MomentFileNames, MomentProps, PropTableFileNames, FileName, GncTableFileNames } from '@interfaces';
+import { CGFiles, CGProps, CoefficientDependencies, CoefficientFiles, MomentFiles, MomentProps, PropTableFiles, XmlFile, GncTableFiles } from '@interfaces';
 
 export class EntityXmlGenerator {
+  public simulationName: string;
   public entityName: string;
   public currentObjectName: string;
 
@@ -20,7 +21,10 @@ export class EntityXmlGenerator {
    * @param xmlDoc - The xml doc.
    * @param rootNode - the root node of the xml doc.
    */
-  public appendEntXMLNodes(entities: any, xmlDoc: XMLDocument, rootNode: Element): void {
+  public appendEntXMLNodes(entities: any, xmlDoc: XMLDocument, rootNode: Element, simulationName: string): XmlFile[] {
+    this.simulationName = simulationName;
+    const allEntityFiles: XmlFile[] = [];
+
     entities.forEach(entity => {
       // Create entity node.
       const entNode = xmlDoc.createElement('entity');
@@ -31,11 +35,14 @@ export class EntityXmlGenerator {
       entNode.appendChild(nameNode);
 
       // Append the objects to this entity
-      this.appendObjectXMLNodes(entity.objects, xmlDoc, entNode);
+      const allObjectFiles: XmlFile[] = this.appendObjectXMLNodes(entity.objects, xmlDoc, entNode);
+      allEntityFiles.push(...allObjectFiles);
 
       // Append the entity node to the root node.
       rootNode.appendChild(entNode);
     });
+
+    return allEntityFiles;
   }
 
   /**************************
@@ -48,7 +55,9 @@ export class EntityXmlGenerator {
    * @param xmlDoc - The xml doc.
    * @param entNode - The top level node for this entity.
    */
-  public appendObjectXMLNodes(objects: any, xmlDoc: XMLDocument, entNode: Element): void {
+  public appendObjectXMLNodes(objects: any, xmlDoc: XMLDocument, entNode: Element): XmlFile[] {
+    const allObjectFiles: XmlFile[] = [];
+
     objects.forEach(complexObj => {
       const obj = flattenSections(complexObj);
       const allowSixDof = obj.meta.general.allow_six_dof;
@@ -64,14 +73,22 @@ export class EntityXmlGenerator {
       // Append section data to object.
       this.appendMetadata(obj, xmlDoc, objNode);
       this.appendInitNode(obj, xmlDoc, objNode);
-      if (allowSixDof) { this.appendPropertiesNode(obj, xmlDoc, objNode); }
-      this.appendAeroNode(obj, xmlDoc, objNode);
-      this.appendPropulsionNode(obj, xmlDoc, objNode);
-      this.appendScriptNode(obj, xmlDoc, objNode);
+      if (allowSixDof) {
+        const propertiesFiles = this.appendPropertiesNode(obj, xmlDoc, objNode);
+        allObjectFiles.push(...propertiesFiles);
+      }
+      const aeroFiles = this.appendAeroNode(obj, xmlDoc, objNode);
+      allObjectFiles.push(...aeroFiles);
+      const propulsionFiles = this.appendPropulsionNode(obj, xmlDoc, objNode);
+      allObjectFiles.push(...propulsionFiles);
+      const scriptFiles = this.appendScriptNode(obj, xmlDoc, objNode);
+      allObjectFiles.push(...scriptFiles);
 
       // Append the object to the entity
       entNode.appendChild(objNode);
     });
+
+    return allObjectFiles;
   }
 
   /**************************
@@ -109,44 +126,41 @@ export class EntityXmlGenerator {
    * Object Properties
    *********************************/
 
-  private appendPropertiesNode(object: any, xmlDoc: XMLDocument, objNode: Element): void {
+  private appendPropertiesNode(object: any, xmlDoc: XMLDocument, objNode: Element): XmlFile[] {
     const massPropNode = xmlDoc.createElement('mass_properties');
 
     // Center of gravity
-    const cgFileNames: CGFileNames = this.generateCGFiles(object.mass.cg);
+    const cgFiles = this.generateCGFiles(object.mass.cg) as unknown as { [key: string]: XmlFile };
     const cgNode = xmlDoc.createElement('center_of_gravity_location_m');
-    Object.keys(cgFileNames).forEach(key => {
-      cgNode.appendChild(
-        createNodeFromObject(cgFileNames[key], xmlDoc, key)
-      );
-    });
+    appendFilepaths(cgFiles, cgNode, xmlDoc);
     massPropNode.appendChild(cgNode);
 
     // Moments of intertia
-    const momentFileNames = this.generateMomentFiles(object.mass.inertia);
+    const momentFiles = this.generateMomentFiles(object.mass.inertia) as unknown as { [key: string]: XmlFile };
     const momentNode = xmlDoc.createElement('moment_of_inertia_kg_m2');
-    Object.keys(momentFileNames).forEach(key => {
-      momentNode.appendChild(
-        createNodeFromObject(momentFileNames[key], xmlDoc, key)
-      );
-    });
+    appendFilepaths(momentFiles, momentNode, xmlDoc);
     massPropNode.appendChild(momentNode);
 
     objNode.appendChild(massPropNode);
+
+    return [
+      ...Object.values(cgFiles),
+      ...Object.values(momentFiles)
+    ];
   }
 
   /**
    * Generates XML files for the CG properties and returns the filenames.
    */
-  private generateCGFiles({ cg_dependency, rows }: CGProps): CGFileNames {
-    const filepath = `./simulation/${this.entityName}/${this.currentObjectName}/mass_properties`;
+  private generateCGFiles({ cg_dependency, rows }: CGProps): CGFiles {
+    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/mass_properties`;
 
     // TODO: Generate files.
 
-    const filenames: CGFileNames = {
-      x: { filename: `${filepath}/cg_x_m.xml` },
-      y: { filename: `${filepath}/cg_y_m.xml` },
-      z: { filename: `${filepath}/cg_z_m.xml` }
+    const filenames: CGFiles = {
+      x: { filepath: `${filepath}/cg_x_m.xml`, content: '' },
+      y: { filepath: `${filepath}/cg_y_m.xml`, content: '' },
+      z: { filepath: `${filepath}/cg_z_m.xml`, content: '' }
     };
     return filenames;
   }
@@ -154,18 +168,18 @@ export class EntityXmlGenerator {
   /**
    * Generates XML files for the moment of inertia properties and returns the filenames.
    */
-  private generateMomentFiles({ inertia_dependency, rows }: MomentProps): MomentFileNames {
-    const filepath = `./simulation/${this.entityName}/${this.currentObjectName}/moment_of_inertia`;
+  private generateMomentFiles({ inertia_dependency, rows }: MomentProps): MomentFiles {
+    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/moment_of_inertia`;
 
     // TODO: Generate files.
 
-    const filenames: MomentFileNames = {
-      ixx: { filename: `${filepath}/moi_ixx_m.xml` },
-      iyy: { filename: `${filepath}/moi_iyy_m.xml` },
-      izz: { filename: `${filepath}/moi_izz_m.xml` },
-      ixy: { filename: `${filepath}/moi_ixy_m.xml` },
-      ixz: { filename: `${filepath}/moi_ixz_m.xml` },
-      iyz: { filename: `${filepath}/moi_iyz_m.xml` }
+    const filenames: MomentFiles = {
+      ixx: { filepath: `${filepath}/moi_ixx_m.xml`, content: '' },
+      iyy: { filepath: `${filepath}/moi_iyy_m.xml`, content: '' },
+      izz: { filepath: `${filepath}/moi_izz_m.xml`, content: '' },
+      ixy: { filepath: `${filepath}/moi_ixy_m.xml`, content: '' },
+      ixz: { filepath: `${filepath}/moi_ixz_m.xml`, content: '' },
+      iyz: { filepath: `${filepath}/moi_iyz_m.xml`, content: '' }
     };
     return filenames;
   }
@@ -174,7 +188,7 @@ export class EntityXmlGenerator {
    * Object Aerodynamics
    *********************************/
 
-  private appendAeroNode(object: any, xmlDoc: XMLDocument, objNode: Element): void {
+  private appendAeroNode(object: any, xmlDoc: XMLDocument, objNode: Element): XmlFile[] {
     const aeroNode = xmlDoc.createElement('aerodynamics');
     const allowSixDof = object.meta.general.allow_six_dof;
     const { aero_mode, aero_ref_area, aero_ref_length, aero_moment_ref_x, aero_moment_ref_y, aero_moment_ref_z } = object.aerodynamics.general;
@@ -196,13 +210,9 @@ export class EntityXmlGenerator {
     aeroNode.appendChild(referenceNode);
 
     // Coefficients
-    const coFileNames = this.generateCoefficientsFiles(object.aerodynamics, allowSixDof);
+    const coFiles = this.generateCoefficientsFiles(object.aerodynamics, allowSixDof) as unknown as { [key: string]: XmlFile };
     const coefficientsNode = xmlDoc.createElement('coefficients');
-    Object.keys(coFileNames).forEach(key => {
-      coefficientsNode.appendChild(
-        createNodeFromObject(coFileNames[key], xmlDoc, key)
-      );
-    });
+    appendFilepaths(coFiles, coefficientsNode, xmlDoc);
     aeroNode.appendChild(coefficientsNode);
 
     // Coefficients Dependencies
@@ -216,27 +226,31 @@ export class EntityXmlGenerator {
     aeroNode.appendChild(coDepNode);
 
     objNode.appendChild(aeroNode);
+
+    return [
+      ...Object.values(coFiles)
+    ];
   }
 
-  private generateCoefficientsFiles(aero: any, allowSixDof: boolean): CoefficientFileNames {
-    const filepath = `./simulation/${this.entityName}/${this.currentObjectName}/aerodynamics`;
+  private generateCoefficientsFiles(aero: any, allowSixDof: boolean): CoefficientFiles {
+    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/aerodynamics`;
 
     // TODO: Generate files.
 
-    let filenames: CoefficientFileNames = {
-      force_1: { filename: `${filepath}/force_1.xml` },
-      force_2: { filename: `${filepath}/force_2.xml` },
-      force_3: { filename: `${filepath}/force_3.xml` }
+    let filenames: CoefficientFiles = {
+      force_1: { filepath: `${filepath}/force_1.xml`, content: '' },
+      force_2: { filepath: `${filepath}/force_2.xml`, content: '' },
+      force_3: { filepath: `${filepath}/force_3.xml`, content: '' }
     };
     if (allowSixDof) {
       filenames = {
         ...filenames,
-        moment_1: { filename: `${filepath}/moment_1.xml` },
-        moment_2: { filename: `${filepath}/moment_2.xml` },
-        moment_3: { filename: `${filepath}/moment_3.xml` },
-        moment_damping_1: { filename: `${filepath}/moment_damping_1.xml` },
-        moment_damping_2: { filename: `${filepath}/moment_damping_2.xml` },
-        moment_damping_3: { filename: `${filepath}/moment_damping_3.xml` }
+        moment_1: { filepath: `${filepath}/moment_1.xml`, content: '' },
+        moment_2: { filepath: `${filepath}/moment_2.xml`, content: '' },
+        moment_3: { filepath: `${filepath}/moment_3.xml`, content: '' },
+        moment_damping_1: { filepath: `${filepath}/moment_damping_1.xml`, content: '' },
+        moment_damping_2: { filepath: `${filepath}/moment_damping_2.xml`, content: '' },
+        moment_damping_3: { filepath: `${filepath}/moment_damping_3.xml`, content: '' }
       };
     }
     return filenames;
@@ -244,7 +258,7 @@ export class EntityXmlGenerator {
 
   private generateCoefficientDependencies(aero: any, allowSixDof: boolean): CoefficientDependencies {
     const getCoDef = (coDefVal): string => {
-      return coDefVal.size === 1 ? coDefVal.table['dep'] : `${coDefVal.table['row_dep']}, ${coDefVal.table['col_dep']}`;
+      return coDefVal.size === 1 ? coDefVal.table_1D['dep'] : `${coDefVal.table_2D['row_dep']}, ${coDefVal.table_2D['col_dep']}`;
     };
 
     let vals;
@@ -278,9 +292,10 @@ export class EntityXmlGenerator {
    * Object Propulsion
    *********************************/
 
-  private appendPropulsionNode(object: any, xmlDoc: XMLDocument, objNode: Element): void {
+  private appendPropulsionNode(object: any, xmlDoc: XMLDocument, objNode: Element): XmlFile[] {
     const propNode = xmlDoc.createElement('propulsion');
     const { sources } = object.propulsion.general;
+    const allPropulsionFiles: XmlFile[] = [];
 
     // N Hardware
     const nHardwareNode = createNodeFromValue(sources.length, xmlDoc, 'n_hardware');
@@ -289,15 +304,19 @@ export class EntityXmlGenerator {
     // Propulsion Sources
     sources.forEach(source => {
       const sourceNode = xmlDoc.createElement('hardware');
-      this.appendPropSourceNode(source, xmlDoc, sourceNode);
+      const propSourceFiles = this.appendPropSourceNode(source, xmlDoc, sourceNode);
+      allPropulsionFiles.push(...propSourceFiles);
       propNode.appendChild(sourceNode);
     });
 
     objNode.appendChild(propNode);
+
+    return allPropulsionFiles;
   }
 
-  private appendPropSourceNode(source: any, xmlDoc: XMLDocument, sourceNode: Element): void {
+  private appendPropSourceNode(source: any, xmlDoc: XMLDocument, sourceNode: Element): XmlFile[] {
     const { name, position_x, position_y, position_z, orientation_roll, orientation_pitch, orientation_yaw, nozzle_exit_area } = source;
+    const files: XmlFile[] = [];
 
     // Name
     const nameNode = createNodeFromValue(name, xmlDoc, 'name');
@@ -329,43 +348,43 @@ export class EntityXmlGenerator {
 
     // Propulsion Tables
     if (source.mode !== 0) {
-      const propTableFileNames = this.generatePropTables(source);
-      Object.keys(propTableFileNames).forEach(key => {
-        const fileNode = createNodeFromObject(propTableFileNames[key], xmlDoc, key);
-        sourceNode.appendChild(fileNode);
-      });
+      const propTableFiles = this.generatePropTables(source) as unknown as { [key: string]: XmlFile };
+      appendFilepaths(propTableFiles, sourceNode, xmlDoc);
+      files.push(...Object.values(propTableFiles));
     }
+    return files;
   }
 
-  private generatePropTables(source: any): PropTableFileNames {
-    const filepath = `./simulation/${this.entityName}/${this.currentObjectName}/propulsion/${source.name}`;
-    let propTableFileNames: PropTableFileNames;
+  private generatePropTables(source: any): PropTableFiles {
+    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/propulsion/${source.name}`;
+    let propTableFiles: PropTableFiles;
     // TODO: generate Thrust table file.
 
-    const thrustFileName: FileName = { filename: `${filepath}/vaccum_thrust_N.xml` };
+    const thrustFile: XmlFile = { filepath: `${filepath}/vaccum_thrust_N.xml`, content: '' };
     if (source.mode === 1) {
       // TODO: generate specific impulse table file.
-      propTableFileNames = {
-        specific_impulse: { filename: `${filepath}/specific_impulse.xml` },
-        vaccum_thrust_N: thrustFileName
+      propTableFiles = {
+        specific_impulse: { filepath: `${filepath}/specific_impulse.xml`, content: '' },
+        vaccum_thrust_N: thrustFile
       };
     } else {
       // TODO: generate mass flow rate table file.
-      propTableFileNames = {
-        mass_flow_rate_kg_per_sec: { filename: `${filepath}/mass_flow_rate_kg_per_sec.xml` },
-        vaccum_thrust_N: thrustFileName
+      propTableFiles = {
+        mass_flow_rate_kg_per_sec: { filepath: `${filepath}/mass_flow_rate_kg_per_sec.xml`, content: '' },
+        vaccum_thrust_N: thrustFile
       };
     }
-    return propTableFileNames;
+    return propTableFiles;
   }
 
   /*********************************
    * Object Scripts
    *********************************/
 
-  private appendScriptNode(object: any, xmlDoc: XMLDocument, objNode: Element): void {
+  private appendScriptNode(object: any, xmlDoc: XMLDocument, objNode: Element): XmlFile[] {
     const scriptNode = xmlDoc.createElement('script');
     const segments = object.script.general.segments;
+    const files: XmlFile[] = [];
 
     const nSegmentsNode = createNodeFromValue(segments.length, xmlDoc, 'n_segment');
     scriptNode.appendChild(nSegmentsNode);
@@ -381,11 +400,9 @@ export class EntityXmlGenerator {
       const gncNode = xmlDoc.createElement('gnc');
       gncNode.appendChild(createNodeFromValue(gnc.mode, xmlDoc, 'mode'));
       gncNode.appendChild(createNodeFromValue(gnc.frame, xmlDoc, 'frame'));
-      const gncFilenames = this.generateGncTables(segment);
-      Object.keys(gncFilenames).forEach(key => {
-        const fileNode = createNodeFromObject(gncFilenames[key], xmlDoc, key);
-        gncNode.appendChild(fileNode);
-      });
+      const gncFiles = this.generateGncTables(segment) as unknown as { [key: string]: XmlFile };
+      appendFilepaths(gncFiles, gncNode, xmlDoc);
+      files.push(...Object.values(gncFiles));
       segmentNode.appendChild(gncNode);
 
       // End Criteria params
@@ -397,6 +414,8 @@ export class EntityXmlGenerator {
     });
 
     objNode.appendChild(scriptNode);
+
+    return files;
   }
 
   private appendMainSegmentParams(segment: any, xmlDoc: XMLDocument, segmentNode: Element): void {
@@ -415,15 +434,15 @@ export class EntityXmlGenerator {
     segmentNode.appendChild(activeSourceNode);
   }
 
-  private generateGncTables(segment: any): GncTableFileNames {
-    const filepath = `./simulation/${this.entityName}/${this.currentObjectName}/script/${segment.name}`;
+  private generateGncTables(segment: any): GncTableFiles {
+    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/script/${segment.name}`;
 
     // TODO: actually generate the table xmls
 
     return {
-      value_1: { filename: `${filepath}/value_1.xml` },
-      value_2: { filename: `${filepath}/value_2.xml` },
-      value_3: { filename: `${filepath}/value_3.xml` }
+      value_1: { filepath: `${filepath}/value_1.xml`, content: '' },
+      value_2: { filepath: `${filepath}/value_2.xml`, content: '' },
+      value_3: { filepath: `${filepath}/value_3.xml`, content: '' }
     };
   }
 

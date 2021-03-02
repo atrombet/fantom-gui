@@ -1,4 +1,10 @@
 <div class="paxl" [formGroup]="simForm">
+  <mat-form-field color="accent" class="width-100 mbxl">
+    <mat-label>Simulation Name</mat-label>
+    <input matInput [formControlName]="fields.SimName"/>
+    <mat-hint>Enter a name for this simulation.</mat-hint>
+  </mat-form-field>
+
   <mat-form-field color="accent" class="width-100">
     <mat-label>Max Simulation Time</mat-label>
     <input matInput placeholder="Enter max simulation time" [formControlName]="fields.MaxSimTime"/>

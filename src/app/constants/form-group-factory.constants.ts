@@ -93,7 +93,8 @@ export const aeroTableFormGroupFactory: () => FormGroup = () => {
 const coefficientFormGroup: () => FormGroup = () => {
   return new FormGroup({
     size: new FormControl(null, Validators.required),
-    table: new FormGroup({})
+    table_1D: oneDimTable(),
+    table_2D: twoDimTable()
   });
 };
 

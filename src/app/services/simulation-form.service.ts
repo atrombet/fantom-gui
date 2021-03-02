@@ -10,7 +10,8 @@ export class SimulationFormService {
 
   constructor(private fb: FormBuilder) {
     this.simForm = this.fb.group({
-      [SimFields.MaxSimTime]: [null, Validators.required]
+      [SimFields.MaxSimTime]: [null, Validators.required],
+      [SimFields.SimName]: ['simulation_001', Validators.required]
     });
   }
 }

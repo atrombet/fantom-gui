@@ -1,5 +1,6 @@
-export interface FileName {
-  filename: string;
+export interface XmlFile {
+  filepath: string;
+  content: string;
 }
 
 export interface Dependency {
@@ -16,10 +17,10 @@ export interface CGProps {
   }[];
 }
 
-export interface CGFileNames {
-  x: FileName;
-  y: FileName;
-  z: FileName;
+export interface CGFiles {
+  x: XmlFile;
+  y: XmlFile;
+  z: XmlFile;
 }
 
 export interface MomentProps {
@@ -35,25 +36,25 @@ export interface MomentProps {
   }[];
 }
 
-export interface MomentFileNames {
-  ixx: FileName;
-  iyy: FileName;
-  izz: FileName;
-  ixy: FileName;
-  ixz: FileName;
-  iyz: FileName;
+export interface MomentFiles {
+  ixx: XmlFile;
+  iyy: XmlFile;
+  izz: XmlFile;
+  ixy: XmlFile;
+  ixz: XmlFile;
+  iyz: XmlFile;
 }
 
-export interface CoefficientFileNames {
-  force_1: FileName;
-  force_2: FileName;
-  force_3: FileName;
-  moment_1?: FileName;
-  moment_2?: FileName;
-  moment_3?: FileName;
-  moment_damping_1?: FileName;
-  moment_damping_2?: FileName;
-  moment_damping_3?: FileName;
+export interface CoefficientFiles {
+  force_1: XmlFile;
+  force_2: XmlFile;
+  force_3: XmlFile;
+  moment_1?: XmlFile;
+  moment_2?: XmlFile;
+  moment_3?: XmlFile;
+  moment_damping_1?: XmlFile;
+  moment_damping_2?: XmlFile;
+  moment_damping_3?: XmlFile;
 }
 
 export interface CoefficientDependencies {
@@ -68,14 +69,14 @@ export interface CoefficientDependencies {
   moment_damping_3?: Dependency;
 }
 
-export interface PropTableFileNames {
-  vaccum_thrust_N?: FileName;
-  specific_impulse?: FileName;
-  mass_flow_rate_kg_per_sec?: FileName;
+export interface PropTableFiles {
+  vaccum_thrust_N?: XmlFile;
+  specific_impulse?: XmlFile;
+  mass_flow_rate_kg_per_sec?: XmlFile;
 }
 
-export interface GncTableFileNames {
-  value_1: FileName;
-  value_2: FileName;
-  value_3: FileName;
+export interface GncTableFiles {
+  value_1: XmlFile;
+  value_2: XmlFile;
+  value_3: XmlFile;
 }

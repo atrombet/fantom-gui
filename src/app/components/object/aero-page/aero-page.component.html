@@ -33,12 +33,12 @@
 
             <!-- 1D Table -->
             <ng-container *ngSwitchCase="1">
-              <one-dim-coefficient-table [depOptions]="depOptions" [form]="form.get(selectedCoefficient).get('table')"></one-dim-coefficient-table>
+              <one-dim-coefficient-table [depOptions]="depOptions" [form]="form.get(selectedCoefficient).get('table_1D')"></one-dim-coefficient-table>
             </ng-container>
 
             <!-- 2D Table -->
             <ng-container *ngSwitchCase="2">
-              <two-dim-coefficient-table [depOptions]="depOptions" [form]="form.get(selectedCoefficient).get('table')"></two-dim-coefficient-table>
+              <two-dim-coefficient-table [depOptions]="depOptions" [form]="form.get(selectedCoefficient).get('table_2D')"></two-dim-coefficient-table>
             </ng-container>
 
             <div *ngSwitchDefault class="italic">Select the number of dimensions for the table.</div>
