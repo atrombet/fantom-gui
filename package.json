@@ -67,7 +67,10 @@
   },
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "name": "FANTOM GUI",
+        "executableName": "fantom_gui"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
