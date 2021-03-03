@@ -16,6 +16,12 @@ jobs:
       run: npm install
     - name: build
       run: npm run make
+    - name: upload linux distributable
+      uses: actions/upload-artifact@v1
+      with:
+        name: linux
+        path: out/linux
+      
 
   build_on_win:
     runs-on: windows-latest
@@ -28,3 +34,8 @@ jobs:
       run: npm install
     - name: build
       run: npm run make
+    - name: upload windows distributable
+      uses: actions/upload-artifact@v1
+      with:
+        name: windows
+        path: out/windows
