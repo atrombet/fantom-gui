@@ -20,7 +20,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: linux
-        path: out/linux
+        path: linux
       
 
   build_on_win:
@@ -38,4 +38,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: windows
-        path: out/windows
+        path: windows
