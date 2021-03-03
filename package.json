@@ -1,7 +1,7 @@
 {
   "name": "fantom-gui",
   "productName": "FANTOM GUI",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "author": "Kairos Technology, LLC",
   "description": "FANTOM GUI application",
   "main": "main.js",
@@ -70,7 +70,8 @@
     "forge": {
       "packagerConfig": {
         "name": "fantom-gui",
-        "executableName": "fantom-gui"
+        "executableName": "fantom-gui",
+        "license": ""
       },
       "makers": [
         {
