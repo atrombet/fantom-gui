@@ -68,7 +68,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "name": "FANTOM GUI",
+        "name": "fantom_gui",
         "executableName": "fantom_gui"
       },
       "makers": [
