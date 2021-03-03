@@ -1,6 +1,6 @@
 // tslint:disable: max-line-length
 // tslint:disable: no-string-literal
-import { createNodeFromObject, createNodeFromValue, appendArray, appendFilepaths } from '../functions/xml-helpers';
+import { createNodeFromObject, createNodeFromValue, appendArray, appendFilepaths, create1DTableFile, create2DTable } from '../functions/xml-helpers';
 import { flattenSections } from '../functions/item-helpers';
 import { CGFiles, CGProps, CoefficientDependencies, CoefficientFiles, MomentFiles, MomentProps, PropTableFiles, XmlFile, GncTableFiles } from '@interfaces';
 
@@ -154,13 +154,15 @@ export class EntityXmlGenerator {
    */
   private generateCGFiles({ cg_dependency, rows }: CGProps): CGFiles {
     const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/mass_properties`;
-
-    // TODO: Generate files.
+    const deps = rows.map(row => row.dep);
+    const xData = rows.map(row => row.x);
+    const yData = rows.map(row => row.y);
+    const zData = rows.map(row => row.z);
 
     const filenames: CGFiles = {
-      x: { filepath: `${filepath}/cg_x_m.xml`, content: '' },
-      y: { filepath: `${filepath}/cg_y_m.xml`, content: '' },
-      z: { filepath: `${filepath}/cg_z_m.xml`, content: '' }
+      x: { filepath: `${filepath}/cg_x_m.xml`, content: create1DTableFile(deps, xData) },
+      y: { filepath: `${filepath}/cg_y_m.xml`, content: create1DTableFile(deps, yData) },
+      z: { filepath: `${filepath}/cg_z_m.xml`, content: create1DTableFile(deps, zData) }
     };
     return filenames;
   }
@@ -170,16 +172,21 @@ export class EntityXmlGenerator {
    */
   private generateMomentFiles({ inertia_dependency, rows }: MomentProps): MomentFiles {
     const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/moment_of_inertia`;
-
-    // TODO: Generate files.
+    const deps = rows.map(row => row.dep);
+    const ixxData = rows.map(row => row.ixx);
+    const iyyData = rows.map(row => row.iyy);
+    const izzData = rows.map(row => row.izz);
+    const ixyData = rows.map(row => row.ixy);
+    const ixzData = rows.map(row => row.ixz);
+    const iyzData = rows.map(row => row.iyz);
 
     const filenames: MomentFiles = {
-      ixx: { filepath: `${filepath}/moi_ixx_m.xml`, content: '' },
-      iyy: { filepath: `${filepath}/moi_iyy_m.xml`, content: '' },
-      izz: { filepath: `${filepath}/moi_izz_m.xml`, content: '' },
-      ixy: { filepath: `${filepath}/moi_ixy_m.xml`, content: '' },
-      ixz: { filepath: `${filepath}/moi_ixz_m.xml`, content: '' },
-      iyz: { filepath: `${filepath}/moi_iyz_m.xml`, content: '' }
+      ixx: { filepath: `${filepath}/moi_ixx_m.xml`, content: create1DTableFile(deps, ixxData) },
+      iyy: { filepath: `${filepath}/moi_iyy_m.xml`, content: create1DTableFile(deps, iyyData) },
+      izz: { filepath: `${filepath}/moi_izz_m.xml`, content: create1DTableFile(deps, izzData) },
+      ixy: { filepath: `${filepath}/moi_ixy_m.xml`, content: create1DTableFile(deps, ixyData) },
+      ixz: { filepath: `${filepath}/moi_ixz_m.xml`, content: create1DTableFile(deps, ixzData) },
+      iyz: { filepath: `${filepath}/moi_iyz_m.xml`, content: create1DTableFile(deps, iyzData) }
     };
     return filenames;
   }
@@ -234,23 +241,70 @@ export class EntityXmlGenerator {
 
   private generateCoefficientsFiles(aero: any, allowSixDof: boolean): CoefficientFiles {
     const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/aerodynamics`;
+    // Determine the page to pull from based on the aerodynamics mode.
+    let vals;
+    switch (aero.general.aero_mode) {
+      case 1: vals = aero.bodyfixed; break;
+      case 2: vals = aero.axisymmetric; break;
+      case 3: vals = aero.wind; break;
+    }
+    // Map data to an object for easy access when generating xml content.
+    const coLookup = Object.keys(vals).reduce((lookup, key) => {
+      const { size, table_1D, table_2D } = vals[key];
+      let data;
+      if (size === 1) {
+        // Data for 1D table.
+        data = {
+          rows: table_1D.rows.map(row => row.dep),
+          values: table_1D.rows.map(row => row.value)
+        };
+      } else {
+        // Data for 2D table.
+        data = {
+          rows: table_2D.rows,
+          columns: table_2D.columns,
+          data: table_2D.data
+        };
+      }
+      return {
+        ...lookup,
+        [key]: { size, ...data }
+      };
+    }, {});
 
-    // TODO: Generate files.
-
+    // Create Files.
     let filenames: CoefficientFiles = {
-      force_1: { filepath: `${filepath}/force_1.xml`, content: '' },
-      force_2: { filepath: `${filepath}/force_2.xml`, content: '' },
-      force_3: { filepath: `${filepath}/force_3.xml`, content: '' }
+      force_1: { filepath: `${filepath}/force_1.xml`, content:
+        coLookup['force_1'].size === 1 ? create1DTableFile(coLookup['force_1'].rows, coLookup['force_1'].values) : create2DTable(coLookup['force_1'].rows, coLookup['force_1'].columns, coLookup['force_1'].data)
+      },
+      force_2: { filepath: `${filepath}/force_2.xml`, content:
+        coLookup['force_2'].size === 1 ? create1DTableFile(coLookup['force_2'].rows, coLookup['force_2'].values) : create2DTable(coLookup['force_2'].rows, coLookup['force_2'].columns, coLookup['force_2'].data)
+      },
+      force_3: { filepath: `${filepath}/force_3.xml`, content:
+        coLookup['force_3'].size === 1 ? create1DTableFile(coLookup['force_3'].rows, coLookup['force_3'].values) : create2DTable(coLookup['force_3'].rows, coLookup['force_3'].columns, coLookup['force_3'].data)
+      }
     };
     if (allowSixDof) {
       filenames = {
         ...filenames,
-        moment_1: { filepath: `${filepath}/moment_1.xml`, content: '' },
-        moment_2: { filepath: `${filepath}/moment_2.xml`, content: '' },
-        moment_3: { filepath: `${filepath}/moment_3.xml`, content: '' },
-        moment_damping_1: { filepath: `${filepath}/moment_damping_1.xml`, content: '' },
-        moment_damping_2: { filepath: `${filepath}/moment_damping_2.xml`, content: '' },
-        moment_damping_3: { filepath: `${filepath}/moment_damping_3.xml`, content: '' }
+        moment_1: { filepath: `${filepath}/moment_1.xml`, content:
+          coLookup['moment_1'].size === 1 ? create1DTableFile(coLookup['moment_1'].rows, coLookup['moment_1'].values) : create2DTable(coLookup['moment_1'].rows, coLookup['moment_1'].columns, coLookup['moment_1'].data)
+        },
+        moment_2: { filepath: `${filepath}/moment_2.xml`, content:
+          coLookup['moment_2'].size === 1 ? create1DTableFile(coLookup['moment_2'].rows, coLookup['moment_2'].values) : create2DTable(coLookup['moment_2'].rows, coLookup['moment_2'].columns, coLookup['moment_2'].data)
+        },
+        moment_3: { filepath: `${filepath}/moment_3.xml`, content:
+          coLookup['moment_3'].size === 1 ? create1DTableFile(coLookup['moment_3'].rows, coLookup['moment_3'].values) : create2DTable(coLookup['moment_3'].rows, coLookup['moment_3'].columns, coLookup['moment_3'].data)
+        },
+        moment_damping_1: { filepath: `${filepath}/moment_damping_1.xml`, content:
+          coLookup['moment_damping_1'].size === 1 ? create1DTableFile(coLookup['moment_damping_1'].rows, coLookup['moment_damping_1'].values) : create2DTable(coLookup['moment_damping_1'].rows, coLookup['moment_damping_1'].columns, coLookup['moment_damping_1'].data)
+        },
+        moment_damping_2: { filepath: `${filepath}/moment_damping_2.xml`, content:
+          coLookup['moment_damping_2'].size === 1 ? create1DTableFile(coLookup['moment_damping_2'].rows, coLookup['moment_damping_2'].values) : create2DTable(coLookup['moment_damping_2'].rows, coLookup['moment_damping_2'].columns, coLookup['moment_damping_2'].data)
+        },
+        moment_damping_3: { filepath: `${filepath}/moment_damping_3.xml`, content:
+          coLookup['moment_damping_3'].size === 1 ? create1DTableFile(coLookup['moment_damping_3'].rows, coLookup['moment_damping_3'].values) : create2DTable(coLookup['moment_damping_3'].rows, coLookup['moment_damping_3'].columns, coLookup['moment_damping_3'].data)
+        }
       };
     }
     return filenames;
@@ -358,19 +412,28 @@ export class EntityXmlGenerator {
   private generatePropTables(source: any): PropTableFiles {
     const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/propulsion/${source.name}`;
     let propTableFiles: PropTableFiles;
-    // TODO: generate Thrust table file.
 
-    const thrustFile: XmlFile = { filepath: `${filepath}/vaccum_thrust_N.xml`, content: '' };
+    // Generate Thrust table file.
+    const thrustTable = source.table_1;
+    const thrustDeps = thrustTable.map(row => row.dep);
+    const thrustData = thrustTable.map(row => row.value_1);
+    const thrustFile: XmlFile = { filepath: `${filepath}/vaccum_thrust_N.xml`, content: create1DTableFile(thrustDeps, thrustData) };
     if (source.mode === 1) {
-      // TODO: generate specific impulse table file.
+      // Generate specific impulse table file.
+      const specImpTable = source.table_2;
+      const specImpDeps = specImpTable.map(row => row.dep);
+      const specImpData = specImpTable.map(row => row.value_2);
       propTableFiles = {
-        specific_impulse: { filepath: `${filepath}/specific_impulse.xml`, content: '' },
+        specific_impulse: { filepath: `${filepath}/specific_impulse.xml`, content: create1DTableFile(specImpDeps, specImpData) },
         vaccum_thrust_N: thrustFile
       };
     } else {
-      // TODO: generate mass flow rate table file.
+      // Generate mass flow rate table file.
+      const massFlowTable = source.table_2;
+      const massFlowDeps = massFlowTable.map(row => row.dep);
+      const massFlowData = massFlowTable.map(row => row.value_2);
       propTableFiles = {
-        mass_flow_rate_kg_per_sec: { filepath: `${filepath}/mass_flow_rate_kg_per_sec.xml`, content: '' },
+        mass_flow_rate_kg_per_sec: { filepath: `${filepath}/mass_flow_rate_kg_per_sec.xml`, content: create1DTableFile(massFlowDeps, massFlowData) },
         vaccum_thrust_N: thrustFile
       };
     }
@@ -434,15 +497,17 @@ export class EntityXmlGenerator {
     segmentNode.appendChild(activeSourceNode);
   }
 
-  private generateGncTables(segment: any): GncTableFiles {
-    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/script/${segment.name}`;
-
-    // TODO: actually generate the table xmls
+  private generateGncTables({ name, gnc }: any): GncTableFiles {
+    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/script/${name}`;
+    const deps = gnc.rows.map(row => row.dep);
+    const value1Data = gnc.rows.map(row => row.value_1);
+    const value2Data = gnc.rows.map(row => row.value_2);
+    const value3Data = gnc.rows.map(row => row.value_3);
 
     return {
-      value_1: { filepath: `${filepath}/value_1.xml`, content: '' },
-      value_2: { filepath: `${filepath}/value_2.xml`, content: '' },
-      value_3: { filepath: `${filepath}/value_3.xml`, content: '' }
+      value_1: { filepath: `${filepath}/value_1.xml`, content: create1DTableFile(deps, value1Data) },
+      value_2: { filepath: `${filepath}/value_2.xml`, content: create1DTableFile(deps, value2Data) },
+      value_3: { filepath: `${filepath}/value_3.xml`, content: create1DTableFile(deps, value3Data) }
     };
   }
 

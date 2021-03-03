@@ -172,10 +172,7 @@ export const segmentFormGroupFactory: (name?: string) => FormGroup = (name) => {
     gnc: new FormGroup({
       mode: new FormControl(''),
       frame: new FormControl(''),
-      rows: new FormArray([]),
-      value_1: new FormGroup({}), // Maybe don't need?
-      value_2: new FormGroup({}), // Maybe don't need?
-      value_3: new FormGroup({})  // Maybe don't need?
+      rows: new FormArray([])
     }),
     parameter: new FormControl(''),
     condition: new FormControl(''),

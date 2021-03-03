@@ -55,7 +55,7 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
    */
   public addRow(): void {
     const initColData = this.columns.reduce((obj, col) => {
-      return { ...obj, [col.variable]: null }
+      return { ...obj, [col.variable]: null };
     }, {});
     this.rows.push(this.fb.group({ dep: null, ...initColData }));
   }

@@ -40,19 +40,16 @@ ipcMain.on('EXPORT_XML', async (event, files) => {
   const { canceled, filePaths } = await dialog.showOpenDialog(win, { properties: ['openDirectory'] });
   const folder = filePaths[0];
 
-  console.log(files);
-
   // If the user didn't cancel the save.
   if (!canceled) {
     let results = { succeeded: [], failed: [] };
-    // TODO: Write each file.
+    // Write each file.
     files.forEach(file => {
       // Remove the filename from the filepath.
-      // const location = `${folder}/${file.filepath.split('/').slice(0, -1).join('/')}`;
       const segments = file.filepath.split('/').slice(0, -1);
       // Recursively create all directories.
       segments.reduce((path, segment) => {
-        const folderPath = `${path}${segment}/`
+        const folderPath = `${path}${segment}/`;
         // Check if the directory exists.
         if (!fs.existsSync(folderPath)) {
           // Make the directory if it doesn't exist.

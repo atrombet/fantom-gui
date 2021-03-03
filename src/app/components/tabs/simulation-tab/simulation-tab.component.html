@@ -1,19 +1,22 @@
 <div class="paxl" [formGroup]="simForm">
-  <mat-form-field color="accent" class="width-100 mbxl">
-    <mat-label>Simulation Name</mat-label>
-    <input matInput [formControlName]="fields.SimName"/>
-    <mat-hint>Enter a name for this simulation.</mat-hint>
-  </mat-form-field>
+  <div class="mbxl">
+    <mat-form-field color="accent" class="width-100">
+      <mat-label>Simulation Name</mat-label>
+      <input matInput [formControlName]="fields.SimName"/>
+      <mat-hint>Enter a name for this simulation.</mat-hint>
+    </mat-form-field>
+  </div>
 
-  <mat-form-field color="accent" class="width-100">
-    <mat-label>Max Simulation Time</mat-label>
-    <input matInput placeholder="Enter max simulation time" [formControlName]="fields.MaxSimTime"/>
-    <span matSuffix>seconds</span>
-    <mat-hint>Simulation will terminate at specified time.</mat-hint>
-  </mat-form-field>
+  <div class="mbxl">
+    <mat-form-field color="accent" class="width-100">
+      <mat-label>Max Simulation Time</mat-label>
+      <input matInput placeholder="Enter max simulation time" [formControlName]="fields.MaxSimTime"/>
+      <span matSuffix>seconds</span>
+      <mat-hint>Simulation will terminate at specified time.</mat-hint>
+    </mat-form-field>
+  </div>
 
-  <!-- Temporary placement of the export XML button -->
-  <div class="mtxl">
+  <div>
     <export-button></export-button>
   </div>
 </div>
