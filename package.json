@@ -15,6 +15,7 @@
     "electron": "ng build --base-href ./ && electron .",
     "package": "electron-forge package",
     "make": "electron-forge make",
+    "publish": "electron-forge publish",
     "make-mac": "npx @electron-forge/cli make --platform darwin",
     "make-linux": "npx @electron-forge/cli make --platform linux --targets deb",
     "make-windows": "npx @electron-forge/cli make --platform win32"
