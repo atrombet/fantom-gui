@@ -47,7 +47,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
-    "@electron-forge/publisher-bitbucket": "^6.0.0-beta.54",
+    "@electron-forge/publisher-github": "^6.0.0-beta.54",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
@@ -92,13 +92,12 @@
       ],
       "publishers": [
         {
-          "name": "@electron-forge/publisher-bitbucket",
+          "name": "@electron-forge/publisher-github",
           "config": {
             "repository": {
-              "owner": "kairostech",
+              "owner": "atrombet",
               "name": "fantom-gui"
-            },
-            "replaceExistingFiles": true
+            }
           }
         }
       ]
