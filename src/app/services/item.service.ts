@@ -243,10 +243,8 @@ export class ItemService {
   private getObjectDefaultNameDigit(objMap: Map<number, Item>, entityId: number): number {
     // Get objects for the entity.
     const entityObjs: Item[] = Array.from(objMap.values()).filter(obj => obj.parentId === entityId);
-    // Find the highest dash number.
-    const max: number = !!entityObjs.length ? this.getHighestDashNumber(entityObjs, ItemType.Object, '_') : 0;
-    // Return highest dash number +1.
-    return max + 1;
+    // Return the number of objects this entity has + 1.
+    return entityObjs.length + 1;
   }
 
   /**
