@@ -45,6 +45,12 @@ $config: mat-typography-config();
     transition: opacity 0.2s linear;
   }
 
+  .mat-icon-button {
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+  }
+
   & mat-icon {
     font-size: 18px;
     height: 18px;

@@ -30,7 +30,6 @@ export class SimpleTileComponent implements OnInit, AfterViewInit {
    */
   public ngOnInit(): void {
     this.nameControl = new FormControl(this.name, Validators.required);
-    this.nameEditMode = true;
   }
 
   /**
