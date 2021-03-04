@@ -32,7 +32,7 @@
     <tbody>
       <ng-container *ngIf="!!rows?.value.length; else noRows">
         <tr *ngFor="let row of rows.controls; let index = index;" [formGroup]="row">
-          <td><input onfocus="this.select()" formControlName="dep"/></td>
+          <th class="inputTable__rowHeader"><input onfocus="this.select()" formControlName="dep"/></th>
           <td *ngFor="let col of columns">
             <input onfocus="this.select()" formControlName="{{col.variable}}" />
           </td>

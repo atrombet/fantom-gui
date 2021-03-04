@@ -53,3 +53,10 @@
   padding-bottom: 1.34375em;
   margin-bottom: 3.5px;
 }
+
+.inputTable__rowHeader {
+  & input {
+    font-weight: bold !important;
+    background-color: #DDDDDD;
+  }
+}
