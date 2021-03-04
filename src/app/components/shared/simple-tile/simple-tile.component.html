@@ -1,6 +1,6 @@
-<div class="simpleTile__content" [class]="panelClass" [ngClass]="{ 'selected': selected }">
+<div class="simpleTile__content" [class]="panelClass" [ngClass]="{ 'selected': selected }" (dblclick)="onRenameClick()">
   <ng-container *ngIf="!nameEditMode; else editMode">
-    <span (click)="$event.stopPropagation()" (dblclick)="onRenameClick()">{{name}}</span>
+    <span>{{name}}</span>
     <span>
       <button mat-icon-button [matMenuTriggerFor]="itemContextMenu" (click)="$event.stopPropagation()"><mat-icon>more_vert</mat-icon></button>
     </span>

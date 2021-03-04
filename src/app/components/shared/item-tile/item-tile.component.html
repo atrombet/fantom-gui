@@ -1,6 +1,6 @@
-<div class="itemTile__content" [class]="panelClass" [ngClass]="{ 'selected': selected }" (click)="onItemSelected(item.id)">
+<div class="itemTile__content" [class]="panelClass" [ngClass]="{ 'selected': selected }" (click)="onItemSelected(item.id)" (dblclick)="onRenameClick()">
   <ng-container *ngIf="!nameEditMode; else editMode">
-    <span (click)="$event.stopPropagation()" (dblclick)="onRenameClick()">{{item.name}}</span>
+    <span>{{item.name}}</span>
     <span>
       <button *ngIf="showAddButton" mat-stroked-button (click)="onAddButtonClick($event)">
         <mat-icon>add</mat-icon>
