@@ -32,7 +32,6 @@ export class ItemTileComponent implements OnInit, AfterViewInit {
    */
   public ngOnInit(): void {
     this.nameControl = new FormControl(this.item.name, Validators.required);
-    this.nameEditMode = true;
   }
 
   /**
