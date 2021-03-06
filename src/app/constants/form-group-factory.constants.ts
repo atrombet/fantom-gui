@@ -168,7 +168,7 @@ export const segmentFormGroupFactory: (name?: string) => FormGroup = (name) => {
     integration_dt: new FormControl(''),
     reset_user_time: new FormControl(false),
     reset_propulsion_time: new FormControl(false),
-    active_propulsion_sources: new FormArray([]),
+    active_propulsion_sources: new FormGroup({}),
     gnc: new FormGroup({
       mode: new FormControl(''),
       frame: new FormControl(''),

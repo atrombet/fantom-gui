@@ -61,9 +61,9 @@
   <div class="mbxl">
     <p>Select each propulsion source to be active for the current segment.</p>
     <ng-container *ngIf="!!propSources.length; else noPropSources">
-      <div class="columns-2">
+      <div class="columns-2" [formGroup]="segment.get('active_propulsion_sources')">
         <div *ngFor="let source of propSources" class="mbs">
-          <mat-slide-toggle>{{source}}</mat-slide-toggle>
+          <mat-slide-toggle [formControlName]="source">{{source}}</mat-slide-toggle>
         </div>
       </div>
     </ng-container>

@@ -491,9 +491,8 @@ export class EntityXmlGenerator {
     segmentNode.appendChild(createNodeFromValue(reset_propulsion_time ? 1 : 0, xmlDoc, 'reset_propulsion_time'));
 
     const activeSourceNode = xmlDoc.createElement('enable');
-    active_propulsion_sources.forEach(source => {
-      activeSourceNode.appendChild(createNodeFromValue(source, xmlDoc, 'propulsion'));
-    });
+    const activeSourceStr = Object.entries(active_propulsion_sources).filter(source => source[1]).map(item => item[0]).join(',');
+    activeSourceNode.appendChild(createNodeFromValue(activeSourceStr, xmlDoc, 'propulsion'));
     segmentNode.appendChild(activeSourceNode);
   }
 
