@@ -14,4 +14,8 @@ export class SimulationFormService {
       [SimFields.SimName]: ['simulation_001', Validators.required]
     });
   }
+
+  public patchForm(value: { [SimFields.MaxSimTime]: string, [SimFields.SimName]: string }): void {
+    this.simForm.patchValue(value);
+  }
 }

@@ -1,29 +1,84 @@
 import { Injectable } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { IpcRenderer } from 'electron';
-import { BehaviorSubject, forkJoin, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, of, from } from 'rxjs';
 import { take, tap, map } from 'rxjs/operators';
 import { ItemService } from './item.service';
 import { SimulationFormService } from './simulation-form.service';
 import { Item, XmlFile } from '@interfaces';
-import { appendSimXMLNode, appendEnvXMLNodes } from '@functions';
+import { appendSimXMLNode, appendEnvXMLNodes, createEnvItem } from '@functions';
 import format from 'xml-formatter';
-import { EntityXmlGenerator } from '@classes';
+import convert from 'xml-js';
+import { EntityImporter, EntityXmlGenerator } from '@classes';
+import { CONVERTER_OPTIONS } from '@constants';
 
+// tslint:disable: no-string-literal
+// tslint:disable: variable-name
 @Injectable({
   providedIn: 'root'
 })
 export class XmlService {
   public xml$ = new BehaviorSubject<string>(null);
   public entityXmlGen = new EntityXmlGenerator();
+  public entityImporter: EntityImporter;
   public renderer: IpcRenderer;
 
   constructor(private simulationService: SimulationFormService, private itemService: ItemService, private electron: ElectronService) {
     this.renderer = this.electron.ipcRenderer;
   }
 
+  /**********************************
+   * XML Import
+   **********************************/
+
+  public importXml(files: any): void {
+    // Initialize the entity importer with the imported files.
+    this.entityImporter = new EntityImporter(files);
+    // Grab the simulation name as the first segment of any file's path.
+    const simName = files[0].webkitRelativePath.split('/')[0];
+    from(files[0].text()).pipe(
+      tap((text: string) => {
+        const { simulation, environment, entity } = convert.xml2js(text, CONVERTER_OPTIONS)['root'];
+        // Import the simulation data.
+        this.importSimData(simName, simulation);
+        // Import the environment data.
+        this.importEnvironmentData(environment);
+        // Import the entity data.
+        this.importEntityData(entity);
+      })
+    ).subscribe();
+  }
+
+  private importSimData(simulation_name: string, simulation: any): void {
+    const maximum_time_sec = simulation.maximum_time_sec._;
+    this.simulationService.patchForm({ simulation_name, maximum_time_sec });
+  }
+
+  private importEnvironmentData(environment: any): void {
+    if (!Array.isArray(environment)) {
+      environment = [ environment ];
+    }
+    const envItems: Item[] = environment.map((env, index) => {
+      return createEnvItem(env, index + 1);
+    });
+    this.itemService.setEnvironments(envItems);
+  }
+
+  private importEntityData(entity: any): void {
+    if (!Array.isArray(entity)) {
+      entity = [ entity ];
+    }
+    const entityItems: Item[] = entity.map((ent, index) => {
+      return this.entityImporter.createEntityItem(ent, index + 1);
+    });
+    this.itemService.setEntitiesAndObjects(entityItems);
+  }
+
+  /**********************************
+   * XML Export
+   **********************************/
+
   public exportXml(): void {
-    console.log('Begin Export.');
     forkJoin({
       simulation: of(this.simulationService.simForm.value),
       environments: this.itemService.environments$.pipe(take(1)),
@@ -40,10 +95,6 @@ export class XmlService {
       })
     ).subscribe();
   }
-
-  /**********************************
-   * XML Generation
-   **********************************/
 
   public generateXml({ simulation, environments, entities }): void {
     const additionalFiles: XmlFile[] = [];
@@ -67,7 +118,7 @@ export class XmlService {
     // Create serializer.
     const serializer = new XMLSerializer();
     // Serialize the xml doc to string.
-    const xmlString = format(serializer.serializeToString(xmlDoc));
+    const xmlString = format(serializer.serializeToString(xmlDoc), { collapseContent: true });
 
     this.xml$.next(xmlString);
 

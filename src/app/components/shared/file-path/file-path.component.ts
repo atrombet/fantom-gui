@@ -1,36 +1,28 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { ControlContainer, FormGroupDirective } from '@angular/forms';
+import { Component, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'file-path',
   templateUrl: './file-path.component.html',
-  styleUrls: ['./file-path.component.scss'],
-  viewProviders: [
-    {
-      provide: ControlContainer,
-      useExisting: FormGroupDirective
-    }
-  ]
+  styleUrls: ['./file-path.component.scss']
 })
-export class FilePathComponent implements OnInit {
-  @Input() public label = 'Filepath';
-  @Input() public controlName: string;
-  @Input() public disabled: boolean;
+export class FilePathComponent {
+  @Input() public label = '';
+  @Input() public disabled = false;
   @ViewChild('filepath', { static: false }) public filePath: ElementRef;
 
-  public file: File | null = null;
+  @Output() public filesSelected = new EventEmitter<any>();
+
+  public files: FileList;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   public fileButtonClick(): void {
     this.filePath.nativeElement.click();
   }
 
   public onChangeFileInput(): void {
-    const files: { [key: string]: File } = this.filePath.nativeElement.files;
-    this.file = files[0];
+    const files: FileList = this.filePath.nativeElement.files;
+    this.files = files;
+    this.filesSelected.emit(files);
   }
 }

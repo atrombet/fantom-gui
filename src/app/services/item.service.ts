@@ -11,26 +11,7 @@ import { ENVIRONMENT_SECTIONS, OBJECT_SECTIONS } from '@constants';
 export class ItemService {
 
   // The main state model for the application.
-  private state: AppState = {
-    [ItemType.Environment]: {
-      // Store all environments as a map to make them very easy to access by id.
-      data: new BehaviorSubject<Map<number, Item>>(new Map<number, Item>()),
-      // Store the id that was last used to create an environment.
-      lastId: 0
-    },
-    [ItemType.Entity]: {
-      // Store all environments as a map to make them very easy to access by id.
-      data: new BehaviorSubject<Map<number, Item>>(new Map<number, Item>()),
-      // Store the id that was last used to create an entity.
-      lastId: 0
-    },
-    [ItemType.Object]: {
-      // Store all objects as a map to make them very easy to access by id.
-      data: new BehaviorSubject<Map<number, Item>>(new Map<number, Item>()),
-      // Store the id that was last used to create an object.
-      lastId: 0
-    }
-  };
+  private state: AppState;
 
   // Returns the stored environment behavior subject as an observable of Item[] which is nice to work with on templates.
   public get environments$(): Observable<Item[]> {
@@ -68,9 +49,80 @@ export class ItemService {
     );
   }
 
+  constructor() {
+    this.initialize();
+  }
+
   /**********************************
    * Public Methods
    **********************************/
+
+  /**
+   * Intializes / Resets the state of the app.
+   */
+  public initialize(): void {
+    this.state = {
+      [ItemType.Environment]: {
+        // Store all environments as a map to make them very easy to access by id.
+        data: new BehaviorSubject<Map<number, Item>>(new Map<number, Item>()),
+        // Store the id that was last used to create an environment.
+        lastId: 0
+      },
+      [ItemType.Entity]: {
+        // Store all environments as a map to make them very easy to access by id.
+        data: new BehaviorSubject<Map<number, Item>>(new Map<number, Item>()),
+        // Store the id that was last used to create an entity.
+        lastId: 0
+      },
+      [ItemType.Object]: {
+        // Store all objects as a map to make them very easy to access by id.
+        data: new BehaviorSubject<Map<number, Item>>(new Map<number, Item>()),
+        // Store the id that was last used to create an object.
+        lastId: 0
+      }
+    };
+  }
+
+  /**
+   * Takes an array of environments and replaces the environment state with the new data.
+   * @param envs - Environments to set as state.
+   */
+  public setEnvironments(envs: Item[]): void {
+    // Get the last id as the highest id in the set of envs.
+    const maxId = Math.max(...envs.map(env => env.id));
+    // Create a Map from the env array.
+    const envMap: Map<number, Item> = new Map(envs.map(env => {
+      return [ env.id, env ];
+    }));
+
+    // Patch values into state.
+    this.state[ItemType.Environment].data.next(envMap);
+    this.state[ItemType.Environment].lastId = maxId;
+  }
+
+  public setEntitiesAndObjects(entities: Item[]): void {
+    // Entities
+    const maxEntId = Math.max(...entities.map(ent => ent.id));
+    const entMap: Map<number, Item> = new Map(entities.map(ent => {
+      const { id, type, name } = ent;
+      return [ id, { id, type, name } ];
+    }));
+    // Patch entity values into state.
+    this.state[ItemType.Entity].data.next(entMap);
+    this.state[ItemType.Entity].lastId = maxEntId;
+
+    // Objects
+    const objArr = [];
+    entities.forEach(entity => {
+      objArr.push(...entity.objects);
+    });
+    const objMap: Map<number, Item> = new Map(objArr.map((obj, index) => {
+      return [ index + 1, obj ];
+    }));
+    // Patch object values into state.
+    this.state[ItemType.Object].data.next(objMap);
+    this.state[ItemType.Object].lastId = objArr.length;
+  }
 
   /**
    * Returns an item given its type and id.

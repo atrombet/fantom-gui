@@ -1,8 +1,9 @@
 // tslint:disable: max-line-length
 // tslint:disable: no-string-literal
-import { createNodeFromObject, createNodeFromValue, appendArray, appendFilepaths, create1DTableFile, create2DTable } from '../functions/xml-helpers';
+import { createNodeFromObject, createNodeFromValue, appendArray, appendFilepaths, create1DTableFile, create2DTable } from '../functions/xml-export-helpers';
 import { flattenSections } from '../functions/item-helpers';
 import { CGFiles, CGProps, CoefficientDependencies, CoefficientFiles, MomentFiles, MomentProps, PropTableFiles, XmlFile, GncTableFiles } from '@interfaces';
+import { boolToBin } from '../functions';
 
 export class EntityXmlGenerator {
   public simulationName: string;
@@ -99,7 +100,7 @@ export class EntityXmlGenerator {
     const { parent_object, solver, hold_down, local_environment } = object.meta.general;
     const parentNode = createNodeFromValue(parent_object, xmlDoc, 'parent');
     const solverNode = createNodeFromValue(solver, xmlDoc, 'solver');
-    const holdDownNode = createNodeFromValue(hold_down, xmlDoc, 'hold_down');
+    const holdDownNode = createNodeFromValue(boolToBin(hold_down), xmlDoc, 'hold_down');
     const localEnvironmentNode = createNodeFromValue(local_environment, xmlDoc, 'local_environment');
     appendArray([ parentNode, solverNode, holdDownNode, localEnvironmentNode ], objNode);
   }

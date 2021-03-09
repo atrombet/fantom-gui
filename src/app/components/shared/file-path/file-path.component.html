@@ -2,16 +2,16 @@
   #filepath
   name="filepath"
   type="file"
-  formControlName="{{controlName}}"
-  [disableControl]="disabled"
   class="filePath__input"
+  [disabled]="disabled"
   (change)="onChangeFileInput()"
+  webkitdirectory directory multiple
 />
 <label for="filepath">
-  <div class="mbl">{{label}}</div>
+  <div class="mbl" *ngIf="!!label">{{label}}</div>
   <button mat-raised-button color="primary" (click)="fileButtonClick()">Browse</button>
-  <span *ngIf="!file; else fileName" class="mll">Select a filepath</span>
-  <ng-template #fileName>
-    <span class="mll">{{ file?.name }}</span>
+  <span *ngIf="!files; else fileCount" class="mll">Select a filepath</span>
+  <ng-template #fileCount>
+    <span class="mll">{{files.length}} files selected.</span>
   </ng-template>
 </label>

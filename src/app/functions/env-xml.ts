@@ -1,4 +1,4 @@
-import { createNodeFromObject } from './xml-helpers';
+import { createNodeFromObject } from './xml-export-helpers';
 import { flattenSections } from './item-helpers';
 
 export function appendEnvXMLNodes(environments: any, xmlDoc: XMLDocument, rootNode: Element): void {

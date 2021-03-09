@@ -7,7 +7,7 @@ import {
   epochGeneralFormGroupFactory
 } from './form-group-factory.constants';
 
-
+// tslint:disable: max-line-length
 export const ENVIRONMENT_SECTIONS: () => Section[] = () => [
   {
     displayName: 'gravity',

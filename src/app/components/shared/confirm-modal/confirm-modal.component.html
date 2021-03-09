@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <p>{{options.message}}</p>
 </div>
-<div mat-dialog-actions class="confirm__actions">
+<div mat-dialog-actions class="modal-actions">
   <button mat-button (click)="onCancel()" cdkFocusInitial>{{options.cancelText}}</button>
   <button mat-raised-button color="primary" (click)="onConfirm()">{{options.confirmText}}</button>
 </div>

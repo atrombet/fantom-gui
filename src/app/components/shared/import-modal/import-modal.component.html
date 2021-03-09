@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Import XML</h1>
+<div mat-dialog-content>
+  <h2>
+    <span class="warn">CAUTION: </span>
+    <span>Importing files will override your existing data.</span>
+  </h2>
+  <p>Select the folder container the simulation to import.</p>
+  <div class="mbxl">
+    <file-path (filesSelected)="onFileInput($event)"></file-path>
+  </div>
+  <ng-container *ngIf="!files; else fileFeedback"></ng-container>
+</div>  
+<div mat-dialog-actions class="modal-actions">
+  <button mat-button (click)="onCancel()" cdkFocusInitial>Cancel</button>
+  <button mat-raised-button color="primary" (click)="onImport()" [disabled]="!readyForImport">Import Files</button>
+</div>
+
+<ng-template #fileFeedback>
+  <div 
+    class="flex justify-end italic"
+    [ngClass]="readyForImport ? 'accent' : 'warn'"
+  >
+    {{ readyForImport ? readyMessage : notReadyMessage }}
+  </div>
+</ng-template>
