@@ -11,6 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",

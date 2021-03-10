@@ -1,10 +1,10 @@
-import { Component, ViewChild, ComponentRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TAB_ROUTES } from '@constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Section, Item } from '@interfaces';
-import { ItemType } from '@enums';
 import { PageHeaderComponent } from '@components/shared';
+import { version } from '../../package.json';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +14,7 @@ import { PageHeaderComponent } from '@components/shared';
 export class AppComponent {
   public item: Item;
   public sections: Section[];
+  public version = version;
 
   @ViewChild(PageHeaderComponent) public pageHeader: PageHeaderComponent;
 

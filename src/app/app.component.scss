@@ -1,3 +1,10 @@
 .container {
   height: 100%;
 }
+
+.version {
+  position: fixed;
+  left: 32px;
+  bottom: 16px;
+  color: rgba(255, 255, 255, 0.3);
+}

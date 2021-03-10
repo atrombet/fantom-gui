@@ -11,6 +11,7 @@
         <entities-tab (objectSelected)="setItem($event)"></entities-tab>
       </mat-tab>
     </mat-tab-group>
+    <div class="version">FANTOM GUI v{{version}}</div>
   </mat-sidenav>
   <mat-sidenav-content>
     <page-header [sections]="sections" (sectionSelected)="navigateToSection($event)"></page-header>
