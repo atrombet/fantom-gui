@@ -71,19 +71,26 @@ export class EntityXmlGenerator {
       const nameNode = createNodeFromValue(obj.name, xmlDoc, 'name');
       objNode.appendChild(nameNode);
 
-      // Append section data to object.
+      // Append metadata to object.
       this.appendMetadata(obj, xmlDoc, objNode);
+      // Append initial conditions to object.
       this.appendInitNode(obj, xmlDoc, objNode);
+
+      // Create a properties node.
+      const propertiesNode = xmlDoc.createElement('properties');
+
       if (allowSixDof) {
-        const propertiesFiles = this.appendPropertiesNode(obj, xmlDoc, objNode);
-        allObjectFiles.push(...propertiesFiles);
+        const massPropFiles = this.appendMassPropNode(obj, xmlDoc, propertiesNode);
+        allObjectFiles.push(...massPropFiles);
       }
-      const aeroFiles = this.appendAeroNode(obj, xmlDoc, objNode);
+      const aeroFiles = this.appendAeroNode(obj, xmlDoc, propertiesNode);
       allObjectFiles.push(...aeroFiles);
-      const propulsionFiles = this.appendPropulsionNode(obj, xmlDoc, objNode);
+      const propulsionFiles = this.appendPropulsionNode(obj, xmlDoc, propertiesNode);
       allObjectFiles.push(...propulsionFiles);
-      const scriptFiles = this.appendScriptNode(obj, xmlDoc, objNode);
+      const scriptFiles = this.appendScriptNode(obj, xmlDoc, propertiesNode);
       allObjectFiles.push(...scriptFiles);
+
+      objNode.appendChild(propertiesNode);
 
       // Append the object to the entity
       entNode.appendChild(objNode);
@@ -127,7 +134,7 @@ export class EntityXmlGenerator {
    * Object Properties
    *********************************/
 
-  private appendPropertiesNode(object: any, xmlDoc: XMLDocument, objNode: Element): XmlFile[] {
+  private appendMassPropNode(object: any, xmlDoc: XMLDocument, objNode: Element): XmlFile[] {
     const massPropNode = xmlDoc.createElement('mass_properties');
 
     // Center of gravity
