@@ -113,3 +113,10 @@ mat-hint.toggle-hint {
   display: flex;
   justify-content: flex-end;
 }
+
+.table-header {
+  & input {
+    font-weight: bold !important;
+    background-color: #DDDDDD;
+  }
+}

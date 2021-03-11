@@ -377,7 +377,7 @@ export class EntityXmlGenerator {
   }
 
   private appendPropSourceNode(source: any, xmlDoc: XMLDocument, sourceNode: Element): XmlFile[] {
-    const { name, position_x, position_y, position_z, orientation_roll, orientation_pitch, orientation_yaw, nozzle_exit_area } = source;
+    const { name, position_x, position_y, position_z, orientation_roll, orientation_pitch, orientation_yaw, nozzle_exit_area, mode } = source;
     const files: XmlFile[] = [];
 
     // Name
@@ -385,7 +385,7 @@ export class EntityXmlGenerator {
     sourceNode.appendChild(nameNode);
 
     // Mode
-    const modeNode = createNodeFromValue(0, xmlDoc, 'mode');
+    const modeNode = createNodeFromValue(mode, xmlDoc, 'mode');
     sourceNode.appendChild(modeNode);
 
     // Position

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SelectOption } from '@interfaces';
@@ -7,14 +7,15 @@ import { SelectOption } from '@interfaces';
   selector: 'prop-source',
   templateUrl: './prop-source.component.html'
 })
-export class PropSourceComponent implements OnInit {
-  private subs = new Subscription();
-
+export class PropSourceComponent {
   @Input() public propSource: FormGroup;
 
-  public tableDeps: { dep_1: string, dep_2: string } = {
-    dep_1: '',
-    dep_2: ''
+  public get tableDeps(): { dep_1: string, dep_2: string } {
+    switch (this.propSource.get('mode').value) {
+      case 1: return { dep_1: 'Specific Impulse [sec]', dep_2: 'Thrust [N]' };
+      case 2: return { dep_1: 'Mass Flow Rate [kg/sec]', dep_2: 'Thrust [N]' };
+      default: return { dep_1: '', dep_2: '' };
+    }
   };
 
   public propulsionModeOptions: SelectOption[] = [
@@ -24,31 +25,6 @@ export class PropSourceComponent implements OnInit {
   ];
 
   constructor() {}
-
-  public ngOnInit(): void {
-    this.propSource.get('mode').valueChanges.subscribe(mode => {
-      switch (mode) {
-        case 1:
-          this.tableDeps = {
-            dep_1: 'Specific Impulse [sec]',
-            dep_2: 'Thrust [N]'
-          };
-          break;
-        case 2:
-          this.tableDeps = {
-            dep_1: 'Mass Flow Rate [kg/sec]',
-            dep_2: 'Thrust [N]'
-          };
-          break;
-        default:
-          this.tableDeps = {
-            dep_1: '',
-            dep_2: ''
-          };
-          break;
-      }
-    });
-  }
 
   public getDepName(key: string): string {
     return this.tableDeps[key];

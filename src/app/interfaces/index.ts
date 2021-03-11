@@ -9,3 +9,4 @@ export * from './table-column.interface';
 export * from './toggle-button-subgroup.interface';
 export * from './xml-shape.interfaces';
 export * from './entity-xml.interfaces';
+export * from './entity-importer.interfaces';
