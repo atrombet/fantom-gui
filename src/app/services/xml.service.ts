@@ -6,10 +6,10 @@ import { take, tap, map } from 'rxjs/operators';
 import { ItemService } from './item.service';
 import { SimulationFormService } from './simulation-form.service';
 import { Item, XmlFile } from '@interfaces';
-import { appendSimXMLNode, appendEnvXMLNodes, createEnvItem } from '@functions';
+import { appendSimXMLNode, createEnvItem } from '@functions';
 import format from 'xml-formatter';
 import convert from 'xml-js';
-import { EntityImporter, EntityXmlGenerator } from '@classes';
+import { EntityImporter, EntityXmlGenerator, EnvironmentXmlGenerator } from '@classes';
 import { CONVERTER_OPTIONS } from '@constants';
 
 // tslint:disable: no-string-literal
@@ -20,6 +20,7 @@ import { CONVERTER_OPTIONS } from '@constants';
 export class XmlService {
   public xml$ = new BehaviorSubject<string>(null);
   public entityXmlGen = new EntityXmlGenerator();
+  public envXmlGen = new EnvironmentXmlGenerator();
   public entityImporter: EntityImporter;
   public renderer: IpcRenderer;
 
@@ -109,7 +110,8 @@ export class XmlService {
     appendSimXMLNode({ maximum_time_sec }, xmlDoc, rootNode);
 
     // Create and append environment nodes.
-    appendEnvXMLNodes(environments, xmlDoc, rootNode);
+    const allEnvironmentFiles: XmlFile[] = this.envXmlGen.appendEnvXMLNodes(environments, xmlDoc, rootNode, simulation_name);
+    additionalFiles.push(...allEnvironmentFiles);
 
     // Create and append entity nodes.
     const allEntityFiles: XmlFile[] = this.entityXmlGen.appendEntXMLNodes(entities, xmlDoc, rootNode, simulation_name);
