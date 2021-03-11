@@ -15,7 +15,7 @@
     "e2e": "ng e2e",
     "electron": "ng build --base-href ./ && electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make",
+    "make": "ng build --base-href ./  && electron-forge make",
     "publish": "electron-forge publish",
     "make-mac": "npx @electron-forge/cli make --platform darwin",
     "make-linux": "npx @electron-forge/cli make --platform linux --targets deb",
