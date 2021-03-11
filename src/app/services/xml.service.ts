@@ -2,18 +2,16 @@ import { Injectable } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { IpcRenderer } from 'electron';
 import { BehaviorSubject, forkJoin, of, from } from 'rxjs';
-import { take, tap, map } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { ItemService } from './item.service';
 import { SimulationFormService } from './simulation-form.service';
 import { Item, XmlFile } from '@interfaces';
-import { appendSimXMLNode, createEnvItem } from '@functions';
+import { appendSimXMLNode } from '@functions';
 import format from 'xml-formatter';
 import convert from 'xml-js';
-import { EntityImporter, EntityXmlGenerator, EnvironmentXmlGenerator } from '@classes';
+import { EntityImporter, EntityXmlGenerator, EnvironmentImporter, EnvironmentXmlGenerator } from '@classes';
 import { CONVERTER_OPTIONS } from '@constants';
 
-// tslint:disable: no-string-literal
-// tslint:disable: variable-name
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +19,7 @@ export class XmlService {
   public xml$ = new BehaviorSubject<string>(null);
   public entityXmlGen = new EntityXmlGenerator();
   public envXmlGen = new EnvironmentXmlGenerator();
+  public environmentImporter: EnvironmentImporter;
   public entityImporter: EntityImporter;
   public renderer: IpcRenderer;
 
@@ -33,7 +32,8 @@ export class XmlService {
    **********************************/
 
   public importXml(files: any): void {
-    // Initialize the entity importer with the imported files.
+    // Initialize the importers with the imported files.
+    this.environmentImporter = new EnvironmentImporter(files);
     this.entityImporter = new EntityImporter(files);
     // Grab the simulation name as the first segment of any file's path.
     const simName = files[0].webkitRelativePath.split('/')[0];
@@ -60,7 +60,7 @@ export class XmlService {
       environment = [ environment ];
     }
     const envItems: Item[] = environment.map((env, index) => {
-      return createEnvItem(env, index + 1);
+      return this.environmentImporter.createEnvItem(env, index + 1);
     });
     this.itemService.setEnvironments(envItems);
   }

@@ -10,3 +10,4 @@ export * from './toggle-button-subgroup.interface';
 export * from './xml-shape.interfaces';
 export * from './entity-xml.interfaces';
 export * from './entity-importer.interfaces';
+export * from './env-importer.interfaces';

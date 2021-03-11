@@ -1,5 +1,3 @@
-// tslint:disable: max-line-length
-// tslint:disable: no-string-literal
 import { createNodeFromObject, createNodeFromValue, appendArray, appendFilepaths, create1DTableFile, create2DTable } from '../functions/xml-export-helpers';
 import { flattenSections } from '../functions/item-helpers';
 import { CGFiles, CGProps, CoefficientDependencies, CoefficientFiles, MomentFiles, MomentProps, PropTableFiles, XmlFile, GncTableFiles } from '@interfaces';
