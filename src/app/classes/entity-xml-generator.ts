@@ -106,10 +106,10 @@ export class EntityXmlGenerator {
   private appendMetadata(object: any, xmlDoc: XMLDocument, objNode: Element): void {
     const { parent_object, solver, hold_down, local_environment } = object.meta.general;
     const parentNode = createNodeFromValue(parent_object, xmlDoc, 'parent');
-    const solverNode = createNodeFromValue(solver, xmlDoc, 'solver');
     const holdDownNode = createNodeFromValue(boolToBin(hold_down), xmlDoc, 'hold_down');
     const localEnvironmentNode = createNodeFromValue(local_environment, xmlDoc, 'local_environment');
-    appendArray([ parentNode, solverNode, holdDownNode, localEnvironmentNode ], objNode);
+    const solverNode = createNodeFromValue(solver, xmlDoc, 'solver');
+    appendArray([ parentNode, holdDownNode, localEnvironmentNode, solverNode ], objNode);
   }
 
   /*********************************
