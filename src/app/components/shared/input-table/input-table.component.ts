@@ -81,6 +81,7 @@ export class InputTableComponent implements AfterViewInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmModalComponent, { data: options, disableClose: true });
     dialogRef.afterClosed().pipe(first()).subscribe(confirmed => {
       if (confirmed) {
+        this.rows.clear();
         this.rows.reset();
       }
     });

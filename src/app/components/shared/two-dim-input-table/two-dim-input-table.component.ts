@@ -86,8 +86,13 @@ export class TwoDimInputTableComponent implements AfterViewInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmModalComponent, { data: options, disableClose: true });
     dialogRef.afterClosed().pipe(first()).subscribe(confirmed => {
       if (confirmed) {
-        this.rows.reset();
+        // Clear all controls from columns, rows, and data.
+        this.columns.clear();
+        this.rows.clear();
+        this.data.clear();
+        // Reset form arrays to make them pristine.
         this.columns.reset();
+        this.rows.reset();
         this.data.reset();
       }
     });
@@ -121,20 +126,16 @@ export class TwoDimInputTableComponent implements AfterViewInit, OnDestroy {
    * @param data - The value entered into the parser input field.
    */
   public patchClipboardDataToForm(data: string): void {
-    const currCols = this.columns.controls.length;
-    const currRows = this.rows.controls.length;
-    const currData = this.data.controls.length;
+    // Clear all controls from columns, rows, and data.
+    this.columns.clear();
+    this.rows.clear();
+    this.data.clear();
+
     // Parse the data with the parsing service.
     const parsedData: string[][] = this.parser.parseClipboardData(data);
 
     // Set the column headers
     const newColumns = parsedData[0].slice(1);
-    if (currCols > newColumns.length) {
-      const colsToRemove = currCols - newColumns.length;
-      for (let colIndex = colsToRemove - 1; colIndex < currCols; colIndex++) {
-        this.columns.removeAt(colIndex);
-      }
-    }
     newColumns.forEach((col, index) => {
       this.columns.setControl(index, this.fb.control(col));
     });
@@ -142,12 +143,6 @@ export class TwoDimInputTableComponent implements AfterViewInit, OnDestroy {
 
     // Set the rows
     const newRows = parsedData.slice(1);
-    if (currRows > newRows.length) {
-      const rowsToRemove = currRows - newRows.length;
-      for (let rowIndex = rowsToRemove - 1; rowIndex < currRows; rowIndex++) {
-        this.rows.removeAt(rowIndex);
-      }
-    }
     newRows.map(row => row[0]).forEach((row, index) => {
       this.rows.setControl(index, this.fb.control(row));
     });
@@ -155,13 +150,7 @@ export class TwoDimInputTableComponent implements AfterViewInit, OnDestroy {
 
     // Set the data
     const newData = parsedData.slice(1).map(row => row.slice(1));
-    if (currData > newData.length) {
-      const dataRowsToRemove = currData - newData.length;
-      for (let dataRowIndex = dataRowsToRemove - 1; dataRowIndex < currData; dataRowIndex++) {
-        this.data.removeAt(dataRowIndex);
-      }
-    }
-    parsedData.slice(1).map(row => row.slice(1)).forEach((dataRow, index) => {
+    newData.forEach((dataRow, index) => {
       this.data.setControl(index, this.fb.array(dataRow.map(val => this.fb.control(val))));
     })
     this.data.markAsDirty();
