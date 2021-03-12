@@ -495,12 +495,12 @@ export class EntityImporter extends BaseImporter {
           reset_propulsion_time: binToBool(reset_propulsion_time._),
           active_propulsion_sources: activePropSources,
           gnc: {
-            mode: mode._,
-            frame: frame._,
+            mode: Number(mode._),
+            frame: Number(frame._),
             rows
           },
-          parameter: parameter._,
-          condition: condition._,
+          parameter: Number(parameter._),
+          condition: Number(condition._),
           value: value._,
         };
         return segmentFormValues;

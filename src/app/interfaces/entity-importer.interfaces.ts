@@ -58,10 +58,10 @@ export interface SegmentFormValues {
   active_propulsion_sources: any;
   gnc: {
     mode: number;
-    frame: string;
+    frame: number;
     rows: any[];
   };
-  parameter: string;
-  condition: string;
+  parameter: number;
+  condition: number;
   value: string;
 }

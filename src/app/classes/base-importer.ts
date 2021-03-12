@@ -9,11 +9,12 @@ export class BaseImporter {
 
   /**
    * Imports and converts the content of a table xml doc to a js object.
-   * @param partialFilepath - All or part of the webkitRelativePath of the file to import.
+   * @param filepath - All or part of the webkitRelativePath of the file to import.
    */
-  public importTableFromFile(partialFilepath: string): Observable<any> {
+  public importTableFromFile(filepath: string): Observable<any> {
+    filepath = filepath.slice(2); // remove the './'
     const file = Object.values(this.files).find((f: File) => {
-      return f['webkitRelativePath'].includes(partialFilepath);
+      return f['webkitRelativePath'].includes(filepath);
     });
     return from(file.text()).pipe(
       map((text: string) => {

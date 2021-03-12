@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SelectOption, TableColumn } from '@interfaces';
+import { SEGMENT_END_OPTIONS } from '../../../constants';
 
 @Component({
   selector: 'segment',
@@ -27,18 +28,18 @@ export class SegmentComponent implements OnInit {
   ];
 
   public modeOptions: SelectOption[] = [
-    { value: '0', viewValue: 'Unguided' },
-    { value: '1', viewValue: 'Fixed Angle' },
-    { value: '2', viewValue: 'Fixed Rate' },
-    { value: '3', viewValue: 'Steady Level' },
-    { value: '4', viewValue: 'Max L/D' }
+    { value: 0, viewValue: 'Unguided' },
+    { value: 1, viewValue: 'Fixed Angle' },
+    { value: 2, viewValue: 'Fixed Rate' },
+    { value: 3, viewValue: 'Steady Level' },
+    { value: 4, viewValue: 'Max L/D' }
   ];
 
   public frameOptions: SelectOption[] = [
-    { value: '0', viewValue: 'ECI' },
-    { value: '1', viewValue: 'ECEF' },
-    { value: '2', viewValue: 'NED' },
-    { value: '3', viewValue: 'WIND' }
+    { value: 0, viewValue: 'ECI' },
+    { value: 1, viewValue: 'ECEF' },
+    { value: 2, viewValue: 'NED' },
+    { value: 3, viewValue: 'WIND' }
   ];
 
   public tableColumns: TableColumn[] = [
@@ -47,19 +48,12 @@ export class SegmentComponent implements OnInit {
     { variable: 'value_3', headerName: 'Ψ [deg]' }
   ];
 
-  public parameterOptions: SelectOption[] = [
-    { value: 'altitude', viewValue: 'Altitude' },
-    { value: 'ground_range', viewValue: 'Ground Range' },
-    { value: 'thrust', viewValue: 'Thrust' },
-    { value: 'time', viewValue: 'Time' },
-    { value: 'segment_time', viewValue: 'Segment Time' },
-    { value: 'other', viewValue: 'Other' }
-  ];
+  public parameterOptions: SelectOption[] = SEGMENT_END_OPTIONS;
 
   public criteriaOptions: SelectOption[] = [
-    { value: '-1', viewValue: '<' },
-    { value: '0', viewValue: '=' },
-    { value: '1', viewValue: '>' }
+    { value: -1, viewValue: '<' },
+    { value: 0, viewValue: '=' },
+    { value: 1, viewValue: '>' }
   ];
 
   public ngOnInit(): void {
