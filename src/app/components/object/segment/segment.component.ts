@@ -27,18 +27,18 @@ export class SegmentComponent implements OnInit {
   ];
 
   public modeOptions: SelectOption[] = [
-    { value: 'unguided', viewValue: 'Unguided' },
-    { value: 'fixed_angle', viewValue: 'Fixed Angle' },
-    { value: 'fixed_rate', viewValue: 'Fixed Rate' },
-    { value: 'steady_level', viewValue: 'Steady Level' },
-    { value: 'max_l/d', viewValue: 'Max L/D' }
+    { value: '0', viewValue: 'Unguided' },
+    { value: '1', viewValue: 'Fixed Angle' },
+    { value: '2', viewValue: 'Fixed Rate' },
+    { value: '3', viewValue: 'Steady Level' },
+    { value: '4', viewValue: 'Max L/D' }
   ];
 
   public frameOptions: SelectOption[] = [
-    { value: 'eci', viewValue: 'ECI' },
-    { value: 'ecef', viewValue: 'ECEF' },
-    { value: 'ned', viewValue: 'NED' },
-    { value: 'wind', viewValue: 'WIND' }
+    { value: '0', viewValue: 'ECI' },
+    { value: '1', viewValue: 'ECEF' },
+    { value: '2', viewValue: 'NED' },
+    { value: '3', viewValue: 'WIND' }
   ];
 
   public tableColumns: TableColumn[] = [
