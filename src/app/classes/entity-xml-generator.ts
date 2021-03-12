@@ -159,7 +159,7 @@ export class EntityXmlGenerator {
    * Generates XML files for the CG properties and returns the filenames.
    */
   private generateCGFiles({ cg_dependency, rows }: CGProps): CGFiles {
-    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/mass_properties`;
+    const filepath = `./${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/mass_properties`;
     const deps = rows.map(row => row.dep);
     const xData = rows.map(row => row.x);
     const yData = rows.map(row => row.y);
@@ -177,7 +177,7 @@ export class EntityXmlGenerator {
    * Generates XML files for the moment of inertia properties and returns the filenames.
    */
   private generateMomentFiles({ inertia_dependency, rows }: MomentProps): MomentFiles {
-    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/moment_of_inertia`;
+    const filepath = `./${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/moment_of_inertia`;
     const deps = rows.map(row => row.dep);
     const ixxData = rows.map(row => row.ixx);
     const iyyData = rows.map(row => row.iyy);
@@ -246,7 +246,7 @@ export class EntityXmlGenerator {
   }
 
   private generateCoefficientsFiles(aero: any, allowSixDof: boolean): CoefficientFiles {
-    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/aerodynamics`;
+    const filepath = `./${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/aerodynamics`;
     // Determine the page to pull from based on the aerodynamics mode.
     let vals;
     switch (aero.general.aero_mode) {
@@ -416,7 +416,7 @@ export class EntityXmlGenerator {
   }
 
   private generatePropTables(source: any): PropTableFiles {
-    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/propulsion/${source.name}`;
+    const filepath = `./${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/propulsion/${source.name}`;
     let propTableFiles: PropTableFiles;
 
     // Generate Thrust table file.
@@ -503,7 +503,7 @@ export class EntityXmlGenerator {
   }
 
   private generateGncTables({ name, gnc }: any): GncTableFiles {
-    const filepath = `${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/script/${name}`;
+    const filepath = `./${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/script/${name}`;
     const deps = gnc.rows.map(row => row.dep);
     const value1Data = gnc.rows.map(row => row.value_1);
     const value2Data = gnc.rows.map(row => row.value_2);

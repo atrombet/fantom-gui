@@ -125,12 +125,8 @@ export class XmlService {
     this.xml$.next(xmlString);
 
     this.renderer.send('EXPORT_XML', [
-      { filepath: `${simulation_name}/${simulation_name}.xml`, content: xmlString },
+      { filepath: `./${simulation_name}/${simulation_name}.xml`, content: xmlString },
       ...additionalFiles
     ]);
-
-
-    // Log the formatted xml string.
-    // console.log(xmlString);
   }
 }
