@@ -60,7 +60,7 @@ export function create1DTableFile(rows: string[], data: string[]): string {
   // Create serializer.
   const serializer = new XMLSerializer();
   // Serialize the xml doc to string.
-  const xmlString = format(serializer.serializeToString(doc));
+  const xmlString = format(serializer.serializeToString(doc), { collapseContent: true });
 
   return xmlString;
 }
