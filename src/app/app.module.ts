@@ -23,6 +23,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatListModule } from '@angular/material/list';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 // Component Imports
 import { AppComponent } from './app.component';
@@ -153,7 +155,8 @@ import { ImportModalComponent } from './components/shared/import-modal/import-mo
     MatNativeDateModule,
     MatDatepickerModule,
     MatButtonToggleModule,
-    MatListModule
+    MatListModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldAppearance }

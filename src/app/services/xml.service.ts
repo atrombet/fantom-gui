@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { IpcRenderer } from 'electron';
-import { BehaviorSubject, forkJoin, of, from } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
-import { ItemService } from './item.service';
-import { SimulationFormService } from './simulation-form.service';
+import { BehaviorSubject, forkJoin, of, from, throwError } from 'rxjs';
+import { catchError, finalize, take, tap } from 'rxjs/operators';
+import { SimulationFormService, MessageService, ItemService } from '@services';
 import { Item, XmlFile } from '@interfaces';
 import { appendSimXMLNode } from '@functions';
 import format from 'xml-formatter';
@@ -23,7 +22,12 @@ export class XmlService {
   public entityImporter: EntityImporter;
   public renderer: IpcRenderer;
 
-  constructor(private simulationService: SimulationFormService, private itemService: ItemService, private electron: ElectronService) {
+  constructor(
+    private simulationService: SimulationFormService,
+    private itemService: ItemService,
+    private electron: ElectronService,
+    private message: MessageService
+  ) {
     this.renderer = this.electron.ipcRenderer;
   }
 
@@ -46,6 +50,13 @@ export class XmlService {
         this.importEnvironmentData(environment);
         // Import the entity data.
         this.importEntityData(entity);
+      }),
+      catchError(err => {
+        this.message.showError('There was a problem importing these files.');
+        return throwError(err);
+      }),
+      finalize(() => {
+        this.message.showSuccess('Import complete!');
       })
     ).subscribe();
   }
@@ -124,9 +135,14 @@ export class XmlService {
 
     this.xml$.next(xmlString);
 
-    this.renderer.send('EXPORT_XML', [
-      { filepath: `./${simulation_name}/${simulation_name}.xml`, content: xmlString },
-      ...additionalFiles
-    ]);
+    if (!this.renderer) {
+      this.message.showError('Cannot communicate with the file system to export files.');
+    } else {
+      this.renderer.send('EXPORT_XML', [
+        { filepath: `./${simulation_name}/${simulation_name}.xml`, content: xmlString },
+        ...additionalFiles
+      ]);
+      this.message.showSuccess('Export complete!');
+    }
   }
 }

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, ipcRenderer, dialog } = require("electron");
 
 if (require('electron-squirrel-startup')) return;
 
@@ -142,7 +142,6 @@ ipcMain.on('EXPORT_XML', async (event, files) => {
       const message = `The following files failed to save: \n ${failedFilenames}`;
       throw message;
     } else {
-      // TODO: send response to Angular.
       const succeededFilenames = results.succeeded.reduce((str, file) => { return `${str} \n ${file}`; }, '');
       const message = `The following ${results.succeeded.length} files were created: \n ${succeededFilenames}`;
     }
