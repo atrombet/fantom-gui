@@ -14,4 +14,8 @@ export class SimulationComponent implements OnInit {
   public ngOnInit(): void {
     this.xml$ = this.xmlService.xml$;
   }
+
+  public onExecuteClick(): void {
+    this.xmlService.triggerExecutionCommand();
+  }
 }

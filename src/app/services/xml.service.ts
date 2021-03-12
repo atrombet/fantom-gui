@@ -145,4 +145,8 @@ export class XmlService {
       this.message.showSuccess('Export complete!');
     }
   }
+
+  public triggerExecutionCommand(): void {
+    this.renderer.send('EXECUTE_SIMULATION', '');
+  }
 }

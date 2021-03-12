@@ -1,10 +1,11 @@
-const { app, BrowserWindow, ipcMain, ipcRenderer, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 
 if (require('electron-squirrel-startup')) return;
 
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
+const { spawn } = require('child_process');
 
 if (handleSquirrelEvent()) {
   // squirrel event handled and app will exit in 1000ms, so don't do anything else
@@ -146,7 +147,16 @@ ipcMain.on('EXPORT_XML', async (event, files) => {
       const message = `The following ${results.succeeded.length} files were created: \n ${succeededFilenames}`;
     }
   }
-})
+});
+
+ipcMain.on('EXECUTE_SIMULATION', async (event, args) => {
+  const sim = spawn('fantom.exe', ['-i path', '-f inputFile', '-o outputPath']);
+
+  sim.on('error', err => {
+    console.error('There was a problem executing the simulation.');
+    console.error(err);
+  })
+});
 
 app.on("ready", createWindow);
 // on macOS, closing the window doesn't quit the app
