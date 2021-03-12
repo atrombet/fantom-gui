@@ -18,8 +18,8 @@
 
   <!-- Input Table -->
   <input-table
-    [columns]="[{ variable: 'value', headerName: getOptionName(form.get('dep').value) }]"
-    depName="Time [sec]"
+    [columns]="[{ variable: 'value', headerName: '' }]"
+    [depName]="getOptionName(form.get('dep').value)"
     [rows]="form.get('rows')"
   >
   </input-table>
