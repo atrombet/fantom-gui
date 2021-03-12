@@ -128,6 +128,14 @@ export class XmlService {
     const allEntityFiles: XmlFile[] = this.entityXmlGen.appendEntXMLNodes(entities, xmlDoc, rootNode, simulation_name);
     additionalFiles.push(...allEntityFiles);
 
+    // Reverse slashes in filepaths for windows.
+    if (this.electron.isWindows) {
+      const fileNodes = xmlDoc.querySelectorAll('filename');
+      fileNodes.forEach(node => {
+        node.textContent = node.textContent.split('/').join('\\');
+      });
+    }
+
     // Create serializer.
     const serializer = new XMLSerializer();
     // Serialize the xml doc to string.
@@ -135,7 +143,7 @@ export class XmlService {
 
     this.xml$.next(xmlString);
 
-    if (!this.renderer) {
+    if (!this.electron.isElectronApp) {
       this.message.showError('Cannot communicate with the file system to export files.');
     } else {
       this.renderer.send('EXPORT_XML', [

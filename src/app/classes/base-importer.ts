@@ -12,6 +12,10 @@ export class BaseImporter {
    * @param filepath - All or part of the webkitRelativePath of the file to import.
    */
   public importTableFromFile(filepath: string): Observable<any> {
+    // If the XML's filename reference uses backslashes, reverse them.
+    if (filepath.charAt(1) === '\\') {
+      filepath = filepath.split('\\').join('/');
+    }
     filepath = filepath.slice(2); // remove the './'
     const file = Object.values(this.files).find((f: File) => {
       return f['webkitRelativePath'].includes(filepath);
