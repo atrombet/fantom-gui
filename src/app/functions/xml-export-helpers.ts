@@ -1,5 +1,6 @@
 import { XmlFile } from '../interfaces';
 import format from 'xml-formatter';
+import { XML_FORMATTER_OPTIONS } from '@constants';
 
 export function createNodeFromObject(obj: any, xmlDoc: XMLDocument, nodeName: string): Element {
   return Object.keys(obj).reduce((parentNode, key) => {
@@ -49,18 +50,18 @@ export function create1DTableFile(rows: string[], data: string[]): string {
 
   // Create and append the row_breakpoint node.
   const rowBreakpointStr = rows.join(',');
-  const rowBreakpointNode = createNodeFromValue(rowBreakpointStr, doc, 'row_breakpoint');
+  const rowBreakpointNode = createNodeFromValue(`\n\t\t${rowBreakpointStr}\n\t`, doc, 'row_breakpoint');
   tableNode.appendChild(rowBreakpointNode);
 
   // Create and append the data node.
   const dataStr = data.join(',');
-  const dataNode = createNodeFromValue(dataStr, doc, 'data');
+  const dataNode = createNodeFromValue(`\n\t\t${dataStr}\n\t`, doc, 'data');
   tableNode.appendChild(dataNode);
 
   // Create serializer.
   const serializer = new XMLSerializer();
   // Serialize the xml doc to string.
-  const xmlString = format(serializer.serializeToString(doc), { collapseContent: true });
+  const xmlString = format(serializer.serializeToString(doc), XML_FORMATTER_OPTIONS);
 
   return xmlString;
 }
@@ -82,7 +83,7 @@ export function create2DTable(rows: string[], columns: string[], data: any[]): s
 
   // Create and append the row_breakpoint node.
   const rowBreakpointStr = rows.join(',');
-  const rowBreakpointNode = createNodeFromValue(rowBreakpointStr, doc, 'row_breakpoint');
+  const rowBreakpointNode = createNodeFromValue(`\n\t\t${rowBreakpointStr}\n\t`, doc, 'row_breakpoint');
   tableNode.appendChild(rowBreakpointNode);
 
   // Create and append the n column node.
@@ -92,18 +93,18 @@ export function create2DTable(rows: string[], columns: string[], data: any[]): s
 
   // Create and append the columnBreakpointNode
   const columnBreakpointStr = columns.join(',');
-  const columnBreakpointNode = createNodeFromValue(columnBreakpointStr, doc, 'column_breakpoint');
+  const columnBreakpointNode = createNodeFromValue(`\n\t\t${columnBreakpointStr}\n\t`, doc, 'column_breakpoint');
   tableNode.appendChild(columnBreakpointNode);
 
   // Create and append the data node.
-  const dataStr = data.reduce((str, dataRow) => `${str}\n${dataRow.join(',')}`);
-  const dataNode = createNodeFromValue(dataStr, doc, 'data');
+  const dataStr = data.reduce((str, dataRow) => `${str}\n\t\t${dataRow.join(',')}`);
+  const dataNode = createNodeFromValue(`\n\t\t${dataStr}\n\t`, doc, 'data');
   tableNode.appendChild(dataNode);
 
   // Create serializer.
   const serializer = new XMLSerializer();
   // Serialize the xml doc to string.
-  const xmlString = format(serializer.serializeToString(doc));
+  const xmlString = format(serializer.serializeToString(doc), XML_FORMATTER_OPTIONS);
 
   return xmlString;
 }

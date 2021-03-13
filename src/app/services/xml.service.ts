@@ -9,7 +9,7 @@ import { appendSimXMLNode } from '@functions';
 import format from 'xml-formatter';
 import convert from 'xml-js';
 import { EntityImporter, EntityXmlGenerator, EnvironmentImporter, EnvironmentXmlGenerator } from '@classes';
-import { CONVERTER_OPTIONS } from '@constants';
+import { CONVERTER_OPTIONS, XML_FORMATTER_OPTIONS } from '@constants';
 
 @Injectable({
   providedIn: 'root'
@@ -141,7 +141,7 @@ export class XmlService {
     // Create serializer.
     const serializer = new XMLSerializer();
     // Serialize the xml doc to string.
-    const xmlString = format(serializer.serializeToString(xmlDoc), { collapseContent: true });
+    const xmlString = format(serializer.serializeToString(xmlDoc), XML_FORMATTER_OPTIONS);
 
     this.xml$.next(xmlString);
 
