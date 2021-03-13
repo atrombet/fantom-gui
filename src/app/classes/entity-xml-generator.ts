@@ -1,14 +1,13 @@
-import { createNodeFromObject, createNodeFromValue, appendArray, appendFilepaths, create1DTableFile, create2DTable } from '../functions/xml-export-helpers';
-import { flattenSections } from '../functions/item-helpers';
+import { boolToBin, flattenSections, createNodeFromObject, createNodeFromValue, appendArray, appendFilepaths, create1DTableFile, create2DTable } from '@functions';
 import { CGFiles, CGProps, CoefficientDependencies, CoefficientFiles, MomentFiles, MomentProps, PropTableFiles, XmlFile, GncTableFiles } from '@interfaces';
-import { boolToBin } from '../functions';
+import { MessageService } from '@services';
 
 export class EntityXmlGenerator {
   public simulationName: string;
   public entityName: string;
   public currentObjectName: string;
 
-  constructor() {}
+  constructor(private message: MessageService) {}
 
   /**************************
    * Entities
@@ -159,7 +158,7 @@ export class EntityXmlGenerator {
    * Generates XML files for the CG properties and returns the filenames.
    */
   private generateCGFiles({ cg_dependency, rows }: CGProps): CGFiles {
-    const filepath = `./${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/mass_properties`;
+    const filepath = `./${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/mass_properties/center_of_gravity_location`;
     const deps = rows.map(row => row.dep);
     const xData = rows.map(row => row.x);
     const yData = rows.map(row => row.y);
@@ -177,7 +176,7 @@ export class EntityXmlGenerator {
    * Generates XML files for the moment of inertia properties and returns the filenames.
    */
   private generateMomentFiles({ inertia_dependency, rows }: MomentProps): MomentFiles {
-    const filepath = `./${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/moment_of_inertia`;
+    const filepath = `./${this.simulationName}/simulation/${this.entityName}/${this.currentObjectName}/mass_properties/moment_of_inertia`;
     const deps = rows.map(row => row.dep);
     const ixxData = rows.map(row => row.ixx);
     const iyyData = rows.map(row => row.iyy);
@@ -250,13 +249,18 @@ export class EntityXmlGenerator {
     // Determine the page to pull from based on the aerodynamics mode.
     let vals;
     switch (aero.general.aero_mode) {
-      case 1: vals = aero.bodyfixed; break;
-      case 2: vals = aero.axisymmetric; break;
-      case 3: vals = aero.wind; break;
+      case 0: vals = aero.bodyfixed; break;
+      case 1: vals = aero.axisymmetric; break;
+      case 2: vals = aero.wind; break;
     }
     // Map data to an object for easy access when generating xml content.
     const coLookup = Object.keys(vals).reduce((lookup, key) => {
       const { size, table_1D, table_2D } = vals[key];
+
+      if (!table_1D.rows.length && !table_2D.rows.length) {
+        this.message.showError('Please add Aerodynamics Coefficient data.');
+      }
+
       let data;
       if (size === 1) {
         // Data for 1D table.
@@ -324,9 +328,9 @@ export class EntityXmlGenerator {
     let vals;
 
     switch (aero.general.aero_mode) {
-      case 1: vals = aero.bodyfixed; break;
-      case 2: vals = aero.axisymmetric; break;
-      case 3: vals = aero.wind; break;
+      case 0: vals = aero.bodyfixed; break;
+      case 1: vals = aero.axisymmetric; break;
+      case 2: vals = aero.wind; break;
     }
 
     let deps: CoefficientDependencies = {
@@ -422,13 +426,13 @@ export class EntityXmlGenerator {
     // Generate Thrust table file.
     const thrustTable = source.table_1;
     const thrustDeps = thrustTable.map(row => row.dep);
-    const thrustData = thrustTable.map(row => row.value_1);
+    const thrustData = thrustTable.map(row => row.value);
     const thrustFile: XmlFile = { filepath: `${filepath}/vaccum_thrust_N.xml`, content: create1DTableFile(thrustDeps, thrustData) };
     if (source.mode === 1) {
       // Generate specific impulse table file.
       const specImpTable = source.table_2;
       const specImpDeps = specImpTable.map(row => row.dep);
-      const specImpData = specImpTable.map(row => row.value_2);
+      const specImpData = specImpTable.map(row => row.value);
       propTableFiles = {
         specific_impulse: { filepath: `${filepath}/specific_impulse.xml`, content: create1DTableFile(specImpDeps, specImpData) },
         vaccum_thrust_N: thrustFile
@@ -437,7 +441,7 @@ export class EntityXmlGenerator {
       // Generate mass flow rate table file.
       const massFlowTable = source.table_2;
       const massFlowDeps = massFlowTable.map(row => row.dep);
-      const massFlowData = massFlowTable.map(row => row.value_2);
+      const massFlowData = massFlowTable.map(row => row.value);
       propTableFiles = {
         mass_flow_rate_kg_per_sec: { filepath: `${filepath}/mass_flow_rate_kg_per_sec.xml`, content: create1DTableFile(massFlowDeps, massFlowData) },
         vaccum_thrust_N: thrustFile
@@ -497,7 +501,7 @@ export class EntityXmlGenerator {
     segmentNode.appendChild(createNodeFromValue(reset_propulsion_time ? 1 : 0, xmlDoc, 'reset_propulsion_time'));
 
     const activeSourceNode = xmlDoc.createElement('enable');
-    const activeSourceStr = Object.entries(active_propulsion_sources).filter(source => source[1]).map(item => item[0]).join(',');
+    const activeSourceStr = Object.values(active_propulsion_sources).map((item: boolean) => boolToBin(item)).join(',');
     activeSourceNode.appendChild(createNodeFromValue(activeSourceStr, xmlDoc, 'propulsion'));
     segmentNode.appendChild(activeSourceNode);
   }

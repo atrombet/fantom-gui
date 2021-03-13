@@ -13,15 +13,15 @@ import { ItemType } from '@enums';
 })
 export class AeroGeneralComponent extends SubsectionBaseComponent implements AfterViewInit {
   private modeToSubsectionMap = {
-    1: 'bodyfixed',
-    2: 'axisymmetric',
-    3: 'wind'
+    0: 'bodyfixed',
+    1: 'axisymmetric',
+    2: 'wind'
   };
 
   public aeroModeOptions: SelectOption[] = [
-    { value: 1, viewValue: 'Body-Fixed' },
-    { value: 2, viewValue: 'Axisymmetric' },
-    { value: 3, viewValue: 'Wind' }
+    { value: 0, viewValue: 'Body-Fixed' },
+    { value: 1, viewValue: 'Axisymmetric' },
+    { value: 2, viewValue: 'Wind' }
   ];
 
   constructor(protected route: ActivatedRoute, private itemService: ItemService) {

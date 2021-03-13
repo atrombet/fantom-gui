@@ -58,9 +58,9 @@ export class EntityImporter extends BaseImporter {
     // Determine aero page subsection from aero mode.
     let aeroSubsection;
     switch (Number(obj.properties.aerodynamics.mode._)) {
-      case 1: aeroSubsection = 'bodyfixed'; break;
-      case 2: aeroSubsection = 'axisymmetric'; break;
-      case 3: aeroSubsection = 'wind'; break;
+      case 0: aeroSubsection = 'bodyfixed'; break;
+      case 1: aeroSubsection = 'axisymmetric'; break;
+      case 2: aeroSubsection = 'wind'; break;
     }
 
 
@@ -106,7 +106,7 @@ export class EntityImporter extends BaseImporter {
       parent_object: parent._ === 'none' ? parent._ : Number(parent._),
       solver: Number(solver._),
       hold_down: binToBool(hold_down._),
-      local_environment: Number(local_environment._),
+      local_environment: local_environment._,
       allow_six_dof: obj.properties.mass_properties
     };
   }
@@ -471,7 +471,7 @@ export class EntityImporter extends BaseImporter {
     const activePropSources = propSourceNames.reduce((group, name, index) => {
       return {
         ...group,
-        [name]: activeIndicies.includes(index + 1)
+        [name]: binToBool(activeIndicies[index])
       };
     }, {});
 

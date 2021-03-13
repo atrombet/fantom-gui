@@ -155,14 +155,14 @@ export class EnvironmentXmlGenerator {
    */
   public appendEpochNode(env: any, xmlDoc: XMLDocument, envNode: Element): void {
     const { epoch_on, epoch_date, epoch_time } = env.epoch.general;
-    const date = epoch_date ? new Date(epoch_date) : null;
+    const date = epoch_date ? new Date(epoch_date) : new Date('1/1/2000');
     const epoch = {
       enable: epoch_on ? 1 : 0,
       gregorian_date: {
-        value: date ? `${date.getMonth()}, ${date.getDay()}, ${date.getFullYear()}` : ''
+        value: date ? `${date.getMonth() + 1}, ${date.getDate()}, ${date.getFullYear()}` : ''
       },
       utc: {
-        value: epoch_time?.split(':').join(', ') || ''
+        value: epoch_time?.split(':').join(', ') || '17, 17, 17.3518'
       }
     };
 

@@ -16,8 +16,8 @@ import { CONVERTER_OPTIONS } from '@constants';
 })
 export class XmlService {
   public xml$ = new BehaviorSubject<string>(null);
-  public entityXmlGen = new EntityXmlGenerator();
-  public envXmlGen = new EnvironmentXmlGenerator();
+  public entityXmlGen: EntityXmlGenerator;
+  public envXmlGen: EnvironmentXmlGenerator;
   public environmentImporter: EnvironmentImporter;
   public entityImporter: EntityImporter;
   public renderer: IpcRenderer;
@@ -29,6 +29,8 @@ export class XmlService {
     private message: MessageService
   ) {
     this.renderer = this.electron.ipcRenderer;
+    this.entityXmlGen = new EntityXmlGenerator(message);
+    this.envXmlGen = new EnvironmentXmlGenerator();
   }
 
   /**********************************

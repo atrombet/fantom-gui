@@ -67,7 +67,7 @@ export const massInertiaFormGroupFactory: () => FormGroup = () => {
 
 export const aeroGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
-    aero_mode: new FormControl(1),
+    aero_mode: new FormControl(0),
     aero_ref_area: new FormControl(null),
     aero_ref_length: new FormControl(null),
     aero_moment_ref_x: new FormControl(null),
@@ -163,7 +163,7 @@ export const scriptGeneralFormGroupFactory: () => FormGroup = () => {
 export const segmentFormGroupFactory: (name?: string) => FormGroup = (name) => {
   return new FormGroup({
     name: new FormControl(name || 'segment'),
-    dof: new FormControl('3+3'),
+    dof: new FormControl('3'),
     print_dt: new FormControl(''),
     integration_dt: new FormControl(''),
     reset_user_time: new FormControl(false),

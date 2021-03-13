@@ -50,7 +50,7 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
         tap((environments: Item[]) => {
           this.localEnvOptions = [
             ...environments.map(env => {
-              return { value: env.id, viewValue: env.name } as SelectOption;
+              return { value: env.name, viewValue: env.name } as SelectOption;
             })
           ];
         })

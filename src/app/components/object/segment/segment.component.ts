@@ -23,7 +23,7 @@ export class SegmentComponent implements OnInit {
   @Input() public allowSixDof: boolean;
 
   public dofOptions: SelectOption[] = [
-    { value: '3+3', viewValue: '3 + 3' },
+    { value: '3', viewValue: '3 + 3' },
     { value: '6', viewValue: '6' }
   ];
 
