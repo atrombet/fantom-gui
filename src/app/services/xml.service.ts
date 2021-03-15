@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
+import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
 import { BehaviorSubject, forkJoin, of, from, throwError } from 'rxjs';
 import { catchError, finalize, take, tap } from 'rxjs/operators';
@@ -113,7 +113,7 @@ export class XmlService {
   }
 
   public generateXml({ simulation, environments, entities }): void {
-    const additionalFiles: XmlFile[] = [];
+    let additionalFiles: XmlFile[] = [];
 
     // Create xml doc.
     const xmlDoc = document.implementation.createDocument(null, 'root', null);
@@ -146,6 +146,18 @@ export class XmlService {
     const xmlString = format(serializer.serializeToString(xmlDoc), XML_FORMATTER_OPTIONS);
 
     this.xml$.next(xmlString);
+
+    // Update the saving location of each file to be under the simulation name folder.
+    additionalFiles = additionalFiles.map(file => {
+      const path = file.filepath;
+      const pathSegments = path.split('/');
+      pathSegments.splice(1, 0, simulation_name);
+      const updatedPath = pathSegments.join('/');
+      return {
+        ...file,
+        filepath: updatedPath
+      };
+    });
 
     if (!this.electron.isElectronApp) {
       this.message.showError('Cannot communicate with the file system to export files.');

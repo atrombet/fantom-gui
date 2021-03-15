@@ -68,7 +68,7 @@ export class EnvironmentXmlGenerator {
    * @param rows - Row data to create custom atmosphere files from.
    */
   public generateAtmoFiles(rows: any): { [key: string]: XmlFile } {
-    const filepath = `./${this.simulationName}/environment/custom/atmosphere`;
+    const filepath = `./environment/custom/atmosphere`;
     const deps = rows.map(row => row.dep);
     const density = rows.map(row => row.density_kg_per_m3);
     const pressure = rows.map(row => row.pressure_N_per_m2);
@@ -136,7 +136,7 @@ export class EnvironmentXmlGenerator {
    * @param rows - Row data to create custom wind files from.
    */
   public generateWindFiles(rows: any): { [key: string]: XmlFile } {
-    const filepath = `./${this.simulationName}/environment/custom/wind`;
+    const filepath = `./environment/custom/wind`;
     const deps = rows.map(row => row.dep);
     const north = rows.map(row => row.north);
     const east = rows.map(row => row.east);
