@@ -3,14 +3,14 @@ import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 export const gravityGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     gravity_on: new FormControl(false),
-    gravity_model: new FormControl(null)
+    gravity_model: new FormControl(0)
   });
 };
 
 export const atmosphereGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     atmosphere_on: new FormControl(false),
-    atmospheric_model: new FormControl(null),
+    atmospheric_model: new FormControl(0),
     rows: new FormArray([])
   });
 };
@@ -18,7 +18,7 @@ export const atmosphereGeneralFormGroupFactory: () => FormGroup = () => {
 export const bodyGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     body_rotation_on: new FormControl(false),
-    body_model: new FormControl(null),
+    body_model: new FormControl(1),
     rotation_rate: new FormControl('7.292115e-05'),
     equatorial_radius: new FormControl(null),
     eccentricity: new FormControl(null)
@@ -28,7 +28,7 @@ export const bodyGeneralFormGroupFactory: () => FormGroup = () => {
 export const windGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     wind_on: new FormControl(false),
-    wind_profile: new FormControl(null),
+    wind_profile: new FormControl(0),
     rows: new FormArray([])
   });
 };
