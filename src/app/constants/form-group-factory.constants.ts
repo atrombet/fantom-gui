@@ -19,9 +19,11 @@ export const bodyGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     body_rotation_on: new FormControl(false),
     body_model: new FormControl(1),
-    rotation_rate: new FormControl('7.292115e-05'),
-    equatorial_radius: new FormControl(null),
-    eccentricity: new FormControl(null)
+    rotation_rate_rad_per_sec: new FormControl('7.292115e-05'),
+    equatorial_radius_m: new FormControl(6371008.7714),
+    eccentricity: new FormControl(0.0),
+    sea_level_gravitational_acceleration_m_per_s2: new FormControl(9.80665),
+    gravitational_parameter_m3_per_sec2: new FormControl('3.986004418000000e+14'),
   });
 };
 

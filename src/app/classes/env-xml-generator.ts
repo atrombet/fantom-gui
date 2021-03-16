@@ -1,5 +1,7 @@
-import { appendFilepaths, create1DTableFile, createNodeFromObject, flattenSections, boolToBin } from '@functions';
+import { appendFilepaths, create1DTableFile, createNodeFromObject, flattenSections, boolToBin, createNodeFromValue } from '@functions';
 import { XmlFile } from '@interfaces';
+import format from 'xml-formatter';
+import { XML_FORMATTER_OPTIONS } from '@constants';
 
 export class EnvironmentXmlGenerator {
   public simulationName: string;
@@ -26,7 +28,8 @@ export class EnvironmentXmlGenerator {
       allEnvFiles.push(...customAtmoFiles);
 
       this.appendGravityNode(env, xmlDoc, envNode);
-      this.appendBodyNode(env, xmlDoc, envNode);
+      const customBodyFiles = this.appendBodyNode(env, xmlDoc, envNode);
+      allEnvFiles.push(...customBodyFiles);
 
       const customWindFiles: XmlFile[] = this.appendWindNode(env, xmlDoc, envNode);
       allEnvFiles.push(...customWindFiles);
@@ -99,13 +102,47 @@ export class EnvironmentXmlGenerator {
   /**
    * Create Body node and append to environment.
    */
-  public appendBodyNode(env: any, xmlDoc: XMLDocument, envNode: Element): void {
+  public appendBodyNode(env: any, xmlDoc: XMLDocument, envNode: Element): XmlFile[] {
+    const { body_rotation_on, body_model } = env.body.general;
+    let bodyFile = null;
     const body = {
-      rotation_enable: env.body.general.body_rotation_on ? 1 : 0,
-      mode: env.body.general.body_model
+      rotation_enable: boolToBin(body_rotation_on),
+      mode: body_model
     };
     const bodyNode = createNodeFromObject(body, xmlDoc, 'body');
+    if (body_model === 0) {
+      bodyFile = this.generateBodyFile(env);
+      appendFilepaths({ custom: bodyFile }, bodyNode, xmlDoc);
+    }
     envNode.appendChild(bodyNode);
+    return bodyFile ? [ bodyFile ] : [];
+  }
+
+  /**
+   * Generates a Custom Body file.
+   * @param env - The environment.
+   */
+  public generateBodyFile(env: any): XmlFile {
+    const filepath = `./environment/custom/body`;
+    const { sea_level_gravitational_acceleration_m_per_s2, gravitational_parameter_m3_per_sec2, eccentricity, rotation_rate_rad_per_sec, equatorial_radius_m } = env.body.general;
+
+    // Create a new xml doc.
+    const doc = document.implementation.createDocument(null, 'custom_body', null);
+    // Grab the root node.
+    const root = doc.querySelector('custom_body');
+    // Add all custom body param nodes to the document.
+    root.appendChild(createNodeFromValue(sea_level_gravitational_acceleration_m_per_s2, doc, 'sea_level_gravitational_acceleration_m_per_s2'));
+    root.appendChild(createNodeFromValue(gravitational_parameter_m3_per_sec2, doc, 'gravitational_parameter_m3_per_sec2'));
+    root.appendChild(createNodeFromValue(eccentricity, doc, 'eccentricity'));
+    root.appendChild(createNodeFromValue(equatorial_radius_m, doc, 'equatorial_radius_m'));
+    root.appendChild(createNodeFromValue(rotation_rate_rad_per_sec, doc, 'rotation_rate_rad_per_sec'));
+
+    // Create serializer.
+    const serializer = new XMLSerializer();
+    // Serialize the xml doc to string.
+    const xmlString = format(serializer.serializeToString(doc), XML_FORMATTER_OPTIONS);
+
+    return { filepath: `${filepath}/custom_body.xml`, content: xmlString };
   }
 
   /**

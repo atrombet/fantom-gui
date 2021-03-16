@@ -23,19 +23,20 @@ export class EnvironmentImporter extends BaseImporter {
 
     // Patch gravity data.
     patchSubsectionForm(envItem, 'gravity', 'general', this.getGravData(env));
-    // Patch body data
-    patchSubsectionForm(envItem, 'body', 'general', this.getBodyData(env));
     // Patch epoch data
     patchSubsectionForm(envItem, 'epoch', 'general', this.getEpochData(env));
 
     forkJoin({
       atmo: this.getAtmoData(env),
+      body: this.getBodyData(env),
       wind: this.getWindData(env)
     }).pipe(
-      tap(({ atmo, wind }) => {
-        // TODO: Patch atmo data.
+      tap(({ atmo, body, wind }) => {
+        // Patch atmo data.
         this.patchAtmoForm(envItem, atmo);
-        // TODO: Patch wind data.
+        // Patch body data
+        patchSubsectionForm(envItem, 'body', 'general', body);
+        // Patch wind data.
         this.patchWindForm(envItem, wind);
       })
     ).subscribe();
@@ -52,14 +53,15 @@ export class EnvironmentImporter extends BaseImporter {
   }
 
   public getAtmoData(env: any): Observable<AtmoFormValues> {
-    const { enable, density_kg_per_m3, pressure_N_per_m2, speed_of_sound_m_per_sec, temperature_degrees_kelvin } = env.atmosphere;
+    const { density_kg_per_m3, pressure_N_per_m2, speed_of_sound_m_per_sec, temperature_degrees_kelvin } = env.atmosphere;
+    const enable = binToBool(env.atmosphere.enable._);
     const atmospheric_model = Number(env.atmosphere.mode._);
     const values: AtmoFormValues = {
-      atmosphere_on: binToBool(enable._),
+      atmosphere_on: enable,
       atmospheric_model,
       rows: []
     };
-    if (atmospheric_model === 0) {
+    if (atmospheric_model === 0 && enable) {
       return forkJoin({
         density: this.importTableFromFile(density_kg_per_m3.filename._),
         pressure: this.importTableFromFile(pressure_N_per_m2.filename._),
@@ -111,23 +113,41 @@ export class EnvironmentImporter extends BaseImporter {
     });
   }
 
-  public getBodyData(env: any): BodyFormValues {
-    const { rotation_enable, mode } = env.body;
-    return {
-      body_rotation_on: binToBool(rotation_enable._),
-      body_model: Number(mode._)
-    };
+  public getBodyData(env: any): Observable<BodyFormValues> {
+    const { rotation_enable, custom } = env.body;
+    const mode = Number(env.body.mode._);
+    if (mode === 0 && !!custom) {
+      return this.importTableFromFile(custom.filename._).pipe(
+        map(({ custom_body }) => {
+          return {
+            body_rotation_on: binToBool(rotation_enable._),
+            body_model: mode,
+            sea_level_gravitational_acceleration_m_per_s2: custom_body.sea_level_gravitational_acceleration_m_per_s2._,
+            gravitational_parameter_m3_per_sec2: custom_body.gravitational_parameter_m3_per_sec2._,
+            eccentricity: custom_body.eccentricity._,
+            rotation_rate_rad_per_sec: custom_body.rotation_rate_rad_per_sec._,
+            equatorial_radius_m: custom_body.equatorial_radius_m._
+          };
+        })
+      );
+    } else {
+      return of({
+        body_rotation_on: binToBool(rotation_enable._),
+        body_model: mode
+      });
+    }
   }
 
   public getWindData(env: any): Observable<WindFormValues> {
-    const { enable, north, east, up } = env.wind;
+    const { north, east, up } = env.wind;
+    const enable = binToBool(env.wind.enable._);
     const wind_profile = Number(env.wind.mode._);
     const values: WindFormValues = {
-      wind_on: binToBool(enable._),
+      wind_on: enable,
       wind_profile,
       rows: [],
     };
-    if (wind_profile === 0) {
+    if (wind_profile === 0 && enable) {
       return forkJoin({
         north: this.importTableFromFile(north.filename._),
         east: this.importTableFromFile(east.filename._),

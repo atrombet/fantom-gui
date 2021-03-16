@@ -24,7 +24,7 @@
           <mat-form-field color="accent" class="fan__input">
             <mat-label>Equatorial Radius</mat-label>
             <span matSuffix [ngClass]="{'fan--disabled': disableBodyShape}">m</span>
-            <input matInput formControlName="equatorial_radius" [disableControl]="disableBodyShape" placeholder="Equatorial Radius" />
+            <input matInput formControlName="equatorial_radius_m" [disableControl]="disableBodyShape" placeholder="Equatorial Radius" />
             <mat-hint>Semi-major axis (a)</mat-hint>
           </mat-form-field>
         </div>
@@ -33,6 +33,20 @@
             <mat-label>Eccentricity</mat-label>
             <input matInput formControlName="eccentricity" [disableControl]="disableBodyShape" placeholder="Eccentricity" />
             <mat-hint>Eccentricity of an ellipse is defined as: e = sqrt(1 - (b^2 / a^2))</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="mbxl">
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Sea Level Gravitational Acceleration</mat-label>
+            <span matSuffix [ngClass]="{'fan--disabled': disableBodyShape}">m/s^2</span>
+            <input matInput formControlName="sea_level_gravitational_acceleration_m_per_s2" [disableControl]="disableBodyShape" placeholder="Sea Level Gravitational Acceleration" />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field color="accent" class="fan__input">
+            <mat-label>Gravitational Parameter</mat-label>
+            <span matSuffix [ngClass]="{'fan--disabled': disableBodyShape}">m^3/s^2</span>
+            <input matInput formControlName="gravitational_parameter_m3_per_sec2" [disableControl]="disableBodyShape" placeholder="Gravitational Parameter" />
           </mat-form-field>
         </div>
       </div>
@@ -45,7 +59,7 @@
           <mat-form-field color="accent" class="fan__input">
             <mat-label>Rotation Rate</mat-label>
             <span matSuffix [ngClass]="{'fan--disabled': !bodyRotationOn}">rad/s</span>
-            <input matInput formControlName="rotation_rate" [disableControl]="!bodyRotationOn" placeholder="Rotation Rate" />
+            <input matInput formControlName="rotation_rate_rad_per_sec" [disableControl]="!bodyRotationOn" placeholder="Rotation Rate" />
             <mat-hint>Body rotation rate</mat-hint>
           </mat-form-field>
         </div>

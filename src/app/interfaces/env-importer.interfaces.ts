@@ -12,9 +12,11 @@ export interface AtmoFormValues {
 export interface BodyFormValues {
   body_rotation_on: boolean;
   body_model: number;
-  rotation_rate?: string;
-  equatorial_radius?: string;
+  rotation_rate_rad_per_sec?: string;
+  equatorial_radius_m?: string;
   eccentricity?: string;
+  sea_level_gravitational_acceleration_m_per_s2?: string;
+  gravitational_parameter_m3_per_sec2?: string;
 }
 
 export interface WindFormValues {

@@ -43,22 +43,28 @@ export class BodyGeneralComponent extends SubsectionBaseComponent implements OnI
           case 0:
             // Custom
             this.form.patchValue({
-              equatorial_radius: null,
-              eccentricity: null
+              equatorial_radius_m: null,
+              eccentricity: null,
+              sea_level_gravitational_acceleration_m_per_s2: null,
+              gravitational_parameter_m3_per_sec2: null,
             });
             break;
           case 1:
             // Spherical
             this.form.patchValue({
-              equatorial_radius: 6371008.7714,
-              eccentricity: 0.0
+              equatorial_radius_m: 6371008.7714,
+              eccentricity: 0.0,
+              sea_level_gravitational_acceleration_m_per_s2: 9.80665,
+              gravitational_parameter_m3_per_sec2: '3.986004418000000e+14',
             });
             break;
           case 2:
             // WGS-84
             this.form.patchValue({
-              equatorial_radius: 6378137,
-              eccentricity: 0.081819190842622
+              equatorial_radius_m: 6378137,
+              eccentricity: 0.081819190842622,
+              sea_level_gravitational_acceleration_m_per_s2: 9.80665,
+              gravitational_parameter_m3_per_sec2: '3.986005e+14',
             });
             break;
         }
