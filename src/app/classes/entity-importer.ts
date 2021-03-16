@@ -355,9 +355,9 @@ export class EntityImporter extends BaseImporter {
   }
 
   private getSource(source: any): Observable<PropSourceFormValues> {
-    const { name, nozzle_exit_area_m2, orienation_deg, position, vaccum_thrust_N, specific_impulse, mass_flow_rate_kg_per_sec } = source;
+    const { name, nozzle_exit_area_m2, orientation_deg, position, vaccum_thrust_N, specific_impulse, mass_flow_rate_kg_per_sec } = source;
     const [ position_x, position_y, position_z ] = position._.split(',').map(_ => _.trim());
-    const [ orientation_pitch, orientation_roll, orientation_yaw ] = orienation_deg._.split(',').map(_ => _.trim());
+    const [ orientation_pitch, orientation_roll, orientation_yaw ] = orientation_deg._.split(',').map(_ => _.trim());
     const mode = Number(source.mode._);
     const sourceValues: PropSourceFormValues = {
       name: name._,

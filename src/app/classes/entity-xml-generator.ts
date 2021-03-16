@@ -402,7 +402,7 @@ export class EntityXmlGenerator {
     const orientationNode = createNodeFromValue(
       `${orientation_pitch}, ${orientation_roll}, ${orientation_yaw}`,
       xmlDoc,
-      'orienation_deg'
+      'orientation_deg'
     );
     sourceNode.appendChild(orientationNode);
 
@@ -434,8 +434,8 @@ export class EntityXmlGenerator {
       const specImpDeps = specImpTable.map(row => row.dep);
       const specImpData = specImpTable.map(row => row.value);
       propTableFiles = {
-        specific_impulse: { filepath: `${filepath}/specific_impulse.xml`, content: create1DTableFile(specImpDeps, specImpData) },
-        vaccum_thrust_N: thrustFile
+        vaccum_thrust_N: thrustFile,
+        specific_impulse: { filepath: `${filepath}/specific_impulse.xml`, content: create1DTableFile(specImpDeps, specImpData) }
       };
     } else {
       // Generate mass flow rate table file.
@@ -443,8 +443,8 @@ export class EntityXmlGenerator {
       const massFlowDeps = massFlowTable.map(row => row.dep);
       const massFlowData = massFlowTable.map(row => row.value);
       propTableFiles = {
-        mass_flow_rate_kg_per_sec: { filepath: `${filepath}/mass_flow_rate_kg_per_sec.xml`, content: create1DTableFile(massFlowDeps, massFlowData) },
-        vaccum_thrust_N: thrustFile
+        vaccum_thrust_N: thrustFile,
+        mass_flow_rate_kg_per_sec: { filepath: `${filepath}/mass_flow_rate_kg_per_sec.xml`, content: create1DTableFile(massFlowDeps, massFlowData) }
       };
     }
     return propTableFiles;

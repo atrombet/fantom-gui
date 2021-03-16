@@ -13,7 +13,7 @@ function reduceSectionArrayToObject(sections: Section[]): any {
       ...sectionsObj,
       [section.name]: {
         ...section.subsections.reduce((subObj: any, sub: Subsection) => {
-          return { ...subObj, [sub.name]: sub.form.value };
+          return { ...subObj, [sub.name]: sub.form.getRawValue() };
         }, {})
       }
     };
