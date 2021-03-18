@@ -186,12 +186,12 @@ export class EntityXmlGenerator {
     const iyzData = rows.map(row => row.iyz);
 
     const filenames: MomentFiles = {
-      ixx: { filepath: `${filepath}/moi_ixx_m.xml`, content: create1DTableFile(deps, ixxData) },
-      iyy: { filepath: `${filepath}/moi_iyy_m.xml`, content: create1DTableFile(deps, iyyData) },
-      izz: { filepath: `${filepath}/moi_izz_m.xml`, content: create1DTableFile(deps, izzData) },
-      ixy: { filepath: `${filepath}/moi_ixy_m.xml`, content: create1DTableFile(deps, ixyData) },
-      ixz: { filepath: `${filepath}/moi_ixz_m.xml`, content: create1DTableFile(deps, ixzData) },
-      iyz: { filepath: `${filepath}/moi_iyz_m.xml`, content: create1DTableFile(deps, iyzData) }
+      ixx: { filepath: `${filepath}/moi_ixx_kg_m2.xml`, content: create1DTableFile(deps, ixxData) },
+      iyy: { filepath: `${filepath}/moi_iyy_kg_m2.xml`, content: create1DTableFile(deps, iyyData) },
+      izz: { filepath: `${filepath}/moi_izz_kg_m2.xml`, content: create1DTableFile(deps, izzData) },
+      ixy: { filepath: `${filepath}/moi_ixy_kg_m2.xml`, content: create1DTableFile(deps, ixyData) },
+      ixz: { filepath: `${filepath}/moi_ixz_kg_m2.xml`, content: create1DTableFile(deps, ixzData) },
+      iyz: { filepath: `${filepath}/moi_iyz_kg_m2.xml`, content: create1DTableFile(deps, iyzData) }
     };
     return filenames;
   }
@@ -424,13 +424,13 @@ export class EntityXmlGenerator {
     let propTableFiles: PropTableFiles;
 
     // Generate Thrust table file.
-    const thrustTable = source.table_1;
+    const thrustTable = source.table_2;
     const thrustDeps = thrustTable.map(row => row.dep);
     const thrustData = thrustTable.map(row => row.value);
     const thrustFile: XmlFile = { filepath: `${filepath}/vaccum_thrust_N.xml`, content: create1DTableFile(thrustDeps, thrustData) };
     if (source.mode === 1) {
       // Generate specific impulse table file.
-      const specImpTable = source.table_2;
+      const specImpTable = source.table_1;
       const specImpDeps = specImpTable.map(row => row.dep);
       const specImpData = specImpTable.map(row => row.value);
       propTableFiles = {
@@ -439,7 +439,7 @@ export class EntityXmlGenerator {
       };
     } else {
       // Generate mass flow rate table file.
-      const massFlowTable = source.table_2;
+      const massFlowTable = source.table_1;
       const massFlowDeps = massFlowTable.map(row => row.dep);
       const massFlowData = massFlowTable.map(row => row.value);
       propTableFiles = {

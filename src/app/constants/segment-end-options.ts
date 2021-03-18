@@ -89,9 +89,9 @@ export const SEGMENT_END_OPTIONS: SelectOption[] = [
 
   { value: 69, viewValue: 'Reference Area (meters2)' },
   { value: 70, viewValue: 'Reference Length (meters)' },
-  { value: 71, viewValue: 'moment_reference_location_X (meters)' },
-  { value: 72, viewValue: 'moment_reference_location_Y (meters)' },
-  { value: 73, viewValue: 'moment_reference_location_Z (meters)' },
+  { value: 71, viewValue: 'Moment Reference Location X (meters)' },
+  { value: 72, viewValue: 'Moment Reference Location Y (meters)' },
+  { value: 73, viewValue: 'Moment Reference Location Z (meters)' },
   { value: 74, viewValue: 'Cx' },
   { value: 75, viewValue: 'Cy' },
   { value: 76, viewValue: 'Cz' },
