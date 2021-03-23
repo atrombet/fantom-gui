@@ -42,7 +42,7 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
           this.parentObjectOptions = [
             { value: 'none', viewValue: 'None' },
             ...objects.map(object => {
-              return { value: object.id, viewValue: object.name } as SelectOption;
+              return { value: object.name, viewValue: object.name } as SelectOption;
             })
           ];
           return this.itemService.environments$;
