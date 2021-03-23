@@ -14,6 +14,7 @@ import { ItemType } from '../../../enums';
 })
 export class MetaGeneralComponent extends SubsectionBaseComponent implements OnInit, AfterViewInit {
   public objectId: number;
+  public objectName: string;
 
   public parentObjectOptions: SelectOption[];
   public localEnvOptions: SelectOption[];
@@ -36,6 +37,7 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
       ]).pipe(
         switchMap(([ data, params ]) => {
           this.objectId = parseInt(params.id, 10);
+          this.objectName = this.itemService.getItemById(ItemType.Object, this.objectId).name;
           return this.itemService.objects$(data.parentId);
         }),
         switchMap((objects: Item[]) => {

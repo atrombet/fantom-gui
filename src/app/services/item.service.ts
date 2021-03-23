@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Item, AppState } from '@interfaces';
+import { Item, AppState, Section, Subsection } from '@interfaces';
 import { ItemType } from '@enums';
 import { ENVIRONMENT_SECTIONS, OBJECT_SECTIONS } from '@constants';
 
@@ -177,7 +177,13 @@ export class ItemService {
     const max = this.getHighestDashNumber(items, nameParts[0]);
     const newName = max >= 0 ? `${nameParts[0]}-${max + 1}` : `${item.name}-1`;
     const newId = this.state[item.type].lastId + 1;
-    const newItem: Item = { ...item, id: newId, name: newName };
+    const newItem: Item = {
+      ...item,
+      id: newId,
+      name: newName,
+      sections: this.getSectionsForType(item.type)
+    };
+    this.patchFormValuesToNewItem(item, newItem);
     newMap.set(newId, newItem);
     this.state[item.type].data.next(newMap);
     this.state[item.type].lastId = newId;
@@ -198,11 +204,14 @@ export class ItemService {
     if (!!objectsToDup.length) {
       objectsToDup.forEach((obj: Item) => {
         const newId = this.state[ItemType.Object].lastId + 1;
-        newMap.set(newId, {
+        const newObj: Item = {
           ...obj,
           id: newId,
-          parentId: newEntityId
-        });
+          parentId: newEntityId,
+          sections: this.getSectionsForType(ItemType.Object)
+        };
+        this.patchFormValuesToNewItem(obj, newObj);
+        newMap.set(newId, newObj);
         this.state[ItemType.Object].lastId = newId;
       });
       this.state[ItemType.Object].data.next(newMap);
@@ -316,5 +325,26 @@ export class ItemService {
         .map(numStr => parseInt(numStr, 10))
     );
     return max;
+  }
+
+  /**
+   * Patches the form values of each section and subsection of one item to a new item.
+   * @param item - The item with the form values.
+   * @param newItem - The item to patch the old values to.
+   */
+  private patchFormValuesToNewItem(item: Item, newItem: Item): void {
+    if (!!item.sections) {
+      item.sections.forEach((section: Section) => {
+        section.subsections.forEach((sub: Subsection) => {
+          const val = sub.form.value;
+          const newSub: Subsection = newItem
+            .sections
+            .find(sec => sec.name === section.name)
+            .subsections
+            .find(subsec => subsec.name === sub.name);
+          newSub.form.patchValue(val);
+        });
+      });
+    }
   }
 }
