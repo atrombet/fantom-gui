@@ -81,4 +81,11 @@ export class EnvironmentTabComponent implements OnInit, OnDestroy {
     this.envSelected.emit(env);
     this.selectedEnvId = envId;
   }
+
+  /**
+   * Resets the selected environment id.
+   */
+  public resetSelected(): void {
+    this.selectedEnvId = null;
+  }
 }

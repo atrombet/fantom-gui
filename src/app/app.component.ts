@@ -5,6 +5,8 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Section, Item } from '@interfaces';
 import { PageHeaderComponent } from '@components/shared';
 import { version } from '../../package.json';
+import { EnvironmentTabComponent } from '@components/tabs/environment-tab/environment-tab.component';
+import { EntitiesTabComponent } from '@components/tabs/entities-tab/entities-tab.component';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,8 @@ export class AppComponent {
   public version = version;
 
   @ViewChild(PageHeaderComponent) public pageHeader: PageHeaderComponent;
+  @ViewChild(EnvironmentTabComponent) public envTab: EnvironmentTabComponent;
+  @ViewChild(EntitiesTabComponent) public entTab: EntitiesTabComponent;
 
   constructor(private router: Router) {}
 
@@ -25,7 +29,21 @@ export class AppComponent {
    * @param event - Selected Tab Change output event.
    */
   public navigateToTabPage(event: MatTabChangeEvent): void {
-    this.router.navigate([ TAB_ROUTES[event.tab.textLabel] ]);
+    const tab = event.tab.textLabel;
+    this.router.navigate([ TAB_ROUTES[tab] ]);
+    switch (tab) {
+      case 'Simulation':
+        this.envTab.resetSelected();
+        this.entTab.resetSelected();
+        this.item = null;
+        break;
+      case 'Environment':
+        this.entTab.resetSelected();
+        break;
+      case 'Entities':
+        this.envTab.resetSelected();
+        break;
+    }
   }
 
   /**

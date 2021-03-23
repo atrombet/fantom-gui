@@ -121,4 +121,11 @@ export class EntitiesTabComponent implements OnInit, OnDestroy {
     this.objectSelected.emit(object);
     this.selectedObjectId = object.id;
   }
+
+  /**
+   * Resets the selected object id.
+   */
+  public resetSelected(): void {
+    this.selectedObjectId = null;
+  }
 }
