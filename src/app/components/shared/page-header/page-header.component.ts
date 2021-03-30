@@ -7,7 +7,6 @@ import { Section, Subsection } from '@interfaces';
   styleUrls: ['./page-header.component.scss']
 })
 export class PageHeaderComponent {
-  // tslint:disable-next-line: variable-name
   private _sections: Section[];
 
   @Input() public set sections(value: Section[]) {
@@ -28,6 +27,15 @@ export class PageHeaderComponent {
   @Output() public sectionSelected: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
+
+  /**
+   * Clears all the sections available in the page header.
+   */
+  public clearHeader(): void {
+    this._sections = null;
+    this.selectedSection = null;
+    this.selectedSubsection = null;
+  }
 
   /**
    * Sets the header options back to first section, first subsection.

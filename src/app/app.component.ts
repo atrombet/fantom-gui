@@ -30,6 +30,7 @@ export class AppComponent {
    */
   public navigateToTabPage(event: MatTabChangeEvent): void {
     const tab = event.tab.textLabel;
+    this.pageHeader.clearHeader();
     this.router.navigate([ TAB_ROUTES[tab] ]);
     switch (tab) {
       case 'Simulation':
