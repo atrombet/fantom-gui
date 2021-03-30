@@ -16,12 +16,22 @@
     </mat-form-field>
   </div>
 
-  <div class="flex">
+  <div class="flex mbxl">
     <span>
-      <import-button></import-button>
+      <button mat-raised-button color="primary" (click)="openImportModal()">
+        <mat-icon>file_upload</mat-icon>
+        <span class="mls">Import XML</span>
+      </button>
     </span>
     <span class="mll">
-      <export-button></export-button>
+      <button mat-raised-button color="primary" (click)="onExportClick()">
+        <mat-icon>file_download</mat-icon>
+        <span class="mls">Export XML</span>
+      </button>
     </span>
+  </div>
+
+  <div>
+    <sim-exec></sim-exec>
   </div>
 </div>

@@ -1,23 +1,26 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 
 if (require('electron-squirrel-startup')) return;
 
-const path = require("path");
-const url = require("url");
-const fs = require("fs");
-const { spawn } = require('child_process');
+const path = require('path');
+const url = require('url');
+const fs = require('fs');
+const cp = require('child_process');
+const os = require('os');
 
 if (handleSquirrelEvent()) {
   // squirrel event handled and app will exit in 1000ms, so don't do anything else
   return;
 }
 
+function reverseSlashesForWindows(path) {
+  return path.split('/').join('\\');
+}
+
 function handleSquirrelEvent() {
   if (process.argv.length === 1) {
     return false;
   }
-
-  const ChildProcess = require('child_process');
 
   const appFolder = path.resolve(process.execPath, '..');
   const rootAtomFolder = path.resolve(appFolder, '..');
@@ -28,7 +31,7 @@ function handleSquirrelEvent() {
     let spawnedProcess, error;
 
     try {
-      spawnedProcess = ChildProcess.spawn(command, args, {detached: true});
+      spawnedProcess = cp.spawn(command, args, {detached: true});
     } catch (error) {}
 
     return spawnedProcess;
@@ -74,10 +77,10 @@ let win;
  * Create the main application window.
  */
 function createWindow() {
-  win = new BrowserWindow({ 
+  win = new BrowserWindow({
     width: 1400,
     height: 1000,
-    webPreferences: { 
+    webPreferences: {
       nodeIntegration: true
     }
   });
@@ -97,21 +100,20 @@ function createWindow() {
 }
 
 /**
- * Saves files to the file system. 
+ * Saves files to the file system.
  * Expects an array of objects.
  * [
  *  { filepath: './xml/environment/file1.xml', content: '<root>XML 1 Content.</root>' }
  *  { filepath: './xml/environment/file2.xml', content: '<root>XML 2 Content.</root>' }
  * ]
  */
-ipcMain.on('EXPORT_XML', async (event, files) => {
+ipcMain.on('EXPORT_XML', async (event, { files, simName }) => {
   // Get a location to save the export.
   const { canceled, filePaths } = await dialog.showOpenDialog(win, { properties: ['openDirectory'] });
   const folder = filePaths[0];
 
   // If the user didn't cancel the save.
   if (!canceled) {
-    let results = { succeeded: [], failed: [] };
     // Write each file.
     files.forEach(file => {
       // Remove the filename from the filepath.
@@ -127,35 +129,46 @@ ipcMain.on('EXPORT_XML', async (event, files) => {
         return folderPath;
       }, `${folder}/`)
       // Write the file.
-      fs.writeFileSync(`${folder}/${file.filepath}`, file.content, err => {
-        // Track success or failure of file write operation.
-        if (err) {
-          results.failed.push(file.filepath)
-        } else {
-          results.succeeded.push(file.filepath);
-        }
-      });
+      fs.writeFileSync(`${folder}/${file.filepath}`, file.content, err => {});
     });
-    // Check results of file save.
-    if (!!results.failed.length) {
-      // Throw error and list failed files.
-      const failedFilenames = results.failed.reduce((str, failedFile) => { return `${str} \n ${failedFile}`; }, '');
-      const message = `The following files failed to save: \n ${failedFilenames}`;
-      throw message;
-    } else {
-      const succeededFilenames = results.succeeded.reduce((str, file) => { return `${str} \n ${file}`; }, '');
-      const message = `The following ${results.succeeded.length} files were created: \n ${succeededFilenames}`;
-    }
+    // send response to client.
+    const simRootFolder = `${folder}/${simName}`;
+    event.reply('EXPORT_XML', simRootFolder);
   }
 });
 
-ipcMain.on('EXECUTE_SIMULATION', async (event, args) => {
-  const sim = spawn('fantom.exe', ['-i path', '-f inputFile', '-o outputPath']);
+ipcMain.on('SELECT_SIM_LOCATION', (event) => replyWithPathCallback('SELECT_SIM_LOCATION', event));
+ipcMain.on('SELECT_OUTPUT_LOCATION', (event) => replyWithPathCallback('SELECT_OUTPUT_LOCATION', event));
 
-  sim.on('error', err => {
-    console.error('There was a problem executing the simulation.');
-    console.error(err);
-  })
+async function replyWithPathCallback(channel, event) {
+  // Get a location to save the export.
+  const { canceled, filePaths } = await dialog.showOpenDialog(win, { properties: ['openDirectory'] });
+  const path = filePaths[0];
+
+  if (!canceled) {
+    event.reply(channel, path);
+  }
+}
+
+ipcMain.on('EXECUTE_SIMULATION', async (event, { pathToSimConfig, simFile, outputPath }) => {
+  let fantomLocation = './fantom.exe';
+
+  console.log('Path to sim:', pathToSimConfig);
+  console.log('Sim File:', simFile);
+  console.log('Output path:', outputPath);
+
+  if (os.platform() === 'win32') {
+    pathToSimConfig = reverseSlashesForWindows(pathToSimConfig);
+    outputPath = reverseSlashesForWindows(outputPath);
+    fantomLocation = reverseSlashesForWindows(fantomLocation);
+  }
+
+  cp.exec(`${fantomLocation} -i ${pathToSimConfig} -f ${simFile} -o ${outputPath}`, (error) => {
+    if (error) {
+      console.error(error);
+    }
+  });
+
 });
 
 app.on("ready", createWindow);

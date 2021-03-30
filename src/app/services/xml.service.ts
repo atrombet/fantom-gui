@@ -1,7 +1,7 @@
 import { ElectronService } from 'ngx-electron';
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
-import { BehaviorSubject, forkJoin, of, from, throwError } from 'rxjs';
+import { BehaviorSubject, forkJoin, of, from, throwError, Subject } from 'rxjs';
 import { catchError, finalize, take, tap } from 'rxjs/operators';
 import { SimulationFormService } from './simulation-form.service';
 import { MessageService } from './message.service';
@@ -24,6 +24,8 @@ export class XmlService {
   public entityImporter: EntityImporter;
   public renderer: IpcRenderer;
 
+  public savedXmlPath = new Subject<string>();
+
   constructor(
     private simulationService: SimulationFormService,
     private itemService: ItemService,
@@ -33,6 +35,19 @@ export class XmlService {
     this.renderer = this.electron.ipcRenderer;
     this.entityXmlGen = new EntityXmlGenerator(message);
     this.envXmlGen = new EnvironmentXmlGenerator();
+    this.listenForExportResponse();
+  }
+
+  /**********************************
+   * IPC Listeners
+   **********************************/
+
+  public listenForExportResponse(): void {
+    if (this.renderer) {
+      this.renderer.on('EXPORT_XML', (event, folder) => {
+        this.savedXmlPath.next(folder);
+      });
+    }
   }
 
   /**********************************
@@ -162,15 +177,13 @@ export class XmlService {
     if (!this.electron.isElectronApp) {
       this.message.showError('Cannot communicate with the file system to export files.');
     } else {
-      this.renderer.send('EXPORT_XML', [
-        { filepath: `./${simulation_name}/${simulation_name}.xml`, content: xmlString },
-        ...additionalFiles
-      ]);
-      this.message.showSuccess('Export complete!');
+      this.renderer.send('EXPORT_XML', {
+        files: [
+          { filepath: `./${simulation_name}/${simulation_name}.xml`, content: xmlString },
+          ...additionalFiles
+        ],
+        simName: simulation_name
+      });
     }
-  }
-
-  public triggerExecutionCommand(): void {
-    this.renderer.send('EXECUTE_SIMULATION', '');
   }
 }

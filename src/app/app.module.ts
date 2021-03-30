@@ -24,6 +24,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDividerModule } from '@angular/material/divider';
+
 
 
 // Component Imports
@@ -79,9 +81,9 @@ import { ScriptGeneralComponent } from './components/object/script-general/scrip
 import { SegmentComponent } from './components/object/segment/segment.component';
 import { PropSourceTableComponent } from './components/object/prop-source-table/prop-source-table.component';
 import { AeroPageComponent } from './components/object/aero-page/aero-page.component';
-import { ExportButtonComponent } from './components/shared/export-button/export-button.component';
-import { ImportButtonComponent } from './components/shared/import-button/import-button.component';
 import { ImportModalComponent } from './components/shared/import-modal/import-modal.component';
+import { SimExecComponent } from './components/shared/sim-exec/sim-exec.component';
+import { FileImporterComponent } from './components/shared/file-importer/file-importer.component';
 
 @NgModule({
   declarations: [
@@ -130,9 +132,9 @@ import { ImportModalComponent } from './components/shared/import-modal/import-mo
     TwoDimCoefficientTableComponent,
     OneDimCoefficientTableComponent,
     AeroPageComponent,
-    ExportButtonComponent,
-    ImportButtonComponent,
-    ImportModalComponent
+    ImportModalComponent,
+    SimExecComponent,
+    FileImporterComponent
   ],
   imports: [
     NgxElectronModule,
@@ -156,7 +158,8 @@ import { ImportModalComponent } from './components/shared/import-modal/import-mo
     MatDatepickerModule,
     MatButtonToggleModule,
     MatListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDividerModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldAppearance }

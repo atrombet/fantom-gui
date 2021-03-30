@@ -1,15 +1,15 @@
 import { Component, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'file-path',
-  templateUrl: './file-path.component.html'
+  selector: 'file-importer',
+  templateUrl: './file-importer.component.html'
 })
-export class FilePathComponent {
+export class FileImporterComponent {
   @Input() public label = '';
   @Input() public disabled = false;
   @ViewChild('filepath', { static: false }) public filePath: ElementRef;
 
-  @Output() public selectedPath = new EventEmitter<string>();
+  @Output() public filesSelected = new EventEmitter<any>();
 
   public files: FileList;
 
@@ -22,6 +22,6 @@ export class FilePathComponent {
   public onChangeFileInput(): void {
     const files: FileList = this.filePath.nativeElement.files;
     this.files = files;
-    this.selectedPath.emit('');
+    this.filesSelected.emit(files);
   }
 }

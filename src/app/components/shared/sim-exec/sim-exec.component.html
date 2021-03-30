@@ -1,0 +1,38 @@
+<div class="simExec">
+  <h2>Simulation Execution</h2>
+  <div class="mbxl">
+    <div class="mbl">
+      <h3 class="flex-between">
+        <span>Input Files</span>
+        <button mat-raised-button color="primary" class="button-small" (click)="getPathFromFS(SIM_CHANNEL)">Browse</button>
+      </h3>
+      <div class="mbm">
+        <div class="label-text">Path to input folder:</div>
+        <div *ngIf="filepath; else selectPrompt" class="mll simExec__path">{{filepath}}</div>
+      </div>
+      <div class="mbm">
+        <div class="label-text">Entry file name:</div>
+        <div *ngIf="simFile; else selectPrompt" class="mll">{{simFile}}</div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="mtl">
+      <h3 class="flex-between">
+        <span>Output Files</span>
+        <button mat-raised-button color="primary" class="button-small" (click)="getPathFromFS(OUTPUT_CHANNEL)">Browse</button>
+      </h3>
+      <div class="mbm">
+        <div class="label-text">Path to output folder:</div>
+        <div *ngIf="outputLocation; else selectPrompt" class="mll simExec__path">{{outputLocation}}</div>
+
+      </div>
+    </div>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" [disabled]="!simReady" (click)="onExecuteClick()">Execute Simulation</button>
+  </div>
+</div>
+
+<ng-template #selectPrompt>
+  <div class="mll italic">Click Browse to select</div>
+</ng-template>

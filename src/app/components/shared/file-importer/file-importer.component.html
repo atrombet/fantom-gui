@@ -1,0 +1,17 @@
+<input
+  #filepath
+  name="filepath"
+  type="file"
+  class="filePath__input"
+  [disabled]="disabled"
+  (change)="onChangeFileInput()"
+  webkitdirectory directory multiple
+/>
+<label for="filepath">
+  <div class="mbl" *ngIf="!!label">{{label}}</div>
+  <button mat-raised-button color="primary" (click)="fileButtonClick()">Browse</button>
+  <span *ngIf="!files; else fileCount" class="mll">Select a filepath</span>
+  <ng-template #fileCount>
+    <span class="mll">{{files.length}} files selected.</span>
+  </ng-template>
+</label>

@@ -43,6 +43,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 // Project imports
 @import './styles/_utilities';
 @import './styles/_item';
+@import './styles/filePath';
 
 // App styles
 
@@ -130,4 +131,8 @@ mat-hint.toggle-hint {
 .snackbar-error {
   background-color: #f44336;
   color: white;
+}
+
+.button-small {
+  line-height: 24px !important;
 }

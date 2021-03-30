@@ -6,17 +6,17 @@
   </h2>
   <p>Select the folder container the simulation to import.</p>
   <div class="mbxl">
-    <file-path (filesSelected)="onFileInput($event)"></file-path>
+    <file-importer (filesSelected)="onFileInput($event)"></file-importer>
   </div>
   <ng-container *ngIf="!files; else fileFeedback"></ng-container>
-</div>  
+</div>
 <div mat-dialog-actions class="modal-actions">
   <button mat-button (click)="onCancel()" cdkFocusInitial>Cancel</button>
   <button mat-raised-button color="primary" (click)="onImport()" [disabled]="!readyForImport">Import Files</button>
 </div>
 
 <ng-template #fileFeedback>
-  <div 
+  <div
     class="flex justify-end italic"
     [ngClass]="readyForImport ? 'accent' : 'warn'"
   >

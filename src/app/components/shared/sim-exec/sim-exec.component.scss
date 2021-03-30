@@ -1,0 +1,11 @@
+.simExec {
+  background-color: #646464;
+  border-radius: 8px;
+  padding: 16px;
+  width: calc(100% - 32px);
+}
+
+.simExec__path {
+  max-width: 350px;
+  word-break: break-all;
+}
