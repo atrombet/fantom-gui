@@ -141,18 +141,18 @@ export const propSourceFormGroupFactory: (name?: string) => FormGroup = (name) =
 
 export const initialGeneralFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
-    time_sec: new FormControl(''),
-    mass_kg: new FormControl(''),
-    ground_range_m: new FormControl('')
+    time_sec: new FormControl(0),
+    mass_kg: new FormControl(0),
+    ground_range_m: new FormControl(0)
   });
 };
 
 export const initialConditionsFormGroupFactory: () => FormGroup = () => {
   return new FormGroup({
     frame: new FormControl(''),
-    value_1: new FormControl(''),
-    value_2: new FormControl(''),
-    value_3: new FormControl('')
+    value_1: new FormControl(0),
+    value_2: new FormControl(0),
+    value_3: new FormControl(0)
   });
 };
 
