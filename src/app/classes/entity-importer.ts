@@ -467,7 +467,7 @@ export class EntityImporter extends BaseImporter {
     const { mode, frame, value_1, value_2, value_3 } = gnc;
     const { parameter, condition, value } = end_criteria;
 
-    const activeIndicies = enable.propulsion._?.split(',').map(_ => Number(_)) || [];
+    const activeIndicies = enable?.propulsion._?.split(',').map(_ => Number(_)) || [ ...propSourceNames.map(() => 0) ];
     const activePropSources = propSourceNames.reduce((group, name, index) => {
       return {
         ...group,
