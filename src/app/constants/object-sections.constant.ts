@@ -11,6 +11,12 @@ import {
   scriptGeneralFormGroupFactory,
   aeroTableFormGroupFactory
 } from './form-group-factory.constants';
+import {
+  BODYRATES_OPTIONS,
+  ORIENTATION_OPTIONS,
+  VELOCITY_OPTIONS,
+  POSITION_OPTIONS
+} from './init-cond-options.constants';
 
 export const OBJECT_SECTIONS: () => Section[] = () => [
   {
@@ -59,10 +65,10 @@ export const OBJECT_SECTIONS: () => Section[] = () => [
     icon: 'circle',
     subsections: [
       { displayName: 'general', name: 'general', icon: 'grade', form: initialGeneralFormGroupFactory(), route: 'initial_general', isDisabled: false },
-      { displayName: 'position', name: 'position', icon: 'gps_fixed', form: initialConditionsFormGroupFactory(), route: 'initial_position', isDisabled: false },
-      { displayName: 'velocity', name: 'velocity', icon: 'double_arrow', form: initialConditionsFormGroupFactory(), route: 'initial_velocity', isDisabled: false },
-      { displayName: 'orientation', name: 'orientation', icon: 'widgets', form: initialConditionsFormGroupFactory(), route: 'initial_orientation', isDisabled: false },
-      { displayName: 'body rates', name: 'bodyrates', icon: 'sync', form: initialConditionsFormGroupFactory(), route: 'initial_bodyrates', isDisabled: false },
+      { displayName: 'position', name: 'position', icon: 'gps_fixed', form: initialConditionsFormGroupFactory(POSITION_OPTIONS[0].value), route: 'initial_position', isDisabled: false },
+      { displayName: 'velocity', name: 'velocity', icon: 'double_arrow', form: initialConditionsFormGroupFactory(VELOCITY_OPTIONS[0].value), route: 'initial_velocity', isDisabled: false },
+      { displayName: 'orientation', name: 'orientation', icon: 'widgets', form: initialConditionsFormGroupFactory(ORIENTATION_OPTIONS[0].value), route: 'initial_orientation', isDisabled: false },
+      { displayName: 'body rates', name: 'bodyrates', icon: 'sync', form: initialConditionsFormGroupFactory(BODYRATES_OPTIONS[0].value), route: 'initial_bodyrates', isDisabled: false },
     ],
     isDisabled: false
   },

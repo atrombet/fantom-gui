@@ -147,9 +147,9 @@ export const initialGeneralFormGroupFactory: () => FormGroup = () => {
   });
 };
 
-export const initialConditionsFormGroupFactory: () => FormGroup = () => {
+export const initialConditionsFormGroupFactory: (initFrame?) => FormGroup = (initFrame) => {
   return new FormGroup({
-    frame: new FormControl(''),
+    frame: new FormControl(initFrame || ''),
     value_1: new FormControl(0),
     value_2: new FormControl(0),
     value_3: new FormControl(0)
