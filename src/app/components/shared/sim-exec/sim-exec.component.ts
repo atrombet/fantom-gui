@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { IpcRenderer } from 'electron';
 import { ElectronService } from 'ngx-electron';
 
@@ -12,7 +13,7 @@ export class SimExecComponent implements OnInit {
   public renderer: IpcRenderer;
   public waitingForResponse = false;
   public filepath: string;
-  public simFile: string;
+  public simFile: FormControl = new FormControl('');
   public outputLocation: string;
   public SIM_CHANNEL = 'SELECT_SIM_LOCATION';
   public OUTPUT_CHANNEL = 'SELECT_OUTPUT_LOCATION';
@@ -57,7 +58,7 @@ export class SimExecComponent implements OnInit {
     const segments = path.split('/');
     // Set the filepath
     this.filepath = `${path}/`;
-    this.simFile = `${segments[segments.length - 1]}.xml`;
+    this.simFile.patchValue(`${segments[segments.length - 1]}.xml`);
     this.cd.detectChanges();
   }
 
@@ -77,7 +78,7 @@ export class SimExecComponent implements OnInit {
   public onExecuteClick(): void {
     this.renderer.send('EXECUTE_SIMULATION', {
       pathToSimConfig: this.filepath,
-      simFile: this.simFile,
+      simFile: this.simFile.value,
       outputPath: this.outputLocation
     });
     this.waitingForResponse = true;

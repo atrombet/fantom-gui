@@ -1,7 +1,7 @@
 <div class="simExec">
   <h2>Simulation Execution</h2>
   <div class="mbxl">
-    <div class="mbl">
+    <div>
       <h3 class="flex-between">
         <span>Input Files</span>
         <button mat-raised-button color="primary" class="button-small" (click)="getPathFromFS(SIM_CHANNEL)">Browse</button>
@@ -10,9 +10,11 @@
         <div class="label-text">Path to input folder:</div>
         <div *ngIf="filepath; else selectPrompt" class="mll simExec__path">{{filepath}}</div>
       </div>
-      <div class="mbm">
+      <div>
         <div class="label-text">Entry file name:</div>
-        <div *ngIf="simFile; else selectPrompt" class="mll">{{simFile}}</div>
+        <mat-form-field color="accent" class="width-100">
+          <input matInput [formControl]="simFile"/>
+        </mat-form-field>
       </div>
     </div>
     <mat-divider></mat-divider>
