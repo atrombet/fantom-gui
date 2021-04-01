@@ -13,7 +13,7 @@
               name="parent_object"
               placeholder="Parent Object"
             >
-              <mat-option *ngFor="let option of parentObjectOptions" [value]="option.value" [disabled]="option.value === objectName">
+              <mat-option *ngFor="let option of parentObjectOptions" [value]="option.value" [disabled]="option.id === objectId">
                 {{option.viewValue}}
               </mat-option>
             </mat-select>
@@ -64,7 +64,7 @@
           </mat-form-field>
         </div>
 
-      </div>  
+      </div>
     </div>
   </div>
 </ng-container>

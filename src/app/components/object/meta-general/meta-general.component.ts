@@ -6,7 +6,7 @@ import { tap, switchMap } from 'rxjs/operators';
 import { ItemService } from '@services';
 import { Item } from '@interfaces';
 import { combineLatest } from 'rxjs';
-import { ItemType } from '../../../enums';
+import { ItemType } from '@enums';
 
 @Component({
   selector: 'meta-general',
@@ -42,9 +42,9 @@ export class MetaGeneralComponent extends SubsectionBaseComponent implements OnI
         }),
         switchMap((objects: Item[]) => {
           this.parentObjectOptions = [
-            { value: 'none', viewValue: 'None' },
+            { id: 'none', value: 'none', viewValue: 'None' },
             ...objects.map(object => {
-              return { value: object.name, viewValue: object.name } as SelectOption;
+              return { id: object.id, value: object.name, viewValue: object.name } as SelectOption;
             })
           ];
           return this.itemService.environments$;
