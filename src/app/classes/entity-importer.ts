@@ -1,11 +1,22 @@
 import { ItemType } from '@enums';
-import { CgFormValues, CoefficientFormValues, Item, MoiFormValues, PropSourceFormValues, SegmentFormValues, Table1D, Table2D } from '@interfaces';
+import {
+  AeroGeneralData,
+  CgFormValues,
+  CoefficientFormValues,
+  Item,
+  MoiFormValues,
+  PropSourceFormValues,
+  SegmentFormValues,
+  Table1D,
+  Table2D,
+  InitCondGeneralData,
+  InitCondFormValues
+} from '@interfaces';
 import { OBJECT_SECTIONS, propSourceFormGroupFactory, segmentFormGroupFactory } from '@constants';
 import { binToBool, patchSubsectionForm } from '@functions';
 import { BaseImporter } from './base-importer';
 import { forkJoin, Observable, of, zip } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { InitCondFormValues } from '@interfaces';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 
@@ -55,12 +66,14 @@ export class EntityImporter extends BaseImporter {
     // Patch Aero General data
     patchSubsectionForm(objItem, 'aerodynamics', 'general', this.getAeroGeneralData(obj));
 
-    // Determine aero page subsection from aero mode.
     let aeroSubsection;
-    switch (Number(obj.properties.aerodynamics.mode._)) {
-      case 0: aeroSubsection = 'bodyfixed'; break;
-      case 1: aeroSubsection = 'axisymmetric'; break;
-      case 2: aeroSubsection = 'wind'; break;
+    if (obj.properties.aerodynamics) {
+      // Determine aero page subsection from aero mode.
+      switch (Number(obj.properties.aerodynamics.mode._)) {
+        case 0: aeroSubsection = 'bodyfixed'; break;
+        case 1: aeroSubsection = 'axisymmetric'; break;
+        case 2: aeroSubsection = 'wind'; break;
+      }
     }
 
 
@@ -85,11 +98,11 @@ export class EntityImporter extends BaseImporter {
         if (!!cg) this.patchMassPropForm(objItem, 'cg', cg as unknown as any[]);
         if (!!moi) this.patchMassPropForm(objItem, 'inertia', moi as unknown as any[]);
         // Aero Page
-        this.patchAeroPageForm(objItem, aeroSubsection, aeroPage);
+        if (!!aeroPage) this.patchAeroPageForm(objItem, aeroSubsection, aeroPage);
         // Prop Sources
-        this.patchPropSourceData(objItem, propSources);
+        if (!!propSources) this.patchPropSourceData(objItem, propSources as unknown as any[]);
         // Script/Segments
-        this.patchSegmentData(objItem, segments);
+        if (!!segments) this.patchSegmentData(objItem, segments as unknown as any[]);
       })
     ).subscribe();
 
@@ -103,11 +116,11 @@ export class EntityImporter extends BaseImporter {
   private getMetaGeneralData(obj: any): { parent_object, solver, hold_down, local_environment, allow_six_dof } {
     const { parent, solver, hold_down, local_environment } = obj;
     return {
-      parent_object: parent._ === 'none' ? parent._ : Number(parent._),
-      solver: Number(solver._),
-      hold_down: binToBool(hold_down._),
-      local_environment: local_environment._,
-      allow_six_dof: obj.properties.mass_properties
+      parent_object: parent?._ === 'none' ? parent?._ : Number(parent?._),
+      solver: Number(solver?._),
+      hold_down: binToBool(hold_down?._),
+      local_environment: local_environment?._,
+      allow_six_dof: obj.properties?.mass_properties
     };
   }
 
@@ -200,40 +213,48 @@ export class EntityImporter extends BaseImporter {
    * Aerodynamics
    *********************************/
 
-  private getAeroGeneralData(obj: any): { aero_mode, aero_ref_area, aero_ref_length, aero_moment_ref_x, aero_moment_ref_y, aero_moment_ref_z } {
-    const { mode, reference } = obj.properties.aerodynamics;
-    const { area, length, moment_reference_location } = reference;
-    const [ x, y, z ] = moment_reference_location?._.split(',') || [ null, null, null ];
-    return {
-      aero_mode: Number(mode._),
-      aero_ref_area: area._,
-      aero_ref_length: length?._ || null,
-      aero_moment_ref_x: x,
-      aero_moment_ref_y: y,
-      aero_moment_ref_z: z
-    };
+  private getAeroGeneralData(obj: any): AeroGeneralData {
+    if (obj.properties.aerodynamics) {
+      const { mode, reference } = obj.properties.aerodynamics;
+      const { area, length, moment_reference_location } = reference;
+      const [ x, y, z ] = moment_reference_location?._.split(',').map(_ => _.trim()) || [ null, null, null ];
+      return {
+        aero_mode: Number(mode._),
+        aero_ref_area: area._,
+        aero_ref_length: length?._ || null,
+        aero_moment_ref_x: x,
+        aero_moment_ref_y: y,
+        aero_moment_ref_z: z
+      } as AeroGeneralData;
+    } else {
+      return {} as AeroGeneralData;
+    }
   }
 
-  private getAeroPageData(obj: any): Observable<{ [key: string]: CoefficientFormValues }> {
-    const { coefficients, coefficients_dependencies } = obj.properties.aerodynamics;
-    const keys = Object.keys(coefficients);
-    const coFileDict = keys.reduce((dict, key) => {
-      return {
-        ...dict,
-        [key]: this.importTableFromFile(coefficients[key].filename._)
-      };
-    }, {});
-    return forkJoin(coFileDict).pipe(
-      map(result => {
-        const coFormValues: { [key: string]: CoefficientFormValues } = Object.keys(result).reduce((formValues, key) => {
-          return {
-            ...formValues,
-            [key]: this.createAeroFormValuesFromTableData(result[key]['table'], coefficients_dependencies[key].dependency._)
-          };
-        }, {});
-        return coFormValues;
-      })
-    );
+  private getAeroPageData(obj: any): Observable<{ [key: string]: CoefficientFormValues } | boolean> {
+    if (obj.properties.aerodynamics) {
+      const { coefficients, coefficients_dependencies } = obj.properties.aerodynamics;
+      const keys = Object.keys(coefficients);
+      const coFileDict = keys.reduce((dict, key) => {
+        return {
+          ...dict,
+          [key]: this.importTableFromFile(coefficients[key].filename._)
+        };
+      }, {});
+      return forkJoin(coFileDict).pipe(
+        map(result => {
+          const coFormValues: { [key: string]: CoefficientFormValues } = Object.keys(result).reduce((formValues, key) => {
+            return {
+              ...formValues,
+              [key]: this.createAeroFormValuesFromTableData(result[key]['table'], coefficients_dependencies[key].dependency._)
+            };
+          }, {});
+          return coFormValues;
+        })
+      );
+    } else {
+      return of(false);
+    }
   }
 
   private createAeroFormValuesFromTableData(table: any, dependency: string): { [key: string]: CoefficientFormValues } {
@@ -348,10 +369,14 @@ export class EntityImporter extends BaseImporter {
    * Prop Sources
    *********************************/
 
-  private getPropSourceData(obj: any): Observable<PropSourceFormValues[]> {
-    let { hardware } = obj.properties.propulsion;
-    if (!Array.isArray(hardware)) hardware = [ hardware ];
-    return zip(...hardware.map(source => this.getSource(source))) as unknown as Observable<PropSourceFormValues[]>;
+  private getPropSourceData(obj: any): Observable<PropSourceFormValues[] | boolean> {
+    if (!!obj.properties.propulsion) {
+      let { hardware } = obj.properties.propulsion;
+      if (!Array.isArray(hardware)) hardware = [ hardware ];
+      return zip(...hardware.map(source => this.getSource(source))) as unknown as Observable<PropSourceFormValues[]>;
+    } else {
+      return of(false);
+    }
   }
 
   private getSource(source: any): Observable<PropSourceFormValues> {
@@ -429,37 +454,49 @@ export class EntityImporter extends BaseImporter {
    * Initial Conditions
    *********************************/
 
-  private getInitCondGeneralData(obj: any): { time_sec, mass_kg, ground_range_m } {
-    const { time_sec, mass_kg, ground_range_m } = obj.initial_conditions;
-    return {
-      time_sec: time_sec._,
-      mass_kg: mass_kg._,
-      ground_range_m: ground_range_m._
-    };
+  private getInitCondGeneralData(obj: any): InitCondGeneralData {
+    if (obj.initial_conditions) {
+      const { time_sec, mass_kg, ground_range_m } = obj.initial_conditions;
+      return {
+        time_sec: time_sec._,
+        mass_kg: mass_kg._,
+        ground_range_m: ground_range_m._
+      } as InitCondGeneralData;
+    } else {
+      return {} as InitCondGeneralData;
+    }
   }
 
   private getInitCondData(obj: any, page: string): InitCondFormValues {
-    const { frame, value } = obj.initial_conditions[page];
-    const [ value_1, value_2, value_3 ] = value._.split(',').map(val => val.trim());
-    return {
-      frame: frame._,
-      value_1,
-      value_2,
-      value_3
-    };
+    if (obj.initial_conditions[page]) {
+      const { frame, value } = obj.initial_conditions[page];
+      const [ value_1, value_2, value_3 ] = value._.split(',').map(val => val.trim());
+      return {
+        frame: frame._,
+        value_1,
+        value_2,
+        value_3
+      } as InitCondFormValues;
+    } else {
+      return {} as InitCondFormValues;
+    }
   }
 
   /*********************************
    * Script / Segments
    *********************************/
 
-  private getScriptData(obj: any): Observable<SegmentFormValues[]> {
-    let { segment } = obj.properties.script;
-    if (!Array.isArray(segment)) segment = [ segment ];
-    let { hardware } = obj.properties.propulsion;
-    if (!Array.isArray(hardware)) hardware = [ hardware ];
-    const propSourceNames = hardware.map(h => h.name._);
-    return zip(...segment.map(s => this.getSegmentData(s, propSourceNames))) as unknown as Observable<SegmentFormValues[]>;
+  private getScriptData(obj: any): Observable<SegmentFormValues[] | boolean> {
+    if (obj.properties.script) {
+      let { segment } = obj.properties.script;
+      if (!Array.isArray(segment)) segment = [ segment ];
+      let { hardware } = obj.properties.propulsion;
+      if (!Array.isArray(hardware)) hardware = [ hardware ];
+      const propSourceNames = hardware.map(h => h.name._);
+      return zip(...segment.map(s => this.getSegmentData(s, propSourceNames))) as unknown as Observable<SegmentFormValues[]>;
+    } else {
+      return of(false);
+    }
   }
 
   private getSegmentData(segment: any, propSourceNames: string[]): Observable<SegmentFormValues> {

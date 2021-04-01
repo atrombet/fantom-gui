@@ -55,6 +55,8 @@ export class XmlService {
    **********************************/
 
   public importXml(files: any): void {
+    // Clear app state
+    this.itemService.resetState();
     // Initialize the importers with the imported files.
     this.environmentImporter = new EnvironmentImporter(files);
     this.entityImporter = new EntityImporter(files);

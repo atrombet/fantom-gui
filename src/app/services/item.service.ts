@@ -83,6 +83,15 @@ export class ItemService {
     };
   }
 
+  public resetState(): void {
+    this.state[ItemType.Environment].data.next(new Map<number, Item>());
+    this.state[ItemType.Environment].lastId = 0;
+    this.state[ItemType.Entity].data.next(new Map<number, Item>());
+    this.state[ItemType.Entity].lastId = 0;
+    this.state[ItemType.Object].data.next(new Map<number, Item>());
+    this.state[ItemType.Object].lastId = 0;
+  }
+
   /**
    * Takes an array of environments and replaces the environment state with the new data.
    * @param envs - Environments to set as state.

@@ -1,7 +1,4 @@
-import { ItemType } from '@enums';
 import { Item } from '@interfaces';
-import { ENVIRONMENT_SECTIONS, OBJECT_SECTIONS } from '../constants';
-import { binToBool, boolToBin } from './bin-bool-helpers';
 
 export const verifyXmlImport = (files: FileList): boolean => {
   // Check all files are XML

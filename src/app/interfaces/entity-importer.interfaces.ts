@@ -24,6 +24,15 @@ export interface Table2D {
   data: any[];
 }
 
+export interface AeroGeneralData {
+  aero_mode;
+  aero_ref_area;
+  aero_ref_length;
+  aero_moment_ref_x;
+  aero_moment_ref_y;
+  aero_moment_ref_z;
+}
+
 export interface PropSourceFormValues {
   name: string;
   position_x: string;
@@ -36,6 +45,12 @@ export interface PropSourceFormValues {
   mode: number;
   table_1?: any[];
   table_2?: any[];
+}
+
+export interface InitCondGeneralData {
+  time_sec;
+  mass_kg;
+  ground_range_m;
 }
 
 export interface CgFormValues {
