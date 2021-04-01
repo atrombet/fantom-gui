@@ -13,6 +13,10 @@ if (handleSquirrelEvent()) {
   return;
 }
 
+function isWindows() {
+  return os.platform() === 'win32';
+}
+
 function reverseSlashesForWindows(path) {
   return path.split('/').join('\\');
 }
@@ -153,11 +157,7 @@ async function replyWithPathCallback(channel, event) {
 ipcMain.on('EXECUTE_SIMULATION', async (event, { pathToSimConfig, simFile, outputPath }) => {
   let fantomLocation = './fantom.exe';
 
-  console.log('Path to sim:', pathToSimConfig);
-  console.log('Sim File:', simFile);
-  console.log('Output path:', outputPath);
-
-  if (os.platform() === 'win32') {
+  if (isWindows()) {
     pathToSimConfig = reverseSlashesForWindows(pathToSimConfig);
     outputPath = reverseSlashesForWindows(outputPath);
     fantomLocation = reverseSlashesForWindows(fantomLocation);
@@ -165,7 +165,10 @@ ipcMain.on('EXECUTE_SIMULATION', async (event, { pathToSimConfig, simFile, outpu
 
   cp.exec(`${fantomLocation} -i ${pathToSimConfig} -f ${simFile} -o ${outputPath}`, (error) => {
     if (error) {
+      event.reply('EXECUTE_SIMULATION', error);
       console.error(error);
+    } else {
+      event.reply('EXECUTE_SIMULATION', 'executing');
     }
   });
 

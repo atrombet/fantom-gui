@@ -34,13 +34,15 @@ export class SimExecComponent implements OnInit {
       // Listen for a message from electron on the sim location channel
       this.renderer.on('SELECT_SIM_LOCATION', (event, path) => {
         this.waitingForResponse = false;
+        path = this.forceForwardSlashes(path);
         this.setFilepath(path);
       });
 
       // Listen for a message from electron on the output location channel
       this.renderer.on('SELECT_OUTPUT_LOCATION', (event, path) => {
         this.waitingForResponse = false;
-        this.outputLocation = path;
+        path = this.forceForwardSlashes(path);
+        this.outputLocation = `${path}/`;
         this.cd.detectChanges();
       });
     }
@@ -51,11 +53,10 @@ export class SimExecComponent implements OnInit {
    * @param path - the folder path to the simulation.
    */
   public setFilepath(path: string): void {
-    // Set the filepath
-    this.filepath = path;
-
     // Get the name of the sim file and set.
     const segments = path.split('/');
+    // Set the filepath
+    this.filepath = `${path}/`;
     this.simFile = `${segments[segments.length - 1]}.xml`;
     this.cd.detectChanges();
   }
@@ -81,5 +82,13 @@ export class SimExecComponent implements OnInit {
     });
     this.waitingForResponse = true;
     this.cd.detectChanges();
+  }
+
+  private forceForwardSlashes(path: string): string {
+    const backslashSegments = path.split('\\');
+    if (backslashSegments.length > 1) {
+      path = backslashSegments.filter(segment => !!segment).join('/');
+    }
+    return path;
   }
 }
