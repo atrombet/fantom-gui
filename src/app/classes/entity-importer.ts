@@ -116,7 +116,7 @@ export class EntityImporter extends BaseImporter {
   private getMetaGeneralData(obj: any): { parent_object, solver, hold_down, local_environment, allow_six_dof } {
     const { parent, solver, hold_down, local_environment } = obj;
     return {
-      parent_object: parent?._ === 'none' ? parent?._ : Number(parent?._),
+      parent_object: parent?._,
       solver: Number(solver?._),
       hold_down: binToBool(hold_down?._),
       local_environment: local_environment?._,
