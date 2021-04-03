@@ -40,9 +40,11 @@ export class AppComponent {
         break;
       case 'Environment':
         this.entTab.resetSelected();
+        this.item = null;
         break;
       case 'Entities':
         this.envTab.resetSelected();
+        this.item = null;
         break;
     }
   }
