@@ -37,7 +37,7 @@ export class SimulationTabComponent implements OnInit, OnDestroy {
   }
 
   public openImportModal(): void {
-    const dialogRef = this.dialog.open(ImportModalComponent);
+    const dialogRef = this.dialog.open(ImportModalComponent, { disableClose: true });
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(files => {
       if (files) {
