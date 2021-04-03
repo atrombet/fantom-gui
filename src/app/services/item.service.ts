@@ -3,7 +3,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Item, AppState, Section, Subsection } from '@interfaces';
 import { ItemType } from '@enums';
-import { ENVIRONMENT_SECTIONS, OBJECT_SECTIONS } from '@constants';
+import { ENVIRONMENT_SECTIONS, OBJECT_SECTIONS, propSourceFormGroupFactory, segmentFormGroupFactory } from '@constants';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +50,7 @@ export class ItemService {
     );
   }
 
-  constructor() {
+  constructor(private fb: FormBuilder) {
     this.initialize();
   }
 
@@ -352,8 +353,94 @@ export class ItemService {
             .subsections
             .find(subsec => subsec.name === sub.name);
           newSub.form.patchValue(val);
+          if (val.hasOwnProperty('rows')) {
+            this.patchRowFormValues(val, newSub.form);
+          } else if (val.hasOwnProperty('force_1')) {
+            this.patchAeroFormValues(val, newSub.form);
+          } else if (val.hasOwnProperty('sources')) {
+            this.patchPropSources(val, newSub.form);
+          } else if (val.hasOwnProperty('segments')) {
+            this.patchSegments(val, newSub.form);
+          }
         });
       });
     }
+  }
+
+  /**
+   * Iterates over a set of rows and creates new FormGroups to push to a 'rows' FormArray.
+   */
+  private patchRowFormValues(table, form, rowKey = 'rows'): void {
+    const rows = table[rowKey];
+    rows.forEach(row => {
+      form.controls[rowKey].push(
+        Object.keys(row).reduce((group, key) => {
+          group.addControl(key, this.fb.control(row[key]));
+          return group;
+        }, new FormGroup({}))
+      );
+    });
+  }
+
+  /**
+   * Patches Aerodynamics coefficient data to the new item's subsection form.
+   * @param coefs - Aerodynamics coefficients.
+   * @param form - the form to patch data to.
+   */
+  private patchAeroFormValues(coefs, form): void {
+    Object.keys(coefs).forEach(key => {
+      const coef = coefs[key];
+      if (coef.size === 1) {
+        this.patchRowFormValues(coef.table_1D, form.get(key).get('table_1D'));
+      } else if (coef.size === 2) {
+        this.patch2DTable(coef.table_2D, form.get(key).get('table_2D'));
+      }
+    });
+  }
+
+  /**
+   * Patches a 2D table
+   */
+  private patch2DTable(table, form): void {
+    const { columns, rows, data } = table;
+    columns.forEach(val => {
+      form.get('columns').push(this.fb.control(val));
+    });
+    rows.forEach(val => {
+      form.get('rows').push(this.fb.control(val));
+    });
+    data.forEach(dat => {
+      form.get('data').push(this.fb.array([ ...dat.map(_ => this.fb.control(_)) ]));
+    });
+  }
+
+  /**
+   * Patches in prop sources.
+   */
+  private patchPropSources({ sources }, form): void {
+    sources.forEach(source => {
+      const group = propSourceFormGroupFactory();
+      group.patchValue(source);
+      this.patchRowFormValues(source, group, 'table_1');
+      this.patchRowFormValues(source, group, 'table_2');
+      form.get('sources').push(group);
+    });
+  }
+
+  /**
+   * Patches in segments.
+   */
+  private patchSegments({ segments }, form): void {
+    segments.forEach(segment => {
+      const group = segmentFormGroupFactory();
+      group.patchValue(segment);
+      Object.keys(segment.active_propulsion_sources).forEach(key => {
+        const apsGroup = group.get('active_propulsion_sources') as FormGroup;
+        apsGroup.addControl(key, this.fb.control(segment.active_propulsion_sources[key]));
+      });
+      group.get('active_propulsion_sources').patchValue(segment.active_propulsion_sources);
+      this.patchRowFormValues(segment.gnc, group.get('gnc'));
+      form.get('segments').push(group);
+    });
   }
 }

@@ -32,7 +32,6 @@ export class PageHeaderComponent {
    * Clears all the sections available in the page header.
    */
   public clearHeader(): void {
-    this._sections = null;
     this.selectedSection = null;
     this.selectedSubsection = null;
   }
