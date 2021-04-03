@@ -370,7 +370,7 @@ export class EntityImporter extends BaseImporter {
    *********************************/
 
   private getPropSourceData(obj: any): Observable<PropSourceFormValues[] | boolean> {
-    if (!!obj.properties.propulsion) {
+    if (!!obj.properties.propulsion && !!Number(obj.properties.propulsion.n_hardware?._)) {
       let { hardware } = obj.properties.propulsion;
       if (!Array.isArray(hardware)) hardware = [ hardware ];
       return zip(...hardware.map(source => this.getSource(source))) as unknown as Observable<PropSourceFormValues[]>;
@@ -490,9 +490,14 @@ export class EntityImporter extends BaseImporter {
     if (obj.properties.script) {
       let { segment } = obj.properties.script;
       if (!Array.isArray(segment)) segment = [ segment ];
-      let { hardware } = obj.properties.propulsion;
-      if (!Array.isArray(hardware)) hardware = [ hardware ];
-      const propSourceNames = hardware.map(h => h.name._);
+      let propSourceNames;
+      if (!!Number(obj.properties.propulsion?.n_hardware?._)) {
+        let { hardware } = obj.properties.propulsion;
+        if (!Array.isArray(hardware)) hardware = [ hardware ];
+        propSourceNames = hardware.map(h => h.name._);
+      } else {
+        propSourceNames = [];
+      }
       return zip(...segment.map(s => this.getSegmentData(s, propSourceNames))) as unknown as Observable<SegmentFormValues[]>;
     } else {
       return of(false);
@@ -518,11 +523,14 @@ export class EntityImporter extends BaseImporter {
       value_3: this.importTableFromFile(value_3.filename._)
     }).pipe(
       map(({ value_1, value_2, value_3 }) => {
-        const deps = value_1.table.row_breakpoint._.split(',');
-        const data1 = value_1.table.data._.split(',');
-        const data2 = value_2.table.data._.split(',');
-        const data3 = value_3.table.data._.split(',');
-        const rows = deps.map((dep, i) => ({ dep, value_1: data1[i], value_2:  data2[i], value_3: data3[i] }));
+        let rows = [];
+        const deps = value_1.table.row_breakpoint._?.split(',') || null;
+        if (!!deps) {
+          const data1 = value_1.table.data._.split(',');
+          const data2 = value_2.table.data._.split(',');
+          const data3 = value_3.table.data._.split(',');
+          rows = deps.map((dep, i) => ({ dep, value_1: data1[i], value_2:  data2[i], value_3: data3[i] }));
+        }
         const segmentFormValues: SegmentFormValues = {
           name: name._,
           dof: dof._,
