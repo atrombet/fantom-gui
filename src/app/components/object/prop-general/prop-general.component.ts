@@ -29,7 +29,7 @@ export class PropGeneralComponent extends SubsectionBaseComponent implements Aft
    */
   public addPropSource(): void {
     const nextSourceNumber = this.sources.controls.length + 1;
-    this.sources.push(propSourceFormGroupFactory(`hardware_${('000' + nextSourceNumber).slice(-3)}`))
+    this.sources.push(propSourceFormGroupFactory(`hardware_${('000' + nextSourceNumber).slice(-3)}`));
   }
 
   /**
@@ -45,7 +45,7 @@ export class PropGeneralComponent extends SubsectionBaseComponent implements Aft
    */
   public duplicatePropSource(formGroup: FormGroup): void {
     const newFormGroup = propSourceFormGroupFactory();
-    const val = formGroup.value;
+    const val = { ...formGroup.value };
     val.name = this.itemService.getDupItemName(this.sources.value, val);
     newFormGroup.patchValue(val);
     this.itemService.patchRowFormValues(val, newFormGroup, 'table_1');

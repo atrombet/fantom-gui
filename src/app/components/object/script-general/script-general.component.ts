@@ -49,7 +49,7 @@ export class ScriptGeneralComponent extends SubsectionBaseComponent implements A
    */
   public duplicateSegment(formGroup: FormGroup): void {
     const newFormGroup = segmentFormGroupFactory();
-    const val = formGroup.value;
+    const val = { ...formGroup.value };
     val.name = this.itemService.getDupItemName(this.segments.value, val);
     newFormGroup.patchValue(formGroup.value);
     Object.keys(val.active_propulsion_sources).forEach(key => {
