@@ -1,7 +1,7 @@
 {
   "name": "fantom-gui",
   "productName": "FANTOM GUI",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Kairos Technology, LLC",
   "description": "FANTOM GUI application",
   "license": "UNLICENSED",
@@ -33,7 +33,7 @@
     "@angular/platform-browser": "~10.0.14",
     "@angular/platform-browser-dynamic": "~10.0.14",
     "@angular/router": "~10.0.14",
-    "electron-squirrel-startup": "^1.0.1",
+    "electron-squirrel-startup": "^1.0.0",
     "ngx-electron": "^2.2.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
