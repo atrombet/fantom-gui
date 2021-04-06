@@ -3,6 +3,7 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { SubsectionBaseComponent } from '@components/shared';
 import { segmentFormGroupFactory } from '@constants';
+import { ItemService } from '@services';
 
 @Component({
   selector: 'script-general',
@@ -14,7 +15,7 @@ export class ScriptGeneralComponent extends SubsectionBaseComponent implements A
   public propSources: string[];
   public allowSixDof: boolean;
 
-  constructor(protected route: ActivatedRoute) {
+  constructor(protected route: ActivatedRoute, private itemService: ItemService) {
     super(route);
   }
 
@@ -41,14 +42,22 @@ export class ScriptGeneralComponent extends SubsectionBaseComponent implements A
   public renameSegment(name: string, nameControl: FormControl): void {
     nameControl.patchValue(name);
   }
-  
+
   /**
    * Duplicates a given segment.
    * @param formGroup - The form group of the segment's values.
    */
   public duplicateSegment(formGroup: FormGroup): void {
     const newFormGroup = segmentFormGroupFactory();
+    const val = formGroup.value;
+    val.name = this.itemService.getDupItemName(this.segments.value, val);
     newFormGroup.patchValue(formGroup.value);
+    Object.keys(val.active_propulsion_sources).forEach(key => {
+      const apsGroup = newFormGroup.get('active_propulsion_sources') as FormGroup;
+      apsGroup.addControl(key, new FormControl(val.active_propulsion_sources[key]));
+    });
+    newFormGroup.get('active_propulsion_sources').patchValue(val.active_propulsion_sources);
+    this.itemService.patchRowFormValues(val.gnc, newFormGroup.get('gnc'));
     this.segments.push(newFormGroup);
   }
 

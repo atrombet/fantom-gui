@@ -183,9 +183,7 @@ export class ItemService {
   public duplicateItem(item: Item): void {
     const newMap = this.cloneMap(item.type);
     const items: Item[] = Array.from(newMap.values());
-    const nameParts = item.name.split('-');
-    const max = this.getHighestDashNumber(items, nameParts[0]);
-    const newName = max >= 0 ? `${nameParts[0]}-${max + 1}` : `${item.name}-1`;
+    const newName = this.getDupItemName(items, item);
     const newId = this.state[item.type].lastId + 1;
     const newItem: Item = {
       ...item,
@@ -201,6 +199,18 @@ export class ItemService {
       // Duplicate the objects from the existing entity to the new entity.
       this.duplicateManyObjects(item.id, newId);
     }
+  }
+
+  /**
+   * Returns the new name of an item being duplicated.
+   * @param items - All the items in the set from which one is being duplicated.
+   * @param item - The item being duplicated.
+   */
+  public getDupItemName(items, item): string {
+    const nameParts = item.name.split('-');
+    const max = this.getHighestDashNumber(items, nameParts[0]);
+    const newName = max >= 0 ? `${nameParts[0]}-${max + 1}` : `${item.name}-1`;
+    return newName;
   }
 
   /**
@@ -280,6 +290,21 @@ export class ItemService {
     });
     newMap.set(id, item);
     this.state[type].data.next(newMap);
+  }
+
+  /**
+   * Iterates over a set of rows and creates new FormGroups to push to a 'rows' FormArray.
+   */
+   public patchRowFormValues(table, form, rowKey = 'rows'): void {
+    const rows = table[rowKey];
+    rows.forEach(row => {
+      form.controls[rowKey].push(
+        Object.keys(row).reduce((group, key) => {
+          group.addControl(key, this.fb.control(row[key]));
+          return group;
+        }, new FormGroup({}))
+      );
+    });
   }
 
   /**********************************
@@ -368,21 +393,6 @@ export class ItemService {
   }
 
   /**
-   * Iterates over a set of rows and creates new FormGroups to push to a 'rows' FormArray.
-   */
-  private patchRowFormValues(table, form, rowKey = 'rows'): void {
-    const rows = table[rowKey];
-    rows.forEach(row => {
-      form.controls[rowKey].push(
-        Object.keys(row).reduce((group, key) => {
-          group.addControl(key, this.fb.control(row[key]));
-          return group;
-        }, new FormGroup({}))
-      );
-    });
-  }
-
-  /**
    * Patches Aerodynamics coefficient data to the new item's subsection form.
    * @param coefs - Aerodynamics coefficients.
    * @param form - the form to patch data to.
@@ -417,7 +427,7 @@ export class ItemService {
   /**
    * Patches in prop sources.
    */
-  private patchPropSources({ sources }, form): void {
+  public patchPropSources({ sources }, form): void {
     sources.forEach(source => {
       const group = propSourceFormGroupFactory();
       group.patchValue(source);
@@ -430,7 +440,7 @@ export class ItemService {
   /**
    * Patches in segments.
    */
-  private patchSegments({ segments }, form): void {
+  public patchSegments({ segments }, form): void {
     segments.forEach(segment => {
       const group = segmentFormGroupFactory();
       group.patchValue(segment);

@@ -3,6 +3,7 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { SubsectionBaseComponent } from '@components/shared';
 import { propSourceFormGroupFactory } from '@constants';
+import { ItemService } from '@services';
 
 @Component({
   selector: 'prop-general',
@@ -12,7 +13,7 @@ export class PropGeneralComponent extends SubsectionBaseComponent implements Aft
   public selectedPropSourceIndex: number = null;
   public sources: FormArray;
 
-  constructor(protected route: ActivatedRoute) {
+  constructor(protected route: ActivatedRoute, private itemService: ItemService) {
     super(route);
   }
 
@@ -37,14 +38,18 @@ export class PropGeneralComponent extends SubsectionBaseComponent implements Aft
   public renamePropSource(name: string, nameControl: FormControl): void {
     nameControl.patchValue(name);
   }
-  
+
   /**
    * Duplicates a given prop source.
    * @param formGroup - The form group of the prop source's values.
    */
   public duplicatePropSource(formGroup: FormGroup): void {
     const newFormGroup = propSourceFormGroupFactory();
-    newFormGroup.patchValue(formGroup.value);
+    const val = formGroup.value;
+    val.name = this.itemService.getDupItemName(this.sources.value, val);
+    newFormGroup.patchValue(val);
+    this.itemService.patchRowFormValues(val, newFormGroup, 'table_1');
+    this.itemService.patchRowFormValues(val, newFormGroup, 'table_2');
     this.sources.push(newFormGroup);
   }
 
